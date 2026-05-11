@@ -20,4 +20,5 @@ out
 .turbo
 .cache
 
-*.log
+*.logtsconfig.tsbuildinfo
+**/tsconfig.tsbuildinfo
