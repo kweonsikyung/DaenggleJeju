@@ -1,7 +1,0 @@
-[
-  {
-    "path": ".next/static/chunks/**/*.js",
-    "limit": "1000 KB",
-    "gzip": true
-  }
-]

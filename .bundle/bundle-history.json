@@ -1,0 +1,8 @@
+[
+  {
+    "date": "2026-05-12T09:21:38.384Z",
+    "diskSize": "1.4M",
+    "transferSize": "460.84KB",
+    "commit": "feat: relocation Dockerfile, Caddyfile, and docker-compose.yml to /infra"
+  }
+]
