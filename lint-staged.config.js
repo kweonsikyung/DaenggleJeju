@@ -3,13 +3,15 @@ module.exports = {
   "packages/daenggle-ui/src/**/*.{ts,tsx}": [
     "biome check --write --unsafe",
     "node scripts/check-density.mjs",
-    "node scripts/check-atomic-deps.mjs"
+    "node scripts/check-atomic-deps.mjs",
+    "node scripts/check-circular.mjs"
   ],
   // web 앱 검사
   "apps/web/src/**/*.{ts,tsx}": [
     "biome check --write --unsafe",
     "node scripts/check-density.mjs",
-    "node scripts/check-atomic-deps.mjs"
+    "node scripts/check-atomic-deps.mjs",
+    "node scripts/check-circular.mjs"
   ],
 
   "**/src/**/*.{png,jpeg,jpg,webp,svg}": [
