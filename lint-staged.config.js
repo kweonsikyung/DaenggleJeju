@@ -1,7 +1,18 @@
 module.exports = {
-  "**/*.{ts,tsx,js,jsx}": ["biome check --write --unsafe", "node scripts/check-density.mjs"],
+  // daenggle-ui 검사
+  "packages/daenggle-ui/src/**/*.{ts,tsx}": [
+    "biome check --write --unsafe",
+    "node scripts/check-density.mjs",
+    "node scripts/check-atomic-deps.mjs"
+  ],
+  // web 앱 검사
+  "apps/web/src/**/*.{ts,tsx}": [
+    "biome check --write --unsafe",
+    "node scripts/check-density.mjs",
+    "node scripts/check-atomic-deps.mjs"
+  ],
 
-  "**/*.{png,jpeg,jpg,webp,svg}": ["node scripts/check-image-size.mjs"],
-
-  "**/*.{json,css}": ["biome format --write --files-ignore-unknown=true"],
+  "**/src/**/*.{png,jpeg,jpg,webp,svg}": [
+    "node scripts/check-image-size.mjs"
+  ],
 };
