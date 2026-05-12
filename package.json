@@ -21,15 +21,15 @@
     "prepare": "husky",
     "dedupe:check": "pnpm dedupe --check",
     "size": "pnpm --filter web exec size-limit --config ../../.bundle/.size-limit.json && node scripts/track-bundle.mjs"
-},
+  },
   "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
-    "@size-limit/preset-small-lib": "^12.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.2",
+    "madge": "^8.0.0",
     "size-limit": "^12.1.0"
   }
 }

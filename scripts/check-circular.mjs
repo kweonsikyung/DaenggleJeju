@@ -13,14 +13,51 @@
  * - Husky와 lint-staged를 통해 커밋 직전에 실행됩니다.
  * - 스타일 교정(Biome) 이후에 검사하여 최종 커밋본의 품질을 보장합니다.
  * 
- * - 4. 검사 대상: 프로젝트의 `src/` 디렉토리
+ * - 4. 검사 대상: `apps/web/src/` 및 `packages/daenggle-ui/src/`
+ * - 프로젝트의 주요 소스 코드가 위치한 디렉토리를 대상으로 검사합니다.
+ * - 다른 디렉토리는 검사 대상에서 제외하여 검사 시간을 최적화합니다.
+ * 
+ * - 5. 도구: madge 라이브러리 사용
+ * - madge는 JavaScript 및 TypeScript 프로젝트에서 모듈 의존성을 분석하는 데 널리 사용되는 도구입니다.
  */
 import madge from 'madge';
+import path from 'path';
 
-const res = await madge('src/');
-const circular = res.circular();
+// 1. 검사할 대상 정의 
+const targets = [
+  'apps/web/src',
+  'packages/daenggle-ui/src'
+];
 
-if (circular.length > 0) {
-  console.error('❌ 순환 참조 발견!', circular);
-  process.exit(1);
+async function checkCircular() {
+  console.log('🔍 순환 참조 검사 시작...');
+  let totalCircular = 0;
+
+  for (const target of targets) {
+    const targetPath = path.resolve(process.cwd(), target);
+    
+    // 폴더가 실제로 존재하는지 확인 후 실행
+    console.log(`\n📂 대상: ${target}`);
+    
+    const res = await madge(targetPath, {
+      fileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+      // Next.js나 TS Alias 설정을 쓰고 있다면 필요할 수 있음
+    });
+
+    const circular = res.circular();
+    
+    if (circular.length > 0) {
+      console.log(`❌ ${target}에서 ${circular.length}개의 순환 참조 발견`);
+      console.log(circular);
+      totalCircular += circular.length;
+    } else {
+      console.log(`✅ ${target}: 이상 없음`);
+    }
+  }
+
+  if (totalCircular > 0) {
+    process.exit(1);
+  }
 }
+
+checkCircular();
