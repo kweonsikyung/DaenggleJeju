@@ -25,7 +25,9 @@
     "@biomejs/biome": "^2.4.15",
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
+    "@size-limit/preset-small-lib": "^12.1.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.2"
+    "lint-staged": "^17.0.2",
+    "size-limit": "^12.1.0"
   }
 }
