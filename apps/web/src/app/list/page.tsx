@@ -123,7 +123,7 @@ export default function ListClientPage() {
               <FilterChip
                 key={chip.id}
                 text={chip.text}
-                iconUrl={chip.iconUrl}
+                icon={chip.icon}
                 selected={activeFilter === chip.id}
                 onClick={() => {
                   if (chip.id === "filter") {

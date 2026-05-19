@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import Image from "next/image";
+import type { ReactNode } from "react";
+import { RiBookmarkLine, RiSearchLine, RiShareLine } from "react-icons/ri";
 import { TopBar } from "./TopBar";
 
 const meta = {
@@ -24,8 +25,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ri = (src: string, alt: string, onClick = () => alert("icon clicked")) => ({
-  icon: <Image src={src} alt={alt} width={24} height={24} />,
+const ri = (icon: ReactNode, onClick = () => alert("icon clicked")) => ({
+  icon,
   onClick,
 });
 
@@ -36,9 +37,10 @@ export const WithLogo: Story = {
     },
   },
   args: {
+    title: "AI 여행케어",
     isShowLogo: true,
     backIconHandler: () => alert("back clicked"),
-    rightIcons: [ri("/assets/icon24/search.svg", "검색")],
+    rightIcons: [ri(<RiSearchLine size={24} />)],
   },
 };
 
@@ -51,8 +53,9 @@ export const WithAction: Story = {
     },
   },
   args: {
+    title: "AI 여행케어",
     backIconHandler: () => alert("back clicked"),
-    rightIcons: [ri("/assets/icon24/search.svg", "검색")],
+    rightIcons: [ri(<RiSearchLine size={24} />)],
   },
 };
 
@@ -74,9 +77,9 @@ export const All: Story = {
     isShowLogo: false,
     backIconHandler: () => alert("back clicked"),
     rightIcons: [
-      ri("/assets/icon24/search.svg", "검색"),
-      ri("/assets/icon24/share_line.svg", "공유"),
-      ri("/assets/icon24/bookmark_line.svg", "북마크"),
+      ri(<RiSearchLine size={24} />),
+      ri(<RiShareLine size={24} />),
+      ri(<RiBookmarkLine size={24} />),
     ],
   },
 };

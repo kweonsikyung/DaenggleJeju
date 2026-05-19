@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import ThinkingBubble from "./ThinkingBubble";
+import { ThinkingBubble } from "./ThinkingBubble";
 
 const meta: Meta<typeof ThinkingBubble> = {
   title: "Chat/ThinkingBubble",

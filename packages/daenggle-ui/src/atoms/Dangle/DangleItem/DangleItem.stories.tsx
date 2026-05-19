@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 export const After: Story = {
   args: {
     state: "after",
-    imageUrl: "/assets/dangle/beach.png",
+    imageUrl: "https://placehold.co/300x200",
     text: "애월·한림",
   },
 };
@@ -34,7 +34,7 @@ export const After: Story = {
 export const Before: Story = {
   args: {
     state: "before",
-    imageUrl: "/assets/dangle/beach.png",
+    imageUrl: "https://placehold.co/300x200",
     text: "애월·한림",
   },
 };

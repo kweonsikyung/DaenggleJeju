@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { RiStarFill } from "react-icons/ri";
 import * as s from "./DangleReview.css";
 
 export interface DangleReviewProps {
@@ -48,16 +49,20 @@ const RatingDisplay = ({
   return (
     <div className={s.stars}>
       {[...Array(5)].map((_, index) =>
-        filledIconSrc || emptyIconSrc ? (
+        emptyIconSrc ? (
           <Image
             key={index}
             alt={index < rating ? "rating-filled" : "rating-empty"}
             width={16}
             height={16}
-            src={index < rating ? (filledIconSrc ?? "") : (emptyIconSrc ?? "")}
+            src={index < rating ? (filledIconSrc ?? "") : emptyIconSrc}
           />
         ) : (
-          <span key={index}>{index < rating ? "★" : "☆"}</span>
+          <RiStarFill
+            key={index}
+            size={16}
+            style={{ opacity: index < rating ? 1 : 0.2 }}
+          />
         )
       )}
     </div>

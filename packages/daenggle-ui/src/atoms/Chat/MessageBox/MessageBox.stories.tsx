@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import MessageBox from "./MessageBox";
+import { MessageBox } from "./MessageBox";
 
 const meta: Meta<typeof MessageBox> = {
   title: "Chat/MessageBox",

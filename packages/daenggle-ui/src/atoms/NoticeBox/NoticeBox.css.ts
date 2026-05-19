@@ -8,7 +8,7 @@ const YELLOW_COLORS = {
 
 const BLUE_COLORS = {
   background: "#EFF6FF",
-  text: "#525252",
+  text: "#2B7FFF",
 };
 
 const slideDown = keyframes({

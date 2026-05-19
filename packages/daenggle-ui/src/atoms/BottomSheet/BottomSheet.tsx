@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { ReactNode } from "react";
+import { RiCloseLine } from "react-icons/ri";
 import { Drawer } from "vaul";
 import * as s from "./BottomSheet.css";
 
@@ -33,7 +33,7 @@ export function BottomSheet({ open, onOpenChange, title, children }: BottomSheet
               className={s.close}
               onClick={() => onOpenChange(false)}
             >
-              <Image src="/assets/icon24/x_line.svg" alt="뒤로가기" width={24} height={24} />
+              <RiCloseLine size={24} />
             </button>
           </div>
 

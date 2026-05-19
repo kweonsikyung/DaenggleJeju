@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
+import { RiSendPlaneLine } from "react-icons/ri";
 import * as s from "./style.css";
 
 interface ChatInputProps {
@@ -43,7 +43,7 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
           disabled={disabled || !value.trim()}
           aria-label="전송"
         >
-          <Image src="/assets/icon24/send.svg" alt="전송" width={24} height={24} />
+          <RiSendPlaneLine size={24} />
         </button>
       </div>
     </div>

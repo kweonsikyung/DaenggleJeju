@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import React, { forwardRef, useId, useMemo, useState } from "react";
+import { RiCloseCircleLine, RiLoader4Line, RiSearchLine } from "react-icons/ri";
 import * as s from "./SearchField.css";
 
 export interface SearchFieldProps
@@ -98,13 +98,11 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
     return (
       <div className={[s.wrapper, className].filter(Boolean).join(" ")}>
         <div className={[s.field, stateClass].join(" ")} aria-disabled={isDisabled || undefined}>
-          <Image
-            src={loading ? "/assets/icon16/loading.svg" : "/assets/icon16/search_line.svg"}
-            alt="검색"
-            width={16}
-            height={16}
-            className={[s.icon, loading && s.rotate].filter(Boolean).join(" ")}
-          />
+          {loading ? (
+            <RiLoader4Line size={16} className={[s.icon, s.rotate].filter(Boolean).join(" ")} />
+          ) : (
+            <RiSearchLine size={16} className={s.icon} />
+          )}
           <input
             ref={ref}
             id={inputId}
@@ -124,7 +122,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
           />
           {filled && !disabled && !loading && (
             <button className={s.clearButton} onClick={handleClear} type="button">
-              <Image src="/assets/icon16/x-circle.svg" alt="지우기" width={16} height={16} />
+              <RiCloseCircleLine size={16} />
             </button>
           )}
         </div>

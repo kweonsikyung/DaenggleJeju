@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import { RiListUnordered } from "react-icons/ri";
 import * as s from "./ChipMapList.css";
+import { COLORS } from "@/styles/colors.css";
 
 export interface ChipMapListProps {
   /** 칩 중앙 텍스트 */
@@ -12,11 +13,15 @@ export interface ChipMapListProps {
   onLocationListClick: () => void;
 }
 
-export function ChipMapList({ text, cnt, onLocationListClick }: ChipMapListProps) {
+export function ChipMapList({
+  text,
+  cnt,
+  onLocationListClick,
+}: ChipMapListProps) {
   return (
     <button className={s.locationListButton} onClick={onLocationListClick}>
       <span>
-        <Image src="/assets/icon12/bullet-list_line-white.svg" alt="목록" width={12} height={12} />
+        <RiListUnordered color={COLORS.NEUTRAL100} size={14} />
       </span>
       <div>
         <span className={s.locationListText}>{text}</span>

@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
+import { RiAlertLine, RiCloseLine, RiInformationLine } from "react-icons/ri";
 import * as s from "./NoticeBox.css";
 
 interface NoticeBoxProps {
@@ -28,24 +28,31 @@ export const NoticeBox = ({
     return null;
   }
 
-  const animationClass = animation === "in" ? s.animateIn : animation === "out" ? s.animateOut : "";
+  const animationClass =
+    animation === "in" ? s.animateIn : animation === "out" ? s.animateOut : "";
 
   const themeClass = variant === "blue" ? s.blueTheme : s.yellowTheme;
-  const emphasisIconSrc =
-    variant === "blue"
-      ? "/assets/icon16/circle-emphasis_line_blue.svg"
-      : "/assets/icon16/circle-emphasis_line_yellow.svg";
-  const closeIconSrc =
-    variant === "blue" ? "/assets/icon16/x_line.svg" : "/assets/icon16/x_line_yellow.svg";
 
   return (
-    <div className={`${s.container} ${themeClass} ${animationClass}`} role="alert">
+    <div
+      className={`${s.container} ${themeClass} ${animationClass}`}
+      role="alert"
+    >
       <div className={s.iconWrapper}>
-        <Image src={emphasisIconSrc} alt="icon" width={16} height={16} />
+        {variant === "blue" ? (
+          <RiInformationLine color={`${themeClass}`} size={16} />
+        ) : (
+          <RiAlertLine color={`${themeClass}`} size={16} />
+        )}
       </div>
       <p className={s.content}>{children}</p>
-      <button type="button" className={s.closeButton} onClick={onClose} aria-label="알림 닫기">
-        <Image src={closeIconSrc} alt="close icon" width={16} height={16} />
+      <button
+        type="button"
+        className={s.closeButton}
+        onClick={onClose}
+        aria-label="알림 닫기"
+      >
+        <RiCloseLine size={16} />
       </button>
     </div>
   );

@@ -5,6 +5,7 @@ import { Button, FilterSection, RadioGroup, TextField, TopBar } from "daenggle-u
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import { RiFootprintFill } from "react-icons/ri";
 import { ButtonSize, ButtonStatus } from "@/constants/ButtonVariant";
 // hooks
 import { usePostFootprint } from "@/hooks/api/useFootprints";
@@ -32,15 +33,9 @@ const PawRating = ({ rating, setRating }: PawRatingProps) => {
           onMouseLeave={() => setHoverRating(0)}
           type="button"
         >
-          <Image
-            src={
-              (hoverRating || rating) >= index
-                ? "/assets/icon24/dogfootprint-blue.svg"
-                : "/assets/icon24/dogfootprint-white.svg"
-            }
-            alt={`paw ${index}`}
-            width={32}
-            height={32}
+          <RiFootprintFill
+            size={32}
+            style={{ opacity: (hoverRating || rating) >= index ? 1 : 0.2 }}
           />
         </button>
       ))}
@@ -115,7 +110,6 @@ function LeaveFootprintPage() {
       <TopBar
         title={isSubmitted ? "" : "발자국 남기기"}
         backIconHandler={() => (isSubmitted ? router.push("/") : router.back())}
-        backIconSrc="/assets/icon24/arrow-left_line.svg"
       />
       {isSubmitted ? (
         <>

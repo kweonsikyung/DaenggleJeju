@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import TopicSelector from "./TopicSelector";
+import { TopicSelector } from "./TopicSelector";
 
 const meta: Meta<typeof TopicSelector> = {
   title: "Chat/TopicSelector",

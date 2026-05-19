@@ -46,7 +46,7 @@ export const Default: Story = {
   name: "다른 사람 리뷰 (Default)",
   args: {
     isMine: false,
-    profileImageUrl: "/assets/dangle/dog_profile1.png",
+    profileImageUrl: "https://placehold.co/40x40",
     userName: "해투 견주님",
     dogInfo: "골든리트리버 · 7살 · 대형견 · 20kg 이상",
     rating: 5,
@@ -67,7 +67,7 @@ export const FourStars: Story = {
   name: "다른 사람 리뷰 (4점)",
   args: {
     isMine: false, // [UPDATE]
-    profileImageUrl: "/assets/dangle/dog_profile2.png",
+    profileImageUrl: "https://placehold.co/40x40",
     userName: "댕댕이 견주님",
     dogInfo: "푸들 · 3살 · 소형견 · 5kg 미만",
     rating: 4,

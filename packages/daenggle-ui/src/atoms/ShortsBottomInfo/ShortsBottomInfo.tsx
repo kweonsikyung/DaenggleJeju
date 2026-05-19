@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ReactNode } from "react";
 import * as s from "./ShortsBottomInfo.css";
 
 export interface VideoData {
@@ -19,11 +20,13 @@ export interface VideoData {
 
 interface ShortsBottomInfoProps {
   video: VideoData;
-  /** 위치 아이콘 src */
+  /** 위치 아이콘 */
+  locationIcon?: ReactNode;
+  /** @deprecated locationIconSrc 대신 locationIcon prop을 사용하세요 */
   locationIconSrc?: string;
 }
 
-export function ShortsBottomInfo({ video, locationIconSrc }: ShortsBottomInfoProps) {
+export function ShortsBottomInfo({ video, locationIcon }: ShortsBottomInfoProps) {
   return (
     <div className={s.bottomInfo}>
       <div className={s.userInfo}>
@@ -38,7 +41,7 @@ export function ShortsBottomInfo({ video, locationIconSrc }: ShortsBottomInfoPro
       </div>
       <div className={s.locInfo}>
         <div className={s.location}>
-          {locationIconSrc && <Image alt="location" width={12} height={12} src={locationIconSrc} />}
+          {locationIcon}
           {video.loc}
         </div>
         <p className={s.description}>{video.description}</p>

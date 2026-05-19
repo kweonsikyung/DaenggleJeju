@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import NoticeBox from "./NoticeBox";
+import { NoticeBox } from "./NoticeBox";
 
 const meta = {
   title: "Common/NoticeBox",

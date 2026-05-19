@@ -9,7 +9,7 @@ const meta = {
     layout: "centered",
   },
   args: {
-    imageUrl: "/assets/dangle/banner.jpg",
+    imageUrl: "https://placehold.co/400x300",
     views: 2129,
     title: "강아지가 좋아하는\n제주 서쪽 여행 코스",
     hashtag: "#동반입수바다",

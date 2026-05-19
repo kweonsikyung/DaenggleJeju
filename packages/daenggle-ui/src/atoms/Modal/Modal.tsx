@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import React, { ReactNode } from "react";
+import { RiCloseLine } from "react-icons/ri";
 import * as s from "./Modal.css";
 
 export interface ModalProps {
@@ -33,7 +33,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
         <div className={s.modalHeader}>
           {title && <h2 className={s.modalTitle}>{title}</h2>}
           <button className={s.closeButton} onClick={onClose} aria-label="닫기">
-            <Image src="/assets/icon24/x_line.svg" alt="닫기" width={24} height={24} />
+            <RiCloseLine size={24} />
           </button>
         </div>
         <div className={s.modalContent}>{children}</div>

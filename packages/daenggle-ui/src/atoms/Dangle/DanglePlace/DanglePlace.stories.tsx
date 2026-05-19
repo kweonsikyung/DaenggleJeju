@@ -10,7 +10,7 @@ const meta = {
   },
   tags: ["autodocs"],
   args: {
-    thumbnailUrl: "/assets/dangle/dog.png",
+    thumbnailUrl: "https://placehold.co/300x200",
     locationCategory: "제주 제주시 구좌읍 · 한식",
     name: "평대리명석",
     distance: "4.9",
@@ -35,7 +35,7 @@ export const Default: Story = {
 export const ExpandedStay: Story = {
   args: {
     isExpanded: true,
-    thumbnailUrl: "/assets/dangle/dog.png",
+    thumbnailUrl: "https://placehold.co/300x200",
     locationCategory: "제주 제주시 구좌읍 · 독채펜션",
     name: "애월빛",
     distance: "4.9",

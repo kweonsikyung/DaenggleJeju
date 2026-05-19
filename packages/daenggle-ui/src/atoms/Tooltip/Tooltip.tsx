@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { RiCloseLine } from "react-icons/ri";
 import * as s from "./Tooltip.css";
 
 export type TooltipPosition = "top" | "left" | "right" | "bottom";
@@ -26,7 +26,7 @@ export function Tooltip({ title, text, onClose, isVisible, position = "top" }: T
       <div className={s.headerContainer}>
         <span className={s.tooltipTitle}>{title}</span>
         <button className={s.closeButton} onClick={onClose} aria-label="툴팁 닫기">
-          <Image src="/assets/icon12/x.svg" alt="닫기" width={16} height={16} />
+          <RiCloseLine size={16} />
         </button>
       </div>
       {text && <span className={s.tooltipText}>{text}</span>}

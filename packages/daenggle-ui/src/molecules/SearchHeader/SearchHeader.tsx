@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
+import { RiArrowLeftLine } from "react-icons/ri";
 import { SearchField } from "../../atoms/SearchField/SearchField";
 import * as s from "./SearchHeader.css";
 
@@ -22,16 +22,11 @@ export function SearchHeader({
   searchFieldProps,
   onClick,
 }: SearchHeaderProps) {
-  const iconSrc =
-    backIconColor === "white"
-      ? "/assets/icon24/arrow-left_line_white.svg"
-      : "/assets/icon24/arrow-left_line.svg";
-
   return (
     <div className={s.root}>
       {backIconHandler && (
         <button className={s.backButton} onClick={backIconHandler}>
-          <Image src={iconSrc} alt="뒤로가기" width={24} height={24} />
+          <RiArrowLeftLine size={24} color={backIconColor === "white" ? "#ffffff" : "#525252"} />
         </button>
       )}
       <div className={s.searchFieldWrapper[backIconHandler ? "withBackButton" : "fullWidth"]}>

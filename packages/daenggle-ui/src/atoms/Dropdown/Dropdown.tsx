@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { RiArrowDownSLine } from "react-icons/ri";
 import * as s from "./Dropdown.css";
 
 export interface DropdownOption {
@@ -60,11 +60,8 @@ export function Dropdown({
         aria-expanded={isOpen}
       >
         <span>{selectedLabel}</span>
-        <Image
-          src="/assets/icon24/chevron-down.svg"
-          alt="드롭다운 토글"
-          width={24}
-          height={24}
+        <RiArrowDownSLine
+          size={24}
           className={`${s.chevronIcon} ${isOpen ? s.chevronIconUp : ""}`}
         />
       </button>

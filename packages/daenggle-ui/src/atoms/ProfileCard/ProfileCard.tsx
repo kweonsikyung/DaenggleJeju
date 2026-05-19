@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { RiPencilLine } from "react-icons/ri";
 import * as s from "./style.css";
 
 interface ProfileCardProps {
@@ -36,7 +37,7 @@ export const ProfileCard = ({
         </div>
       </div>
       <button className={s.editButton} onClick={onEditClick}>
-        <Image src="/assets/icon16/pencil_line.svg" alt="수정" width={16} height={16} />
+        <RiPencilLine size={16} />
       </button>
     </div>
   );

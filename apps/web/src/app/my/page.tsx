@@ -96,11 +96,7 @@ export default function Page() {
 
   return (
     <div className={s.page}>
-      <TopBar
-        backIconHandler={() => router.back()}
-        backIconSrc="/assets/icon24/arrow-left_line.svg"
-        title="마이댕글"
-      />
+      <TopBar backIconHandler={() => router.back()} title="마이댕글" />
       <div className={s.container}>
         <div className={s.contentWrapper}>
           {isPetProfileLoading ? (
@@ -201,7 +197,6 @@ export default function Page() {
                     locationCategory={item.metaLine || item.contentType?.name || ""}
                     placeName={item.title}
                     rating={item.rating}
-                    filledRatingIconSrc="/assets/icon16/star-fill.svg"
                     date={item.createdAtText}
                     chips={item.chips}
                     chipLabels={["출입 가능 여부", "출입 조건", "반려견 친화도"]}

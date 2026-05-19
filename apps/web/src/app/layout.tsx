@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
 import Script from "next/script";
+import { IconProvider } from "@/components/providers/IconProvider";
 import { SWRProvider } from "@/components/providers/SWRProvider";
 
 const pretendard = localFont({
@@ -87,9 +88,11 @@ export default function RootLayout({
             strategy="beforeInteractive"
           />
         ) : null}
-        <SWRProvider>
-          <div className="wrapper">{children}</div>
-        </SWRProvider>
+        <IconProvider>
+          <SWRProvider>
+            <div className="wrapper">{children}</div>
+          </SWRProvider>
+        </IconProvider>
       </body>
     </html>
   );

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import AiProfileHeader from "./AiProfileHeader";
+import { AiProfileHeader } from "./AiProfileHeader";
 
 const meta: Meta<typeof AiProfileHeader> = {
   title: "Chat/AiProfileHeader",
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    imageUrl: "/assets/curation/avatar.svg",
+    imageUrl: "https://placehold.co/56x56",
     title: "여행케어 AI",
     subtitle: "빠르게 찾는 반려견 건강 정보",
   },

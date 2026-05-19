@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useMemo } from "react";
+import { RiArrowDownSLine } from "react-icons/ri";
 import * as s from "./SelectField.css";
 
 export interface SelectFieldProps {
@@ -61,7 +61,7 @@ export function SelectField({
         <span className={hasValue ? s.valueText : s.placeholderText}>
           {hasValue ? value : placeholder}
         </span>
-        <Image src="/assets/icon24/chevron-down.svg" alt="선택" width={24} height={24} />
+        <RiArrowDownSLine size={24} />
       </button>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { RiArrowRightSLine, RiRefreshLine } from "react-icons/ri";
 import * as s from "./Header.css";
 
 export interface HeaderProps {
@@ -29,14 +29,7 @@ export function Header({ title, desc, onArrowClick, onReClick, marginTop }: Head
             onClick={onArrowClick || onReClick}
             aria-label={onArrowClick ? "더보기" : "새로고침"}
           >
-            <Image
-              src={
-                onArrowClick ? "/assets/icon24/chevron-right.svg" : "/assets/icon24/rotate-cw.svg"
-              }
-              alt={onArrowClick ? "화살표 아이콘" : "새로고침 아이콘"}
-              width={24}
-              height={24}
-            />
+            {onArrowClick ? <RiArrowRightSLine size={24} /> : <RiRefreshLine size={24} />}
           </button>
         )}
       </div>

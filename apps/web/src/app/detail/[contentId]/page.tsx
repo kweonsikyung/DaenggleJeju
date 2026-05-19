@@ -14,6 +14,15 @@ import {
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import {
+  RiBookmarkFill,
+  RiBookmarkLine,
+  RiFootprintFill,
+  RiMapPin2Fill,
+  RiPhoneLine,
+  RiPlayFill,
+  RiTimeFill,
+} from "react-icons/ri";
 import { ButtonSize, ButtonStatus } from "@/constants/ButtonVariant";
 import { NAV_ITEMS } from "@/constants/navData";
 import { useDaengglePlaceRecommendations } from "@/hooks/api/useDaenggle";
@@ -187,21 +196,9 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
     <div className={s.page}>
       <TopBar
         backIconHandler={() => router.back()}
-        backIconSrc="/assets/icon24/arrow-left_line.svg"
         rightIcons={[
           {
-            icon: (
-              <Image
-                alt="북마크"
-                height={24}
-                src={
-                  isBookmarked
-                    ? "/assets/icon24/bookmark_filled.svg"
-                    : "/assets/icon24/bookmark_line.svg"
-                }
-                width={24}
-              />
-            ),
+            icon: isBookmarked ? <RiBookmarkFill size={24} /> : <RiBookmarkLine size={24} />,
             onClick: handleScrapToggle,
           },
         ]}
@@ -227,20 +224,10 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
                   <div>
                     <h1 className={s.placeName}>{data.title}</h1>
                     <div className={s.placeStats}>
-                      <Image
-                        alt="play"
-                        width={12}
-                        height={12}
-                        src="/assets/icon12/play_filled.svg"
-                      />
+                      <RiPlayFill size={12} />
                       <span className={s.statText}>0</span>
                       <span className={s.statText}>·</span>
-                      <Image
-                        alt="bookmark"
-                        width={12}
-                        height={12}
-                        src="/assets/icon12/bookmark_filled.svg"
-                      />
+                      <RiBookmarkFill size={12} />
                       <span className={s.statText}>{data.scrapCount}</span>
                     </div>
                   </div>
@@ -267,12 +254,7 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
 
               <ul className={s.infoList}>
                 <li className={s.infoItem}>
-                  <Image
-                    alt="location"
-                    width={16}
-                    height={16}
-                    src="/assets/icon12/map_filled.svg"
-                  />
+                  <RiMapPin2Fill size={16} />
                   <span className={s.infoText}>{data.address}</span>
                   <span
                     className={s.infoLink}
@@ -282,11 +264,11 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
                   </span>
                 </li>
                 <li className={s.infoItem}>
-                  <Image alt="time" width={16} height={16} src="/assets/icon12/clock_filled.svg" />
+                  <RiTimeFill size={16} />
                   <span className={s.infoText}>{data.openHours}</span>
                 </li>
                 <li className={s.infoItem}>
-                  <Image alt="phone" width={16} height={16} src="/assets/icon12/phone.svg" />
+                  <RiPhoneLine size={16} />
                   <span className={s.infoText}>{data.tel}</span>
                   <span className={s.infoLink} onClick={() => callPhoneNumber(data?.tel)}>
                     전화하기
@@ -379,16 +361,10 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
               <div className={s.reviewRating}>
                 <div className={s.pawRatingContainer}>
                   {Array.from({ length: 5 }).map((_, index) => (
-                    <Image
+                    <RiFootprintFill
                       key={index}
-                      alt={`paw ${index + 1}`}
-                      width={24}
-                      height={24}
-                      src={
-                        index < reviewStats.rounded
-                          ? "/assets/icon24/dogfootprint-blue.svg"
-                          : "/assets/icon24/dogfootprint-white.svg"
-                      }
+                      size={24}
+                      style={{ opacity: index < reviewStats.rounded ? 1 : 0.2 }}
                     />
                   ))}
                 </div>
@@ -418,7 +394,6 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
                       "중형견(6~15kg)"
                     }
                     rating={review.rating}
-                    filledRatingIconSrc="/assets/icon16/star-fill.svg"
                     date={review.createdAtText}
                     chips={review.chips}
                     chipLabels={["출입 가능 여부", "출입 조건", "반려견 친화도"]}
@@ -486,10 +461,7 @@ export default function DetailPage() {
   if (contentId === null) {
     return (
       <div className={s.page}>
-        <TopBar
-          backIconHandler={() => router.back()}
-          backIconSrc="/assets/icon24/arrow-left_line.svg"
-        />
+        <TopBar backIconHandler={() => router.back()} />
         <div className={s.container}>
           <EmptyState title="페이지 준비 중" description="정보를 불러오고 있습니다" />
         </div>

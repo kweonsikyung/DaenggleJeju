@@ -9,7 +9,7 @@ const meta = {
     layout: "centered",
   },
   args: {
-    profileImageUrl: "/assets/curation/avatar.svg",
+    profileImageUrl: "https://placehold.co/40x40",
     name: "만두두두",
     onClick: fn(),
   },
@@ -28,7 +28,7 @@ export const Small: Story = {
   args: {
     type: "small",
     width: "150px",
-    imageUrl: "/assets/dangle/dog.png",
+    imageUrl: "https://placehold.co/300x200",
   },
 };
 
@@ -36,7 +36,7 @@ export const Medium: Story = {
   args: {
     type: "medium",
     width: "162px",
-    imageUrl: "/assets/dangle/dog.png",
+    imageUrl: "https://placehold.co/300x200",
     location: "협재해수욕장",
     address: "제주시 한림읍",
     title: "발바닥에 닿는 파도, 제주에서\n가장 순한 바다는 여기",
@@ -51,7 +51,7 @@ export const FullWidth: Story = {
   args: {
     type: "medium",
     width: "100%",
-    imageUrl: "/assets/dangle/dog.png",
+    imageUrl: "https://placehold.co/300x200",
     location: "협재해수욕장",
     address: "제주시 한림읍",
     title: "발바닥에 닿는 파도, 제주에서\n가장 순한 바다는 여기",

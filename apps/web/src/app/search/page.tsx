@@ -415,10 +415,6 @@ function SearchPageContent() {
                                 handleScrapToggle(item.contentId, item.isScrapped)
                               }
                               isBookmarked={item.isScrapped}
-                              icons={{
-                                bookmarkFilled: "/assets/icon24/bookmark_filled.svg",
-                                bookmarkLine: "/assets/icon24/bookmark_line.svg",
-                              }}
                               tags={[...(item.chips1 || []), ...(item.chips2 || [])]}
                               onClick={() => router.push(`/detail/${item.contentId}`)}
                             />

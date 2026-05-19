@@ -4,6 +4,7 @@ import { NavBar, NoticeBox, ProgressCircle, TopBar } from "daenggle-ui";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
+import { RiShareLine } from "react-icons/ri";
 import { NAV_ITEMS } from "@/constants/navData";
 import { useNotice } from "@/hooks/useNotice";
 import { useWebShare } from "@/hooks/useWebShare";
@@ -75,53 +76,61 @@ function JejuPageContent() {
         <TopBar
           transparent
           backIconHandler={() => router.back()}
-          backIconSrc="/assets/icon24/arrow-left_line.svg"
           rightIcons={[
             {
-              icon: (
-                <Image
-                  alt="공유하기"
-                  height={24}
-                  src={"/assets/icon24/share_line.svg"}
-                  width={24}
-                />
-              ),
+              icon: <RiShareLine size={24} />,
               onClick: handleShare,
             },
           ]}
         />
         <div className={s.detail_container}>
-          <NoticeBox shouldRender={shouldRender} animation={animation} onClose={hideNotice}>
-            제공된 정보는 실제 운영 상황과 다를 수 있으므로, 예약 및 탑승 전 반드시 해당 업체의 최신
-            규정과 조건을 확인해 주시기 바랍니다.
+          <NoticeBox
+            shouldRender={shouldRender}
+            animation={animation}
+            onClose={hideNotice}
+          >
+            제공된 정보는 실제 운영 상황과 다를 수 있으므로, 예약 및 탑승 전
+            반드시 해당 업체의 최신 규정과 조건을 확인해 주시기 바랍니다.
           </NoticeBox>
 
-          <Image src={currentOption.url} alt={currentOption.title} width={190} height={190} />
+          <Image
+            src={currentOption.url}
+            alt={currentOption.title}
+            width={190}
+            height={190}
+          />
           <div className={s.detailHeader}>
             <h1 className={s.detailTitle}>{currentOption.title}</h1>
             <p className={s.detailDesc}>{currentOption.desc}</p>
           </div>
 
           <div className={s.detailImageWrapper}>
-            {Array.from({ length: imageCount }, (_, i) => i + 1).map((num, index) => (
-              <div key={num} className={s.detailImageContainer}>
-                {!imagesLoaded[index] && (
-                  <div className={s.spinnerContainer}>
-                    <ProgressCircle size={40} active className={s.spinner} color="#a5fbc5ff" />
-                  </div>
-                )}
-                <Image
-                  src={`/assets/jeju/${type}/${num}.png`}
-                  alt={`${currentOption.title} 상세 이미지 ${num}`}
-                  width={340}
-                  height={440}
-                  sizes="100vw"
-                  className={s.detailImage}
-                  onLoad={() => handleImageLoad(index)}
-                  style={{ opacity: imagesLoaded[index] ? 1 : 0 }}
-                />
-              </div>
-            ))}
+            {Array.from({ length: imageCount }, (_, i) => i + 1).map(
+              (num, index) => (
+                <div key={num} className={s.detailImageContainer}>
+                  {!imagesLoaded[index] && (
+                    <div className={s.spinnerContainer}>
+                      <ProgressCircle
+                        size={40}
+                        active
+                        className={s.spinner}
+                        color="#a5fbc5ff"
+                      />
+                    </div>
+                  )}
+                  <Image
+                    src={`/assets/jeju/${type}/${num}.png`}
+                    alt={`${currentOption.title} 상세 이미지 ${num}`}
+                    width={340}
+                    height={440}
+                    sizes="100vw"
+                    className={s.detailImage}
+                    onLoad={() => handleImageLoad(index)}
+                    style={{ opacity: imagesLoaded[index] ? 1 : 0 }}
+                  />
+                </div>
+              ),
+            )}
           </div>
         </div>
       </>
@@ -132,11 +141,7 @@ function JejuPageContent() {
   const renderMainPage = () => {
     return (
       <>
-        <TopBar
-          transparent
-          backIconHandler={() => router.back()}
-          backIconSrc="/assets/icon24/arrow-left_line.svg"
-        />
+        <TopBar transparent backIconHandler={() => router.back()} />
         <div className={s.container}>
           <Image src={"/assets/jeju.png"} width={274} height={190} alt="제주" />
           <div className={s.title}>
@@ -170,7 +175,11 @@ function JejuPageContent() {
   return (
     <div className={s.page}>
       {type ? renderDetailPage() : renderMainPage()}
-      <NavBar activeId="jeju" items={NAV_ITEMS} onNavigate={(path) => router.push(path)} />
+      <NavBar
+        activeId="jeju"
+        items={NAV_ITEMS}
+        onNavigate={(path) => router.push(path)}
+      />
     </div>
   );
 }
@@ -181,11 +190,7 @@ function JejuPageContent() {
 export default function JejuPage() {
   const FallbackUI = (
     <div className={s.page}>
-      <TopBar
-        transparent
-        backIconHandler={() => {}}
-        backIconSrc="/assets/icon24/arrow-left_line.svg"
-      />
+      <TopBar transparent backIconHandler={() => {}} />
       <div className={s.container}>
         <Image src={"/assets/jeju.png"} width={274} height={190} alt="제주" />
         <div className={s.title}>

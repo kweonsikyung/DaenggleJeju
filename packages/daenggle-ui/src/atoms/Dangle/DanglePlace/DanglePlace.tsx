@@ -1,18 +1,30 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
+import { RiBookmarkFill, RiBookmarkLine, RiPlayFill } from "react-icons/ri";
 import * as s from "./DanglePlace.css";
 
 export interface DanglePlaceIcons {
-  /** 재생 수 아이콘 src */
+  /** 재생 수 아이콘 src @deprecated icon prop을 사용하세요 */
   play?: string;
-  /** 북마크 수 아이콘 src */
+  /** 북마크 수 아이콘 src @deprecated icon prop을 사용하세요 */
   bookmark?: string;
-  /** 북마크 버튼 활성 상태 아이콘 src */
+  /** 북마크 버튼 활성 상태 아이콘 src @deprecated icon prop을 사용하세요 */
   bookmarkFilled?: string;
-  /** 북마크 버튼 비활성 상태 아이콘 src */
+  /** 북마크 버튼 비활성 상태 아이콘 src @deprecated icon prop을 사용하세요 */
   bookmarkLine?: string;
+}
+
+export interface DanglePlaceIconNodes {
+  /** 재생 수 아이콘 */
+  play?: ReactNode;
+  /** 북마크 수 아이콘 */
+  bookmark?: ReactNode;
+  /** 북마크 버튼 활성 상태 아이콘 */
+  bookmarkFilled?: ReactNode;
+  /** 북마크 버튼 비활성 상태 아이콘 */
+  bookmarkLine?: ReactNode;
 }
 
 export interface DanglePlaceProps {
@@ -127,7 +139,7 @@ export function DanglePlace({
 
             {typeof playCount === "number" && (
               <div className={s.statItem}>
-                {icons.play && <Image alt="재생 수" width={12} height={12} src={icons.play} />}
+                <RiPlayFill size={12} />
                 <span className={s.statValue}>{playCount}</span>
               </div>
             )}
@@ -138,9 +150,7 @@ export function DanglePlace({
 
             {typeof bookmarkCount === "number" && (
               <div className={s.statItem}>
-                {icons.bookmark && (
-                  <Image alt="북마크" width={12} height={12} src={icons.bookmark} />
-                )}
+                <RiBookmarkLine size={12} />
                 <span className={s.statValue}>{bookmarkCount}</span>
               </div>
             )}
@@ -156,14 +166,7 @@ export function DanglePlace({
         </div>
         {onBookmarkClick && (
           <button className={s.bookmarkButton} onClick={handleBookmarkClick}>
-            {(icons.bookmarkFilled || icons.bookmarkLine) && (
-              <Image
-                alt="북마크"
-                width={24}
-                height={24}
-                src={isBookmarked ? (icons.bookmarkFilled ?? "") : (icons.bookmarkLine ?? "")}
-              />
-            )}
+            {isBookmarked ? <RiBookmarkFill size={24} /> : <RiBookmarkLine size={24} />}
           </button>
         )}
       </div>

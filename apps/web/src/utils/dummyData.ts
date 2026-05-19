@@ -1,3 +1,13 @@
+import { createElement } from "react";
+import {
+  RiBuildingLine,
+  RiCompassDiscoverLine,
+  RiEqualizerLine,
+  RiHeartPulseFill,
+  RiPlayFill,
+  RiRestaurantFill,
+} from "react-icons/ri";
+
 export const PLAY_DATA = [
   {
     author: "만두두두",
@@ -530,18 +540,18 @@ export const SEARCH_RESULTS = {
 export const FILTER_CHIPS = [
   {
     id: "filter",
-    iconUrl: "/assets/icon16/settings-sliders_line.svg",
+    icon: createElement(RiEqualizerLine, { size: 16 }),
     text: "",
   },
-  { id: "dangle", text: "댕글", iconUrl: "/assets/icon12/play_filled.svg" },
-  { id: "stay", text: "숙소", iconUrl: "/assets/icon12/building.svg" },
+  { id: "dangle", text: "댕글", icon: createElement(RiPlayFill, { size: 12 }) },
+  { id: "stay", text: "숙소", icon: createElement(RiBuildingLine, { size: 12 }) },
   {
     id: "restaurant",
     text: "음식점",
-    iconUrl: "/assets/icon12/restaurant_filled.svg",
+    icon: createElement(RiRestaurantFill, { size: 12 }),
   },
-  { id: "travel", text: "여행지", iconUrl: "/assets/icon12/travel_filled.svg" },
-  { id: "report", text: "레포츠", iconUrl: "/assets/icon12/care-filled.svg" },
+  { id: "travel", text: "여행지", icon: createElement(RiCompassDiscoverLine, { size: 12 }) },
+  { id: "report", text: "레포츠", icon: createElement(RiHeartPulseFill, { size: 12 }) },
 ];
 
 export interface VideoData {

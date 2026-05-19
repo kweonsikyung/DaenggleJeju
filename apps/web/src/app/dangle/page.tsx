@@ -12,8 +12,8 @@ import {
   NavBar,
   TopBar,
 } from "daenggle-ui";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { RiSearchLine } from "react-icons/ri";
 import { NAV_ITEMS } from "@/constants/navData";
 
 //hooks
@@ -66,13 +66,12 @@ export default function Page() {
         backIconHandler={() => {
           router.back();
         }}
-        backIconSrc="/assets/icon24/arrow-left_line.svg"
         isShowLogo
         logoSrc="/assets/logo/logo-top.svg"
         logoAlt="댕글제주"
         rightIcons={[
           {
-            icon: <Image alt="검색" height={24} width={24} src="/assets/icon24/search.svg" />,
+            icon: <RiSearchLine size={24} />,
             onClick: () => router.replace("/search"),
           },
         ]}

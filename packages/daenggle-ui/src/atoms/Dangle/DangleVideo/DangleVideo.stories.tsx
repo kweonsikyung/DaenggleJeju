@@ -10,7 +10,7 @@ const meta = {
   },
   tags: ["autodocs"],
   args: {
-    thumbnailUrl: "/assets/dangle/dog.png",
+    thumbnailUrl: "https://placehold.co/300x200",
     title: "발바닥에 닿는 파도, 제주에서 가장 순한 해변은 여기",
     views: 1274,
     comments: 131,

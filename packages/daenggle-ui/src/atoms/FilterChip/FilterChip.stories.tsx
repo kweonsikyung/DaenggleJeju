@@ -25,14 +25,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     selected: false,
-    iconUrl: "/assets/icon12/play_filled.svg",
+    iconUrl: "https://placehold.co/12x12",
   },
 };
 
 export const Selected: Story = {
   args: {
     selected: true,
-    iconUrl: "/assets/icon12/play_filled.svg",
+    iconUrl: "https://placehold.co/12x12",
   },
 };
 

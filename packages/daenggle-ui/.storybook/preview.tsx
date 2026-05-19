@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/nextjs-vite";
+import { IconContext } from "react-icons";
 
 const preview: Preview = {
   parameters: {
@@ -16,6 +17,13 @@ const preview: Preview = {
     },
   },
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <IconContext.Provider value={{ color: "#525252" }}>
+        <Story />
+      </IconContext.Provider>
+    ),
+  ],
 };
 
 export default preview;

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { RiPlayCircleFill, RiSearchLine } from "react-icons/ri";
 import type { Swiper as SwiperCore } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -276,10 +277,9 @@ function ShortsPageContent() {
         transparent
         whiteIcon
         backIconHandler={() => router.back()}
-        backIconSrc="/assets/icon24/arrow-left_line.svg"
         rightIcons={[
           {
-            icon: <Image alt="검색" height={24} src="/assets/icon16/search_line.svg" width={24} />,
+            icon: <RiSearchLine size={24} />,
             onClick: () => router.push("/search"),
           },
         ]}
@@ -351,13 +351,7 @@ function ShortsPageContent() {
             </div>
           </ShortsOverlay>
           <div className={s.playButtonContainer} onClick={handleStartPlaying}>
-            <Image
-              src={"/assets/icon56/play-btn.svg"}
-              alt="Play Video"
-              width={80}
-              height={80}
-              className={s.playIcon}
-            />
+            <RiPlayCircleFill size={80} className={s.playIcon} />
           </div>
         </div>
       );
@@ -444,13 +438,7 @@ function ShortsPageContent() {
                           handleTogglePlay();
                         }}
                       >
-                        <Image
-                          src={"/assets/icon56/play-btn.svg"}
-                          alt="Play Video"
-                          width={80}
-                          height={80}
-                          className={s.playIcon}
-                        />
+                        <RiPlayCircleFill size={80} className={s.playIcon} />
                       </div>
                     )}
                   </>

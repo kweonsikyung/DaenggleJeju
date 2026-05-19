@@ -33,7 +33,7 @@ type Story = StoryObj<typeof ProfileCard>;
  */
 export const Default: Story = {
   args: {
-    imageUrl: "/assets/dangle/dog.png",
+    imageUrl: "https://placehold.co/56x56",
     name: "해투",
     description: "견주님",
     details: "골든리트리버 · 대형견 (25~30kg 미만) · 7살",

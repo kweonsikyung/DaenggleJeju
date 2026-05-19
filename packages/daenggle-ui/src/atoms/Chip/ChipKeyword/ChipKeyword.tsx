@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { RiCloseLine } from "react-icons/ri";
 import * as s from "./ChipKeyword.css";
 
 export interface ChipKeywordProps {
@@ -20,7 +20,7 @@ export function ChipKeyword({ text, selected = false, onClose, onClick }: ChipKe
       <span>{text}</span>
       {selected && (
         <button className={s.closeButton} onClick={onClose} aria-label="닫기">
-          <Image src="/assets/icon16/x_line.svg" alt="닫기" width={16} height={16} />
+          <RiCloseLine size={16} />
         </button>
       )}
     </div>

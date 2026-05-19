@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { ReactNode } from "react";
+import { RiArrowLeftLine } from "react-icons/ri";
 import * as s from "./TopBar.css";
 
 export type TopBarProps = {
   /** back 아이콘 핸들러: 주면 자동으로 아이콘 노출 + 핸들러 등록 */
   backIconHandler?: () => void;
-  /** 뒤로가기 아이콘 src */
+  /** @deprecated backIconSrc 대신 backIcon prop을 사용하세요 */
   backIconSrc?: string;
   /** 제목 텍스트 */
   title?: string;
@@ -66,7 +67,7 @@ export function TopBar({
             onClick={backIconHandler}
             aria-label="뒤로가기"
           >
-            {backIconSrc && <Image src={backIconSrc} alt="뒤로가기" width={24} height={24} />}
+            <RiArrowLeftLine size={24} />
           </button>
         ) : null}
       </div>

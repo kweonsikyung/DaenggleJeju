@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import { ReactNode } from "react";
+import { RiGpsLine } from "react-icons/ri";
 import { ChipMapList, ChipMapListProps } from "../../atoms/Chip/ChipMapList/ChipMapList";
 import { Fab, FabProps } from "../../atoms/Fab/Fab";
 import { Tooltip, TooltipProps } from "../../atoms/Tooltip/Tooltip";
@@ -9,7 +10,9 @@ import * as s from "./MapFloatingButtons.css";
 export interface MapFloatingButtonsProps {
   /** GPS 버튼 클릭 이벤트 핸들러 */
   onGpsClick: () => void;
-  /** GPS 아이콘 src */
+  /** GPS 아이콘 (ReactNode) */
+  gpsIcon?: ReactNode;
+  /** @deprecated gpsIconSrc 대신 gpsIcon prop을 사용하세요 */
   gpsIconSrc?: string;
   /** 장소 목록 칩 컴포넌트 props */
   chipMapListProps: ChipMapListProps;
@@ -21,7 +24,7 @@ export interface MapFloatingButtonsProps {
 
 export function MapFloatingButtons({
   onGpsClick,
-  gpsIconSrc,
+  gpsIcon,
   chipMapListProps,
   fabProps,
   tooltipProps,
@@ -35,7 +38,7 @@ export function MapFloatingButtons({
     <div className={s.root}>
       <div>
         <button className={s.gpsButton} onClick={onGpsClick}>
-          {gpsIconSrc && <Image src={gpsIconSrc} alt="현재 위치" width={24} height={24} />}
+          {gpsIcon ?? <RiGpsLine size={24} />}
         </button>
       </div>
       <div>

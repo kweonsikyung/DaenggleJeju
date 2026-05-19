@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import ShortsBottomInfo from "./ShortsBottomInfo";
-import { shortsData } from "@/utils/dummy_data";
+import { ShortsBottomInfo } from "./ShortsBottomInfo";
 
 const meta = {
   title: "Shorts/ShortsBottomInfo",
@@ -38,6 +37,18 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    video: shortsData["강아지 여행"][0],
+    video: {
+      id: "1",
+      loc: "제주도 애월읍",
+      videoId: "dQw4w9WgXcQ",
+      thumbnailUrl: "https://placehold.co/300x200",
+      profileImageUrl: "https://placehold.co/40x40",
+      userName: "댕글이",
+      description: "제주도 강아지와 함께하는 해변 산책",
+      tags: ["제주", "강아지", "산책"],
+      bookmarks: 42,
+      comments: 8,
+      likes: 120,
+    },
   },
 };

@@ -1,9 +1,9 @@
 "use client";
 
 import { Button, TopBar } from "daenggle-ui";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { RiCloseLine } from "react-icons/ri";
 import { ButtonSize, ButtonStatus } from "@/constants/ButtonVariant";
 import { usePostPetProfile } from "@/hooks/api/usePetProfile";
 import { usePostPreference } from "@/hooks/api/usePreference";
@@ -138,10 +138,9 @@ export default function Curation() {
     <div className={s.page}>
       <TopBar
         backIconHandler={() => (step > 1 ? setStep(step - 1) : router.back())}
-        backIconSrc="/assets/icon24/arrow-left_line.svg"
         rightIcons={[
           {
-            icon: <Image alt="닫기" height={24} src="/assets/icon24/x_line.svg" width={24} />,
+            icon: <RiCloseLine size={24} />,
             onClick: () => router.push("/map"),
           },
         ]}

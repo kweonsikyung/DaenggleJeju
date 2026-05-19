@@ -14,7 +14,7 @@ export const Default: Story = {};
 
 export const CustomMessage: Story = {
   args: {
-    imageUrl: "/assets/empty/no-result.png",
+    imageUrl: "https://placehold.co/300x200",
     title: "검색 결과 없음",
     description: "다른 키워드를 입력해 보세요.",
   },
