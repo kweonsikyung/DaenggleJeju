@@ -29,6 +29,7 @@ files.forEach((file) => {
 
   let consecutiveCodeCount = 0;
   let inMultiLineComment = false;
+  let inMultiLineImport = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -62,10 +63,28 @@ files.forEach((file) => {
       continue;
     }
 
-    // 5. 여기까지 왔으면 "순수 코드"
+    // 5. import 체크 (싱글라인 / 멀티라인)
+    if (!inMultiLineImport && line.startsWith("import")) {
+      if (!line.includes(";")) {
+        inMultiLineImport = true;
+      }
+      continue;
+    }
+
+    if (inMultiLineImport) {
+      if (line.includes(";")) {
+        inMultiLineImport = false;
+      }
+      continue;
+    }
+
+    // 6. 여기까지 왔으면 "순수 코드"
     consecutiveCodeCount++;
 
     if (consecutiveCodeCount >= MAX_LINES) {
+      console.error(
+        `[readability] ${file}:${i + 1} — ${MAX_LINES}줄 이상 연속 코드 (빈 줄 추가 필요)`,
+      );
       hasError = true;
       break;
     }
