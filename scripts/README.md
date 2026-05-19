@@ -20,6 +20,27 @@ git commit
 git push
   └─ pre-push (Husky)
        └─ typecheck                               # TypeScript 타입 검사
+
+pnpm release:ui   # UI 라이브러리 릴리즈
+  ├─ 버전 타입 선택 (patch / minor / major)
+  ├─ package.json 버전 자동 증가
+  ├─ CHANGELOG.md 업데이트 확인 (수동)
+  ├─ exports를 dist로 전환
+  ├─ pnpm build
+  ├─ pnpm check:ui  (publint 패키지 유효성 검사)
+  ├─ 로컬 확인 (수동)
+  ├─ npm publish
+  ├─ exports를 src로 복원 (모노레포용)
+  └─ git commit + tag + push → develop
+
+pnpm release:web  # 웹 앱 릴리즈
+  ├─ 버전 타입 선택 (patch / minor / major)
+  ├─ package.json 버전 자동 증가
+  ├─ CHANGELOG.md 업데이트 확인 (수동)
+  ├─ pnpm lint
+  ├─ pnpm typecheck
+  ├─ pnpm build
+  └─ git commit + tag + push → develop
 ```
 
 > `track-bundle.mjs`와 `optimize-images.mjs`는 자동 실행되지 않습니다.  
@@ -145,6 +166,17 @@ pnpm build && pnpm size   # 빌드 후 사이즈 체크 + 기록
 pnpm release:ui   # packages/daenggle-ui 배포
 pnpm release:web  # apps/web 배포
 ```
+
+**release-ui.sh — exports 전환 이유**
+
+`daenggle-ui`는 npm 패키지이면서 동시에 모노레포 내부 패키지이기 때문에 배포 전후로 `package.json`의 exports 설정이 바뀝니다.
+
+| 상태 | exports 대상 | 이유 |
+|---|---|---|
+| 평소 (모노레포) | `./src/index.ts` | `apps/web`이 TypeScript 소스를 직접 참조 → `pnpm build:ui` 없이 수정 즉시 반영 |
+| npm 배포 직전 | `./dist/index.mjs` | 외부 설치자는 컴파일된 파일이 필요 |
+
+배포가 끝나면 자동으로 `src/`로 복원됩니다. 복원이 안 된 채로 두면 `daenggle-ui` 소스를 수정할 때마다 `pnpm build:ui`를 수동으로 실행해야 `apps/web`에 반영됩니다.
 
 ---
 
