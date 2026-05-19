@@ -14,7 +14,7 @@ module.exports = {
     "node scripts/check-circular.mjs"
   ],
 
-  "**/src/**/*.{png,jpeg,jpg,webp,svg}": [
+  "apps/web/public/**/*.{png,jpeg,jpg,webp,svg}": [
     "node scripts/check-image-size.mjs"
   ],
 };
