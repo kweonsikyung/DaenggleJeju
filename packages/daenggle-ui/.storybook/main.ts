@@ -1,37 +1,35 @@
 import type { StorybookConfig } from "@storybook/nextjs-vite";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
+import { fileURLToPath } from "url";
 import path from "path";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const config: StorybookConfig = {
   stories: [
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../src/ui/**/*.stories.@(ts|tsx|mdx)",
   ],
   addons: [
     "@chromatic-com/storybook",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
     "@storybook/addon-a11y",
-    "@storybook/addon-vitest",
   ],
   framework: {
     name: "@storybook/nextjs-vite",
     options: {},
   },
+  staticDirs: ["../../../apps/web/public"],
   viteFinal: async (config) => {
     config.plugins = [...(config.plugins ?? []), vanillaExtractPlugin()];
     config.resolve = {
       ...(config.resolve ?? {}),
       alias: {
         ...(config.resolve?.alias ?? {}),
-        "@": path.resolve(process.cwd(), "src"),
+        "@": path.resolve(__dirname, "../src"),
       },
     };
     return config;
   },
-
-  staticDirs: ["../public"],
 };
 
 export default config;
