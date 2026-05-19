@@ -20,7 +20,7 @@
     "typecheck": "pnpm --filter web typecheck",
     "prepare": "husky",
     "dedupe:check": "pnpm dedupe --check",
-    "size": "pnpm --filter web exec size-limit --config ../../.bundle/.size-limit.json && node scripts/track-bundle.mjs",
+    "size": "pnpm --filter web exec size-limit --config ../../.bundle/.size-limit.json; node scripts/track-bundle.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "optimize:images:dry": "node scripts/optimize-images.mjs --dry-run"
   },

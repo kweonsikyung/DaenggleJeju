@@ -20,7 +20,6 @@ import { execSync } from 'child_process';
 
 const HISTORY_FILE = '.bundle/bundle-history.json';
 const BUNDLE_PATH = 'apps/web/.next/static/chunks';
-const CONFIG_PATH = '.bundle/.size-limit.json';
 
 // 1. 물리적 디스크 용량 (Raw Size)
 function getDiskSize() {
@@ -31,12 +30,24 @@ function getDiskSize() {
 // 2. 실제 전송 용량 (Gzip Size) - size-limit의 JSON 출력 활용
 function getGzipSize() {
   try {
-    const jsonOutput = execSync(`pnpm size-limit --json --config ${CONFIG_PATH}`).toString();
+    // pnpm exec을 거치면 에러 메시지가 stdout에 섞이므로 size-limit 바이너리를 직접 실행
+    const jsonOutput = execSync(
+      `node_modules/.bin/size-limit --json --config ../../.bundle/.size-limit.json`,
+      { cwd: 'apps/web', stdio: ['pipe', 'pipe', 'pipe'] }
+    ).toString();
     const data = JSON.parse(jsonOutput);
-    // bytes 단위를 KB로 변환 (소수점 2자리)
     const sizeInBytes = data[0].size;
     return `${(sizeInBytes / 1024).toFixed(2)}KB`;
   } catch (e) {
+    // 한도 초과 시 exit code 1이지만 stdout에 JSON은 있음
+    const stdout = e.stdout?.toString();
+    if (stdout) {
+      try {
+        const data = JSON.parse(stdout);
+        const sizeInBytes = data[0].size;
+        return `${(sizeInBytes / 1024).toFixed(2)}KB`;
+      } catch {}
+    }
     return 'Error';
   }
 }
