@@ -4,5 +4,11 @@
     "diskSize": "1.4M",
     "transferSize": "460.84KB",
     "commit": "feat: relocation Dockerfile, Caddyfile, and docker-compose.yml to /infra"
+  },
+  {
+    "date": "2026-05-19T17:14:35.656Z",
+    "diskSize": "19M",
+    "transferSize": "4033.65KB",
+    "commit": "fix: update esbuild version to 0.27.7 in pnpm-lock.yaml"
   }
 ]
