@@ -52,7 +52,7 @@ pnpm release:web  # 웹 앱 릴리즈
 
 ### check-density.mjs
 
-**목적** 5줄 이상 연속 코드 블록 금지 — "Wall of Code" 방지  
+**목적** 10줄 이상 연속 코드 블록 금지 — "Wall of Code" 방지  
 **트리거** pre-commit (lint-staged) — `src/**/*.{ts,tsx}`  
 **판단 기준** 주석·빈 줄·import는 카운트 제외, 순수 실행 코드만 카운팅
 
