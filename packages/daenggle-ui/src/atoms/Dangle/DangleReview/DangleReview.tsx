@@ -58,11 +58,7 @@ const RatingDisplay = ({
             src={index < rating ? (filledIconSrc ?? "") : emptyIconSrc}
           />
         ) : (
-          <RiStarFill
-            key={index}
-            size={16}
-            style={{ opacity: index < rating ? 1 : 0.2 }}
-          />
+          <RiStarFill key={index} size={16} style={{ opacity: index < rating ? 1 : 0.2 }} />
         )
       )}
     </div>

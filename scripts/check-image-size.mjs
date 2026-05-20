@@ -48,11 +48,11 @@ files.forEach((file) => {
 });
 
 if (warnings.length) {
-  console.warn("\n[image-size] 경고 — 최적화 권장:\n" + warnings.join("\n") + "\n");
+  console.warn(`\n[image-size] 경고 — 최적화 권장:\n${warnings.join("\n")}\n`);
 }
 
 if (errors.length) {
-  console.error("\n[image-size] 커밋 차단 — 이미지 크기 초과:\n" + errors.join("\n"));
+  console.error(`\n[image-size] 커밋 차단 — 이미지 크기 초과:\n${errors.join("\n")}`);
   console.error("\n  → TinyPNG(https://tinypng.com) 등으로 압축 후 재시도하세요.");
   console.error("  → 부득이하면 git commit --no-verify 로 우회 가능합니다.\n");
   process.exit(1);

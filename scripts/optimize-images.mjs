@@ -10,8 +10,8 @@
  */
 
 import fs from "fs";
-import path from "path";
 import { createRequire } from "module";
+import path from "path";
 
 const require = createRequire(import.meta.url);
 const sharp = require("sharp");
@@ -85,9 +85,14 @@ async function run() {
   console.log("파일명".padEnd(60) + "전".padStart(10) + "후".padStart(10) + "절감".padStart(10));
   console.log("─".repeat(90));
   for (const r of valid) {
-    const name = r.filePath.replace(TARGET_DIR + "/", "");
+    const name = r.filePath.replace(`${TARGET_DIR}/`, "");
     const saved = r.savedKB > 0 ? `-${r.savedKB.toFixed(0)}KB (${r.savedPct}%)` : "변화 없음";
-    console.log(name.padEnd(60) + `${r.beforeKB.toFixed(0)}KB`.padStart(10) + `${r.afterKB.toFixed(0)}KB`.padStart(10) + saved.padStart(10));
+    console.log(
+      name.padEnd(60) +
+        `${r.beforeKB.toFixed(0)}KB`.padStart(10) +
+        `${r.afterKB.toFixed(0)}KB`.padStart(10) +
+        saved.padStart(10)
+    );
   }
 
   console.log("─".repeat(90));

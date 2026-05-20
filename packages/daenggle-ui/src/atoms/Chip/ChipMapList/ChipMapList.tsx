@@ -1,8 +1,8 @@
 "use client";
 
 import { RiListUnordered } from "react-icons/ri";
-import * as s from "./ChipMapList.css";
 import { COLORS } from "@/styles/colors.css";
+import * as s from "./ChipMapList.css";
 
 export interface ChipMapListProps {
   /** 칩 중앙 텍스트 */
@@ -13,11 +13,7 @@ export interface ChipMapListProps {
   onLocationListClick: () => void;
 }
 
-export function ChipMapList({
-  text,
-  cnt,
-  onLocationListClick,
-}: ChipMapListProps) {
+export function ChipMapList({ text, cnt, onLocationListClick }: ChipMapListProps) {
   return (
     <button className={s.locationListButton} onClick={onLocationListClick}>
       <span>

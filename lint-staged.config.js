@@ -4,17 +4,15 @@ module.exports = {
     "biome check --write --unsafe",
     "node scripts/check-density.mjs",
     "node scripts/check-atomic-deps.mjs",
-    "node scripts/check-circular.mjs"
+    "node scripts/check-circular.mjs",
   ],
   // web 앱 검사
   "apps/web/src/**/*.{ts,tsx}": [
     "biome check --write --unsafe",
     "node scripts/check-density.mjs",
     "node scripts/check-atomic-deps.mjs",
-    "node scripts/check-circular.mjs"
+    "node scripts/check-circular.mjs",
   ],
 
-  "apps/web/public/**/*.{png,jpeg,jpg,webp,svg}": [
-    "node scripts/check-image-size.mjs"
-  ],
+  "apps/web/public/**/*.{png,jpeg,jpg,webp,svg}": ["node scripts/check-image-size.mjs"],
 };

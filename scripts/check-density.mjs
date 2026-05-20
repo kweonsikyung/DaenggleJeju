@@ -83,7 +83,7 @@ files.forEach((file) => {
 
     if (consecutiveCodeCount >= MAX_LINES) {
       console.error(
-        `[readability] ${file}:${i + 1} — ${MAX_LINES}줄 이상 연속 코드 (빈 줄 추가 필요)`,
+        `[readability] ${file}:${i + 1} — ${MAX_LINES}줄 이상 연속 코드 (빈 줄 추가 필요)`
       );
       hasError = true;
       break;

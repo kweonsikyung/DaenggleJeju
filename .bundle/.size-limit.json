@@ -2,7 +2,7 @@
   {
     "name": "Web Client Bundle",
     "path": "../apps/web/.next/static/chunks/**/*.js",
-    "limit": "500 KB", 
+    "limit": "500 KB",
     "gzip": true
   }
 ]

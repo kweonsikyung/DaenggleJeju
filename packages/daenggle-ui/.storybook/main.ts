@@ -1,19 +1,13 @@
 import type { StorybookConfig } from "@storybook/nextjs-vite";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
-import { fileURLToPath } from "url";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const config: StorybookConfig = {
-  stories: [
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-  ],
-  addons: [
-    "@chromatic-com/storybook",
-    "@storybook/addon-a11y",
-  ],
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  addons: ["@chromatic-com/storybook", "@storybook/addon-a11y"],
   framework: {
     name: "@storybook/nextjs-vite",
     options: {},

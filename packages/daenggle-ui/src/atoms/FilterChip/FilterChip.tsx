@@ -19,11 +19,7 @@ export interface FilterChipProps {
 export function FilterChip({ text, icon, selected = false, onClick }: FilterChipProps) {
   return (
     <button className={s.chip[selected ? "selected" : "default"]} onClick={onClick} role="button">
-      {icon && (
-        <div className={s.icon[selected ? "selected" : "default"]}>
-          {icon}
-        </div>
-      )}
+      {icon && <div className={s.icon[selected ? "selected" : "default"]}>{icon}</div>}
       <span className={s.text[selected ? "selected" : "default"]}>{text}</span>
     </button>
   );
