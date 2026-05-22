@@ -14,7 +14,7 @@
     "build:ui": "pnpm --filter daenggle-ui build",
     "release:ui": "bash scripts/release-ui.sh",
     "release:web": "bash scripts/release-web.sh",
-    "chromatic": "npx chromatic --project-token=chpt_942a440a379d631",
+    "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
     "check:ui": "pnpm --filter daenggle-ui exec npx publint",
     "size:ui": "pnpm build:ui && node scripts/analyze-ui.mjs",
     "size:ui:budget": "pnpm --filter web exec size-limit --config ../../.bundle/.size-limit.ui.json",

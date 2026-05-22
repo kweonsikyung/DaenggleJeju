@@ -164,7 +164,7 @@ Tags are created only on `main` — a tag means "this version is in production."
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
 | `ci.yml` | push / PR → develop, main | Lint, typecheck, build UI, build web |
-| `storybook.yml` | push → develop | Chromatic visual tests + deploy Storybook to GitHub Pages |
+| `storybook.yml` | push → develop | Chromatic visual tests |
 | `release.yml` | push → main | Auto-tag + npm publish (triggered by release commit message) |
 
 **Required Secrets**
