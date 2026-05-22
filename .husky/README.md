@@ -20,9 +20,9 @@ pnpm run dedupe:check
 
 **lint-staged 상세 스크립트**
 
-- `check-density.mjs` — 컴포넌트 밀도(복잡도) 기준 초과 여부
-- `check-atomic-deps.mjs` — 아토믹 디자인 의존 방향 위반 (`views → atoms` 역참조 등)
-- `check-circular.mjs` — 순환 참조 감지
+- `check-density.mjs` — 컴포넌트 밀도(복잡도) 기준 초과 여부 (스테이징된 파일만 검사)
+- `check-atomic-deps.mjs` — 아토믹 디자인 의존 방향 위반 (`views → atoms` 역참조 등, 스테이징된 파일만 검사)
+- `check-circular.mjs` — 순환 참조 감지 (**항상 프로젝트 전체 스캔**; 순환 의존은 그래프 전체를 봐야 감지 가능하므로 의도된 동작. 파일 수가 늘어나면 커밋 속도에 영향을 줄 수 있음)
 
 ## `commit-msg`
 
