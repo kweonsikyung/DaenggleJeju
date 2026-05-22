@@ -1,13 +1,8 @@
 import { defineConfig } from "tsup";
 import { vanillaExtractPlugin } from "@vanilla-extract/esbuild-plugin";
-import { glob } from "node:fs/promises";
-
-const entry = (await Array.fromAsync(glob("src/**/*.{ts,tsx}"))).filter(
-  (f) => !f.includes(".stories."),
-);
 
 export default defineConfig({
-  entry,
+  entry: ["src/**/*.{ts,tsx}", "!src/**/*.stories.{ts,tsx}"],
   outDir: "dist",
   format: ["cjs", "esm"],
   dts: false,
