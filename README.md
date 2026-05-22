@@ -181,17 +181,17 @@ Tags are created only on `main` — a tag means "this version is in production."
 ## Release Flow
 
 ```
-1. develop에서 릴리즈 스크립트 실행
+1. Run release script on develop
         ↓
-   버전 bump + CHANGELOG + commit + push to develop
+   Version bump + CHANGELOG + commit + push to develop
 
-2. develop → main PR 생성 + merge
+2. Open PR: develop → main, then merge
         ↓
-   CI 자동 실행 (lint, typecheck, build UI, build web)
+   CI runs automatically (lint, typecheck, build UI, build web)
 
-3. main merge 완료
+3. main merge complete
         ↓
-   release.yml 자동 실행
+   release.yml runs automatically
    - daenggle-ui: npm publish + git tag daenggle-ui@x.x.x
    - web: git tag web@x.x.x
 ```
@@ -202,7 +202,7 @@ Tags are created only on `main` — a tag means "this version is in production."
 pnpm release:web
 ```
 
-1. Update `CHANGELOG.md`
+1. Update `apps/web/CHANGELOG.md`
 2. Run script — select version type (`patch` / `minor` / `major`)
 3. Script runs lint, typecheck, build, then commits and pushes to develop
 4. Create PR: develop → main

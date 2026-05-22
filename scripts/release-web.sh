@@ -73,7 +73,7 @@ fi
 echo "✅ 빌드 완료"
 
 # git 커밋
-git add apps/web/package.json CHANGELOG.md
+git add apps/web/package.json apps/web/CHANGELOG.md
 git commit -m "release: web@$NEW_VERSION"
 git push origin develop
 
