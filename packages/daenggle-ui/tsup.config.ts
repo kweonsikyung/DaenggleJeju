@@ -1,12 +1,19 @@
-import path from "path";
 import { defineConfig } from "tsup";
+import { vanillaExtractPlugin } from "@vanilla-extract/esbuild-plugin";
+import { glob } from "node:fs/promises";
+
+const entry = (await Array.fromAsync(glob("src/**/*.{ts,tsx}"))).filter(
+  (f) => !f.includes(".stories."),
+);
 
 export default defineConfig({
-  entry: ["src/index.ts"],
+  entry,
   outDir: "dist",
   format: ["cjs", "esm"],
-  dts: true,
+  dts: false,
   clean: true,
+  bundle: true,
+  splitting: true,
   external: [
     "react",
     "react-dom",
@@ -15,11 +22,11 @@ export default defineConfig({
     "@vanilla-extract/recipes",
     "embla-carousel-react",
     "vaul",
+    "react-icons",
   ],
   tsconfig: "tsconfig.json",
-  esbuildOptions(options) {
-    options.alias = {
-      "@": path.resolve(__dirname, "src"),
-    };
+  esbuildPlugins: [vanillaExtractPlugin()],
+  banner: {
+    js: '"use client";',
   },
 });
