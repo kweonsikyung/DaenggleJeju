@@ -1,5 +1,5 @@
-import { defineConfig } from "tsup";
 import { vanillaExtractPlugin } from "@vanilla-extract/esbuild-plugin";
+import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["src/**/*.{ts,tsx}", "!src/**/*.stories.{ts,tsx}"],

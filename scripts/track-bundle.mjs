@@ -37,7 +37,7 @@ function getWebChunksGzip() {
   try {
     const jsonOutput = execSync(
       `node_modules/.bin/size-limit --json --config ../../.bundle/.size-limit.json`,
-      { cwd: "apps/web", stdio: ["pipe", "pipe", "pipe"] },
+      { cwd: "apps/web", stdio: ["pipe", "pipe", "pipe"] }
     ).toString();
     const data = JSON.parse(jsonOutput);
     const sizeInBytes = data[0].size;
@@ -106,5 +106,5 @@ if (history.length > 30) history.shift();
 fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
 
 console.log(
-  `✅ 기록 완료 | webChunksDisk: ${currentStats.webChunksDisk} | webChunksGzip: ${currentStats.webChunksGzip} | uiDistGzip: ${currentStats.uiDistGzip}`,
+  `✅ 기록 완료 | webChunksDisk: ${currentStats.webChunksDisk} | webChunksGzip: ${currentStats.webChunksGzip} | uiDistGzip: ${currentStats.uiDistGzip}`
 );

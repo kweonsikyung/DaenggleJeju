@@ -58,7 +58,7 @@ function printTable(label, items) {
   console.log("─".repeat(75));
   for (const e of sorted) {
     console.log(
-      `${e.path.padEnd(55)} ${formatBytes(e.raw).padStart(8)} ${formatBytes(e.gzip).padStart(8)}`,
+      `${e.path.padEnd(55)} ${formatBytes(e.raw).padStart(8)} ${formatBytes(e.gzip).padStart(8)}`
     );
   }
 }

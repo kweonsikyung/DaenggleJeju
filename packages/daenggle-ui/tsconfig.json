@@ -6,11 +6,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "exclude": [
-    "**/*.stories.tsx",
-    "**/*.stories.ts",
-    "node_modules",
-    "dist",
-    "dist/**"
-  ]
+  "exclude": ["**/*.stories.tsx", "**/*.stories.ts", "node_modules", "dist", "dist/**"]
 }
