@@ -145,15 +145,16 @@ pnpm optimize:images:dry      # 변경 없이 예상 결과만 확인
 | 필드 | 내용 |
 |---|---|
 | `date` | ISO 8601 타임스탬프 |
-| `diskSize` | 청크 디렉터리 물리적 크기 (`du -sh`) |
-| `transferSize` | gzip 전송 크기 (size-limit 측정) |
+| `webChunksDisk` | `.next/static/chunks` 물리 용량 (`du -sh`) |
+| `webChunksGzip` | `.next/static/chunks` gzip 전송 용량 (size-limit 측정) |
+| `uiDistGzip` | `daenggle-ui` dist ESM 전체 gzip 합계 |
 | `commit` | 최신 커밋 메시지 |
 
 ```bash
 pnpm build && pnpm size   # 빌드 후 사이즈 체크 + 기록
 ```
 
-> 빌드 없이 실행하면 `diskSize`가 부정확하게 기록됩니다.
+> 빌드 없이 실행하면 `webChunksDisk`, `webChunksGzip`이 부정확하게 기록됩니다.
 
 ---
 
