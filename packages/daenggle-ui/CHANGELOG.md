@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.15] - 2026-05-23
+
+### Changed
+- Replaced `next/image` with `react-icons` across components
+- Updated peer dependencies — added `@vanilla-extract/css`, `@vanilla-extract/recipes`, `embla-carousel-react`, `react-icons`
+- Improved tsup build configuration for better output performance
+- Updated Storybook to v10
+- Rewrote README for npm publication
+
+### Removed
+- Removed unused `SampleUnitUi` component and related stories
+
 ## [0.0.10] - 2026-05-06
 
 ### Fixed

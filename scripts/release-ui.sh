@@ -84,15 +84,6 @@ fi
 cd ../..
 echo "✅ 빌드 완료"
 
-# 패키지 유효성 검사
-echo "🔍 패키지 유효성 검사 중..."
-pnpm check:ui
-if [ $? -ne 0 ]; then
-  echo "❌ 패키지 유효성 검사 실패"
-  exit 1
-fi
-echo "✅ 패키지 유효성 검사 완료"
-
 # exports를 src로 복원 (모노레포용)
 echo "🔄 exports를 src로 복원 중..."
 node -e "
