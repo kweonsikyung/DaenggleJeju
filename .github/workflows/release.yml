@@ -6,43 +6,30 @@ on:
       - main
 
 jobs:
-  detect:
-    name: Detect release type
+  tag-web:
+    name: Tag web release
     runs-on: ubuntu-latest
-    outputs:
-      is_ui: ${{ steps.check.outputs.is_ui }}
-      is_web: ${{ steps.check.outputs.is_web }}
-      ui_version: ${{ steps.check.outputs.ui_version }}
-      web_version: ${{ steps.check.outputs.web_version }}
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check commit message
-        id: check
+      - name: Create tag if not exists
         run: |
-          MSG=$(git log -1 --pretty=%s)
-          echo "Commit: $MSG"
-
-          if echo "$MSG" | grep -qE "^release: daenggle-ui@"; then
-            VERSION=$(echo "$MSG" | sed 's/release: daenggle-ui@//')
-            echo "is_ui=true" >> $GITHUB_OUTPUT
-            echo "ui_version=$VERSION" >> $GITHUB_OUTPUT
+          VERSION=$(node -p "require('./apps/web/package.json').version")
+          TAG="web@$VERSION"
+          if git ls-remote --tags origin "$TAG" | grep -q "$TAG"; then
+            echo "Tag $TAG already exists, skipping"
           else
-            echo "is_ui=false" >> $GITHUB_OUTPUT
-          fi
-
-          if echo "$MSG" | grep -qE "^release: web@"; then
-            VERSION=$(echo "$MSG" | sed 's/release: web@//')
-            echo "is_web=true" >> $GITHUB_OUTPUT
-            echo "web_version=$VERSION" >> $GITHUB_OUTPUT
-          else
-            echo "is_web=false" >> $GITHUB_OUTPUT
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag "$TAG"
+            git push origin "$TAG"
+            echo "Created tag $TAG"
           fi
 
   publish-ui:
     name: Publish daenggle-ui to npm & tag
-    needs: detect
-    if: needs.detect.outputs.is_ui == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -62,52 +49,29 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Switch exports to dist
+      - name: Publish and tag if not exists
         run: |
-          node -e "
-            const fs = require('fs');
-            const pkg = JSON.parse(fs.readFileSync('packages/daenggle-ui/package.json', 'utf8'));
-            pkg.main = './dist/index.js';
-            pkg.module = './dist/index.mjs';
-            pkg.types = './dist/index.d.ts';
-            pkg.exports = {
-              '.': {
-                types: './dist/index.d.ts',
-                import: './dist/index.mjs',
-                require: './dist/index.js',
-              }
-            };
-            fs.writeFileSync('packages/daenggle-ui/package.json', JSON.stringify(pkg, null, 2) + '\n');
-          "
-
-      - name: Build
-        run: pnpm build:ui
-
-      - name: Publish to npm
-        run: cd packages/daenggle-ui && npm publish
+          VERSION=$(node -p "require('./packages/daenggle-ui/package.json').version")
+          TAG="daenggle-ui@$VERSION"
+          if git ls-remote --tags origin "$TAG" | grep -q "$TAG"; then
+            echo "Tag $TAG already exists, skipping"
+          else
+            node -e "
+              const fs = require('fs');
+              const pkg = JSON.parse(fs.readFileSync('packages/daenggle-ui/package.json', 'utf8'));
+              pkg.main = './dist/index.js';
+              pkg.module = './dist/index.mjs';
+              pkg.types = './dist/index.d.ts';
+              pkg.exports = { '.': { types: './dist/index.d.ts', import: './dist/index.mjs', require: './dist/index.js' } };
+              fs.writeFileSync('packages/daenggle-ui/package.json', JSON.stringify(pkg, null, 2) + '\n');
+            "
+            pnpm build:ui
+            cd packages/daenggle-ui && npm publish && cd ../..
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag "$TAG"
+            git push origin "$TAG"
+            echo "Published and tagged $TAG"
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Create git tag
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "daenggle-ui@${{ needs.detect.outputs.ui_version }}"
-          git push origin "daenggle-ui@${{ needs.detect.outputs.ui_version }}"
-
-  tag-web:
-    name: Tag web release
-    needs: detect
-    if: needs.detect.outputs.is_web == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Create git tag
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "web@${{ needs.detect.outputs.web_version }}"
-          git push origin "web@${{ needs.detect.outputs.web_version }}"
