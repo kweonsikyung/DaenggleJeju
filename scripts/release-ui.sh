@@ -93,23 +93,6 @@ if [ $? -ne 0 ]; then
 fi
 echo "✅ 패키지 유효성 검사 완료"
 
-# 로컬 확인
-read -p "로컬에서 확인했나요? (y/n): " LOCAL_CHECK
-if [ "$LOCAL_CHECK" != "y" ]; then
-  echo "로컬 확인 후 다시 실행해주세요."
-  exit 1
-fi
-
-# npm 배포
-echo "📤 npm 배포 중..."
-cd packages/daenggle-ui && npm publish
-if [ $? -ne 0 ]; then
-  echo "❌ npm 배포 실패"
-  cd ../..
-  exit 1
-fi
-cd ../..
-
 # exports를 src로 복원 (모노레포용)
 echo "🔄 exports를 src로 복원 중..."
 node -e "
@@ -134,9 +117,10 @@ git add packages/daenggle-ui/package.json packages/daenggle-ui/CHANGELOG.md pack
 git commit -m "release: daenggle-ui@$NEW_VERSION"
 git push origin develop
 
-# 태그 추가
-git tag "daenggle-ui@$NEW_VERSION"
-git push origin "daenggle-ui@$NEW_VERSION"
-
-echo "✅ git 푸시 완료"
-echo "🎉 릴리즈 완료: daenggle-ui@$NEW_VERSION"
+echo "✅ develop 푸시 완료"
+echo ""
+echo "👉 다음 단계: develop → main PR을 생성하세요."
+echo "   main에 merge되면 GitHub Actions가 자동으로:"
+echo "   - npm publish"
+echo "   - git tag daenggle-ui@$NEW_VERSION"
+echo "   을 실행합니다."

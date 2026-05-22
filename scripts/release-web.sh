@@ -77,10 +77,9 @@ git add apps/web/package.json CHANGELOG.md
 git commit -m "release: web@$NEW_VERSION"
 git push origin develop
 
-# 태그 추가
-git tag "web@$NEW_VERSION"
-git push origin "web@$NEW_VERSION"
-
-echo "✅ git 푸시 완료"
-
-echo "🎉 릴리즈 완료: web@$NEW_VERSION"
+echo "✅ develop 푸시 완료"
+echo ""
+echo "👉 다음 단계: develop → main PR을 생성하세요."
+echo "   main에 merge되면 GitHub Actions가 자동으로:"
+echo "   - git tag web@$NEW_VERSION"
+echo "   을 실행합니다."

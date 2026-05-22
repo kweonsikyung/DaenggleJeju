@@ -6,7 +6,7 @@
 
 <p>
   <img src="https://img.shields.io/badge/pnpm-10.14.0-F69220?style=flat&logo=pnpm&logoColor=white" alt="pnpm" />
-  <img src="https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Next.js-15.4.6-000000?style=flat&logo=next.js&logoColor=white" alt="Next.js" />
   <img src="https://img.shields.io/badge/SWR-2.3.5-000000?style=flat&logo=swr&logoColor=white" alt="SWR" />
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white" alt="Docker" />
@@ -39,6 +39,9 @@ Next.js 기반 웹앱과 공용 UI 패키지를 하나의 monorepo에서 관리�
   - [Web App](#web-app)
   - [UI Package](#ui-package)
   - [Storybook / Chromatic](#storybook--chromatic)
+- [CI / CD](#ci--cd)
+  - [Branch Strategy](#branch-strategy)
+  - [GitHub Actions](#github-actions)
 - [Release](#release)
   - [Web App Release](#web-app-release)
   - [UI Package Release](#ui-package-release)
@@ -140,7 +143,58 @@ Storybook is used to preview and test shared UI components.
 
 ---
 
+# CI / CD
+
+## Branch Strategy
+
+```
+feature/* ──→ develop ──→ (PR) ──→ main
+```
+
+| Branch | Role |
+| --- | --- |
+| `feature/*` | Feature development |
+| `develop` | Integration / staging |
+| `main` | Production |
+
+Tags are created only on `main` — a tag means "this version is in production."
+
+## GitHub Actions
+
+| Workflow | Trigger | What it does |
+| --- | --- | --- |
+| `ci.yml` | push / PR → develop, main | Lint, typecheck, build UI, build web |
+| `storybook.yml` | push → develop | Chromatic visual tests + deploy Storybook to GitHub Pages |
+| `release.yml` | push → main | Auto-tag + npm publish (triggered by release commit message) |
+
+**Required Secrets**
+
+| Secret | Used by |
+| --- | --- |
+| `CHROMATIC_PROJECT_TOKEN` | `storybook.yml` |
+| `NPM_TOKEN` | `release.yml` (daenggle-ui publish) |
+
+---
+
 # Release
+
+## Release Flow
+
+```
+1. develop에서 릴리즈 스크립트 실행
+        ↓
+   버전 bump + CHANGELOG + commit + push to develop
+
+2. develop → main PR 생성 + merge
+        ↓
+   CI 자동 실행 (lint, typecheck, build UI, build web)
+
+3. main merge 완료
+        ↓
+   release.yml 자동 실행
+   - daenggle-ui: npm publish + git tag daenggle-ui@x.x.x
+   - web: git tag web@x.x.x
+```
 
 ## Web App Release
 
@@ -148,14 +202,11 @@ Storybook is used to preview and test shared UI components.
 pnpm release:web
 ```
 
-Release flow:
-
 1. Update `CHANGELOG.md`
-2. Run release script
-3. Select version type: `patch`, `minor`, or `major`
-4. Run lint, typecheck, and build checks
-5. Create release commit and git tag
-6. Push changes and tag
+2. Run script — select version type (`patch` / `minor` / `major`)
+3. Script runs lint, typecheck, build, then commits and pushes to develop
+4. Create PR: develop → main
+5. On merge: `release.yml` auto-creates `web@x.x.x` tag
 
 ## UI Package Release
 
@@ -163,15 +214,11 @@ Release flow:
 pnpm release:ui
 ```
 
-Release flow:
-
 1. Update `packages/daenggle-ui/CHANGELOG.md`
-2. Run release script
-3. Select version type: `patch`, `minor`, or `major`
-4. Run package validation and build
-5. Publish package to npm
-6. Create release commit and git tag
-7. Push changes and tag
+2. Run script — select version type (`patch` / `minor` / `major`)
+3. Script runs build + publint validation, then commits and pushes to develop
+4. Create PR: develop → main
+5. On merge: `release.yml` auto-publishes to npm and creates `daenggle-ui@x.x.x` tag
 
 > 👀 For full details → [scripts/README.md](scripts/README.md)
 
