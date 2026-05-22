@@ -6,7 +6,7 @@
 
 <p>
   <img src="https://img.shields.io/badge/pnpm-10.14.0-F69220?style=flat&logo=pnpm&logoColor=white" alt="pnpm" />
-  <img src="https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Next.js-15.4.6-000000?style=flat&logo=next.js&logoColor=white" alt="Next.js" />
   <img src="https://img.shields.io/badge/SWR-2.3.5-000000?style=flat&logo=swr&logoColor=white" alt="SWR" />
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white" alt="Docker" />
@@ -15,7 +15,7 @@
 <p>
   <img src="https://img.shields.io/badge/Vanilla--Extract-1.17.4-555555?style=flat" alt="Vanilla Extract" />
   <img src="https://img.shields.io/badge/Jest-30.1.1-C21325?style=flat&logo=jest&logoColor=white" alt="Jest" />
-  <img src="https://img.shields.io/badge/Storybook-9.1.1-FF4785?style=flat&logo=storybook&logoColor=white" alt="Storybook" />
+  <img src="https://img.shields.io/badge/Storybook-10.1.11-FF4785?style=flat&logo=storybook&logoColor=white" alt="Storybook" />
 </p>
 
 </div>
@@ -28,6 +28,32 @@
 Next.js 기반 웹앱과 공용 UI 패키지를 하나의 monorepo에서 관리합니다.
 
 ---
+
+## Table of Contents
+
+- [Overview](#overview)
+  - [Project Structure](#project-structure)
+  - [Tech Stack](#tech-stack)
+- [Development](#development)
+  - [Getting Started](#getting-started)
+  - [Web App](#web-app)
+  - [UI Package](#ui-package)
+  - [Storybook / Chromatic](#storybook--chromatic)
+- [CI / CD](#ci--cd)
+  - [Branch Strategy](#branch-strategy)
+  - [GitHub Actions](#github-actions)
+- [Release](#release)
+  - [Web App Release](#web-app-release)
+  - [UI Package Release](#ui-package-release)
+- [Git Workflow](#git-workflow)
+  - [Git Hooks](#git-hooks)
+  - [Commit Convention](#commit-convention)
+- [Deployment](#deployment)
+  - [Common Commands](#common-commands)
+
+---
+
+# Overview
 
 ## Project Structure
 
@@ -47,8 +73,6 @@ DaenggleJeju/
 └── tsconfig.json
 ```
 
----
-
 ## Tech Stack
 
 | Category | Stack |
@@ -60,33 +84,23 @@ DaenggleJeju/
 | Data Fetching | SWR |
 | UI Documentation | Storybook |
 | Testing | Jest |
+| Bundler | Webpack (web, via Next.js), tsup / esbuild (daenggle-ui) |
 | Lint / Format | Biome |
 | Git Hooks | Husky, lint-staged, commitlint |
 | Deployment | Docker Compose |
 
 ---
 
-## Getting Started
+# Development
 
-### Install dependencies
+## Getting Started
 
 ```bash
 pnpm install
-```
-
-### Run development server
-
-```bash
 pnpm dev
 ```
 
-The web app runs at:
-
-```bash
-http://localhost:3000
-```
-
----
+The web app runs at `http://localhost:3000`.
 
 ## Web App
 
@@ -100,11 +114,8 @@ The web application is located in `apps/web`.
 | `pnpm lint` | Run lint check |
 | `pnpm lint:fix` | Fix lint issues |
 | `pnpm typecheck` | Run TypeScript type check |
-| `pnpm storybook` | Start Storybook |
-| `pnpm build-storybook` | Build Storybook |
-| `pnpm release:web` | Release web app version |
 
----
+> 👀 Major directories under `apps/web/src/` each have their own README — see `hooks/`, `stores/`, `components/`, `utils/`, `lib/`, `styles/`, `types/`, `constants/`.
 
 ## UI Package
 
@@ -115,94 +126,124 @@ The shared UI package is located in `packages/daenggle-ui`.
 | `pnpm build:ui` | Build UI package |
 | `pnpm check:ui` | Validate package with publint |
 | `pnpm size:ui` | Check bundle size |
-| `pnpm release:ui` | Release UI package to npm |
 
-The web app consumes `daenggle-ui` through the workspace during local development.
+The web app consumes `daenggle-ui` through the workspace during local development.  
+No need to run `build:ui` — the workspace references `src` directly.
 
-```bash
-pnpm build:ui
-pnpm dev
-```
-
----
+> 👀 For full details → [packages/README.md](packages/README.md) (monorepo dev & release workflow), [packages/daenggle-ui/README.md](packages/daenggle-ui/README.md) (component list, npm usage)
 
 ## Storybook / Chromatic
 
 ```bash
-pnpm storybook
-pnpm chromatic
+pnpm storybook    # local preview (port 6006)
+pnpm chromatic    # visual regression CI
 ```
 
 Storybook is used to preview and test shared UI components.
 
 ---
 
-## Release
+# CI / CD
 
-### Web App Release
+## Branch Strategy
+
+```
+feature/* ──→ develop ──→ (PR) ──→ main
+```
+
+| Branch | Role |
+| --- | --- |
+| `feature/*` | Feature development |
+| `develop` | Integration / staging |
+| `main` | Production |
+
+Tags are created only on `main` — a tag means "this version is in production."
+
+## GitHub Actions
+
+| Workflow | Trigger | What it does |
+| --- | --- | --- |
+| `ci.yml` | push / PR → develop, main | Lint, typecheck, build UI, build web |
+| `storybook.yml` | push → develop | Chromatic visual tests |
+| `release.yml` | push → main | Auto-tag + npm publish (triggered by release commit message) |
+
+**Required Secrets**
+
+| Secret | Used by |
+| --- | --- |
+| `CHROMATIC_PROJECT_TOKEN` | `storybook.yml` |
+| `NPM_TOKEN` | `release.yml` (daenggle-ui publish) |
+
+---
+
+# Release
+
+## Release Flow
+
+```
+1. Run release script on develop
+        ↓
+   Version bump + CHANGELOG + commit + push to develop
+
+2. Open PR: develop → main, then merge
+        ↓
+   CI runs automatically (lint, typecheck, build UI, build web)
+
+3. main merge complete
+        ↓
+   release.yml runs automatically
+   - daenggle-ui: npm publish + git tag daenggle-ui@x.x.x
+   - web: git tag web@x.x.x
+```
+
+## Web App Release
 
 ```bash
 pnpm release:web
 ```
 
-Release flow:
+1. Update `apps/web/CHANGELOG.md`
+2. Run script — select version type (`patch` / `minor` / `major`)
+3. Script runs lint, typecheck, build, then commits and pushes to develop
+4. Create PR: develop → main
+5. On merge: `release.yml` auto-creates `web@x.x.x` tag
 
-1. Update `CHANGELOG.md`
-2. Run release script
-3. Select version type: `patch`, `minor`, or `major`
-4. Run lint, typecheck, and build checks
-5. Create release commit and git tag
-6. Push changes and tag
-
----
-
-### UI Package Release
+## UI Package Release
 
 ```bash
 pnpm release:ui
 ```
 
-Release flow:
-
 1. Update `packages/daenggle-ui/CHANGELOG.md`
-2. Run release script
-3. Select version type: `patch`, `minor`, or `major`
-4. Run package validation and build
-5. Publish package to npm
-6. Create release commit and git tag
-7. Push changes and tag
+2. Run script — select version type (`patch` / `minor` / `major`)
+3. Script runs build + publint validation, then commits and pushes to develop
+4. Create PR: develop → main
+5. On merge: `release.yml` auto-publishes to npm and creates `daenggle-ui@x.x.x` tag
+
+> 👀 For full details → [scripts/README.md](scripts/README.md)
 
 ---
+
+# Git Workflow
 
 ## Git Hooks
 
 This project uses Husky to automate checks during Git workflows.
 
-### Hook Flow
+| Hook | Timing | Action |
+| --- | --- | --- |
+| `pre-commit` | Before commit | lint-staged (Biome, density/atomic/circular checks) + dedupe check |
+| `commit-msg` | After commit message input | commitlint (Conventional Commits) |
+| `pre-push` | Before push | TypeScript type check |
+
+Use `--no-verify` only when absolutely necessary.
 
 ```bash
-git commit
-  ├─ pre-commit
-  │   └─ Run lint-staged
-  │       └─ Apply lint:fix to staged ts/tsx files
-  │
-  └─ commit-msg
-      └─ Validate commit message with commitlint
-
-git push
-  └─ pre-push
-      └─ Run TypeScript type check
+git commit --no-verify -m "hotfix: urgent fix"
+git push --no-verify
 ```
 
-### Hook Details
-
-| Hook | Timing | Action | On Failure |
-| --- | --- | --- | --- |
-| `pre-commit` | Before commit | Run lint-staged | Block commit |
-| `commit-msg` | After commit message input | Validate commit message | Block commit |
-| `pre-push` | Before push | Run typecheck | Block push |
-
----
+> 👀 For full details → [.husky/README.md](.husky/README.md)
 
 ## Commit Convention
 
@@ -211,8 +252,6 @@ Commit messages follow the format below:
 ```bash
 type: message
 ```
-
-### Allowed Types
 
 | Type | Description |
 | --- | --- |
@@ -227,35 +266,19 @@ type: message
 | `revert` | Revert previous commit |
 | `release` | Version release |
 
-### Examples
-
 ```bash
+# valid
 git commit -m "feat: add main banner component"
 git commit -m "fix: update login button click handler"
-git commit -m "docs: update deployment guide"
-```
 
-Invalid examples:
-
-```bash
+# invalid
 git commit -m "update banner"
 git commit -m "button fix"
 ```
 
 ---
 
-## Bypassing Hooks
-
-Use `--no-verify` only when absolutely necessary.
-
-```bash
-git commit --no-verify -m "hotfix: urgent fix"
-git push --no-verify
-```
-
----
-
-## Deployment
+# Deployment
 
 This project is deployed with Docker Compose.
 
@@ -265,13 +288,13 @@ docker compose up -d --build
 
 Planned production deployment stack:
 
-```bash
+```
 Docker Compose
 Caddy
 Next.js standalone server
 ```
 
----
+> 👀 For bundle size budgets & history → [.bundle/README.md](.bundle/README.md)
 
 ## Common Commands
 

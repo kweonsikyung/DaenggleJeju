@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - develop
+      - main
   pull_request:
     branches:
       - develop
+      - main
 
 jobs:
   ci:
@@ -18,7 +20,7 @@ jobs:
 
       - uses: pnpm/action-setup@v3
         with:
-          version: latest
+          version: 10
 
       - uses: actions/setup-node@v4
         with:
@@ -33,6 +35,9 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
+
+      - name: Build UI
+        run: pnpm build:ui
 
       - name: Build
         run: pnpm build

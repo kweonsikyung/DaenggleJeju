@@ -47,6 +47,9 @@ files.forEach((file) => {
           const forbiddenPath = `/${level}`;
 
           if (line.includes(forbiddenPath)) {
+            console.error(
+              `[atomic-deps] ${file}:${index + 1} — ${ATOMIC_ORDER[currentLevelIndex]}에서 ${level} import 금지`
+            );
             hasError = true;
           }
         }

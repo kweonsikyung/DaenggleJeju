@@ -28,16 +28,12 @@ export const NoticeBox = ({
     return null;
   }
 
-  const animationClass =
-    animation === "in" ? s.animateIn : animation === "out" ? s.animateOut : "";
+  const animationClass = animation === "in" ? s.animateIn : animation === "out" ? s.animateOut : "";
 
   const themeClass = variant === "blue" ? s.blueTheme : s.yellowTheme;
 
   return (
-    <div
-      className={`${s.container} ${themeClass} ${animationClass}`}
-      role="alert"
-    >
+    <div className={`${s.container} ${themeClass} ${animationClass}`} role="alert">
       <div className={s.iconWrapper}>
         {variant === "blue" ? (
           <RiInformationLine color={`${themeClass}`} size={16} />
@@ -46,12 +42,7 @@ export const NoticeBox = ({
         )}
       </div>
       <p className={s.content}>{children}</p>
-      <button
-        type="button"
-        className={s.closeButton}
-        onClick={onClose}
-        aria-label="알림 닫기"
-      >
+      <button type="button" className={s.closeButton} onClick={onClose} aria-label="알림 닫기">
         <RiCloseLine size={16} />
       </button>
     </div>

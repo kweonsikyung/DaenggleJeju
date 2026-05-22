@@ -1,0 +1,18 @@
+[
+  {
+    "name": "daenggle-ui (전체 ESM)",
+    "path": "../../packages/daenggle-ui/dist/**/*.mjs",
+    "limit": "80 KB",
+    "gzip": true,
+    "ignore": [
+      "react",
+      "react-dom",
+      "next",
+      "@vanilla-extract/css",
+      "@vanilla-extract/recipes",
+      "embla-carousel-react",
+      "vaul",
+      "react-icons"
+    ]
+  }
+]
