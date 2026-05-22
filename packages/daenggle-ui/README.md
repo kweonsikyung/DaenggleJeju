@@ -1,31 +1,46 @@
 # daenggle-ui
 
-> 댕글제주 UI 컴포넌트 라이브러리
+<p>
+  <a href="https://www.npmjs.com/package/daenggle-ui"><img src="https://img.shields.io/npm/v/daenggle-ui?style=flat&colorA=000000&colorB=000000" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/daenggle-ui"><img src="https://img.shields.io/npm/dm/daenggle-ui?style=flat&colorA=000000&colorB=000000" alt="npm downloads" /></a>
+  <a href="https://69fb04cd7a987b199b2a54b6-almsvanktf.chromatic.com/"><img src="https://img.shields.io/badge/storybook-live-FF4785?style=flat&logo=storybook&logoColor=white" alt="Storybook" /></a>
+  <img src="https://img.shields.io/badge/license-MIT-000000?style=flat" alt="MIT License" />
+</p>
 
-Next.js + vanilla-extract 기반의 반려동물 여행 서비스 [댕글제주](https://www.daengglejeju.site)의 UI 컴포넌트 패키지.
+UI component library for [DaenggleJeju](https://www.daengglejeju.site) — a pet-friendly travel service built with **Next.js** and **vanilla-extract**.
 
-**Storybook**: https://69fb04cd7a987b199b2a54b6-almsvanktf.chromatic.com/
+**[View Storybook →](https://69fb04cd7a987b199b2a54b6-almsvanktf.chromatic.com/)**
 
-## 설치
+---
+
+## Installation
 
 ```bash
 npm install daenggle-ui
 # or
 pnpm add daenggle-ui
+# or
+yarn add daenggle-ui
 ```
 
-## 요구사항
+## Peer Dependencies
 
-```json
-{
-  "next": ">=14.0.0",
-  "react": ">=18.0.0",
-  "react-dom": ">=18.0.0",
-  "vaul": ">=1.0.0"
-}
+This package requires the following peer dependencies:
+
+```bash
+npm install next react react-dom vaul
 ```
 
-## 사용법
+| Package | Version |
+| --- | --- |
+| `next` | `>= 14.0.0` |
+| `react` | `>= 18.0.0` |
+| `react-dom` | `>= 18.0.0` |
+| `vaul` | `>= 1.0.0` |
+
+---
+
+## Quick Start
 
 ```tsx
 import { Button, Header, BottomSheet } from "daenggle-ui";
@@ -33,11 +48,11 @@ import { Button, Header, BottomSheet } from "daenggle-ui";
 export default function Page() {
   return (
     <>
-      <Header title="댕글제주" />
+      <Header title="DaenggleJeju" />
       <Button
         size="medium"
         status="primary"
-        text="탐색하기"
+        text="Explore"
         onClick={() => {}}
       />
     </>
@@ -45,59 +60,100 @@ export default function Page() {
 }
 ```
 
-## 컴포넌트 목록
+> **Note:** This library uses [vanilla-extract](https://vanilla-extract.style/) for styling. Styles are zero-runtime and compile to static CSS at build time.
+
+---
+
+## Components
+
+Browse the full interactive component showcase in [Storybook](https://69fb04cd7a987b199b2a54b6-almsvanktf.chromatic.com/).
 
 ### Atoms
 
-| 컴포넌트                                                                               | 설명                   |
-| -------------------------------------------------------------------------------------- | ---------------------- |
-| `AvatarPicker`                                                                         | 프로필 이미지 선택     |
-| `BottomSheet`                                                                          | 하단 슬라이드 시트     |
-| `Button`, `Location`, `LoginButton`                                                    | 버튼 변형              |
-| `AiProfileHeader`, `ChatInput`, `MessageBox`, `ThinkingBubble`, `TopicSelector`        | 채팅 UI                |
-| `Chip`, `ChipKeyword`, `ChipMapList`                                                   | 칩 변형                |
-| `DangleCard`, `DangleItem`, `DanglePlace`, `DanglePlay`, `DangleReview`, `DangleVideo` | 댕글 카드 변형         |
-| `Dropdown`                                                                             | 드롭다운               |
-| `EmptyState`                                                                           | 빈 상태                |
-| `Fab`                                                                                  | Floating Action Button |
-| `FilterChip`, `FilterChipExpand`                                                       | 필터 칩 변형           |
-| `Header`                                                                               | 페이지 헤더            |
-| `LoadingSpinner`                                                                       | 로딩 스피너            |
-| `Modal`                                                                                | 모달                   |
-| `NavBar`                                                                               | 하단 내비게이션 바     |
-| `NoticeBox`                                                                            | 안내 박스              |
-| `Pagination`                                                                           | 페이지네이션           |
-| `ProfileCard`                                                                          | 프로필 카드            |
-| `ProgressCircle`                                                                       | 원형 진행률            |
-| `RadioGroup`                                                                           | 라디오 그룹            |
-| `SearchField`                                                                          | 검색 입력              |
-| `SegmentedControl`                                                                     | 세그먼트 컨트롤        |
-| `SelectField`                                                                          | 셀렉트 박스            |
-| `ShortsBottomInfo`                                                                     | 숏츠 하단 정보         |
-| `Skeleton`                                                                             | 스켈레톤 로딩          |
-| `Tabs`                                                                                 | 탭                     |
-| `TextField`                                                                            | 텍스트 입력            |
-| `Tooltip`                                                                              | 툴팁                   |
-| `TopBar`                                                                               | 상단 바                |
+Fundamental, single-purpose UI building blocks.
+
+| Component | Description |
+| --- | --- |
+| `AvatarPicker` | Profile image selector |
+| `BottomSheet` | Slide-up bottom sheet panel |
+| `Button` | Primary action button |
+| `LoginButton` | Social login button |
+| `Location` | Location indicator button |
+| `AiProfileHeader` | AI chat profile header |
+| `ChatInput` | Chat message input field |
+| `MessageBox` | Chat message bubble |
+| `ThinkingBubble` | AI thinking state indicator |
+| `TopicSelector` | Topic selection UI |
+| `Chip` | Tag chip |
+| `ChipKeyword` | Keyword chip |
+| `ChipMapList` | Map list chip |
+| `DangleCard` | Dangle content card |
+| `DangleItem` | Dangle list item |
+| `DanglePlace` | Place card |
+| `DanglePlay` | Playable content card |
+| `DangleReview` | Review card |
+| `DangleVideo` | Video card |
+| `Dropdown` | Select dropdown |
+| `EmptyState` | Empty / zero-data placeholder |
+| `Fab` | Floating action button |
+| `FilterChip` | Toggleable filter chip |
+| `FilterChipExpand` | Expandable filter chip |
+| `Header` | Page header |
+| `LoadingSpinner` | Loading indicator |
+| `Modal` | Dialog modal |
+| `NavBar` | Bottom navigation bar |
+| `NoticeBox` | Informational notice box |
+| `Pagination` | Page navigation |
+| `ProfileCard` | User profile card |
+| `ProgressCircle` | Circular progress indicator |
+| `RadioGroup` | Radio button group |
+| `SearchField` | Search input |
+| `SegmentedControl` | Segmented tab control |
+| `SelectField` | Select input field |
+| `ShortsBottomInfo` | Shorts video bottom info overlay |
+| `Skeleton` | Loading skeleton placeholder |
+| `Tabs` | Tab navigation |
+| `TextField` | Text input field |
+| `Tooltip` | Tooltip |
+| `TopBar` | Top action bar |
 
 ### Molecules
 
-| 컴포넌트             | 설명                     |
-| -------------------- | ------------------------ |
-| `Carousel`           | 이미지/카드 슬라이더     |
-| `FilterSection`      | 필터 칩 묶음             |
-| `Grid`               | 그리드 레이아웃          |
-| `MapFloatingButtons` | 지도 위 플로팅 버튼 그룹 |
-| `SearchHeader`       | 검색창 포함 헤더         |
-| `ShortsOverlay`      | 숏츠 오버레이            |
-| `WelcomeOverlay`     | 온보딩 오버레이          |
+Composed components built from atoms, with specific interaction logic.
 
-## 기술 스택
+| Component | Description |
+| --- | --- |
+| `Carousel` | Image / card slider |
+| `FilterSection` | Grouped filter chip set |
+| `Grid` | Responsive grid layout |
+| `MapFloatingButtons` | Floating button group over map |
+| `SearchHeader` | Header with integrated search |
+| `ShortsOverlay` | Shorts video overlay |
+| `WelcomeOverlay` | Onboarding welcome overlay |
 
-- React 18+, Next.js 14+
-- vanilla-extract
-- vaul, embla-carousel-react, react-icons
+---
 
-## 라이센스
+## Requirements
 
-MIT
+- **React** 18+
+- **Next.js** 14+
+- **Node.js** 18+
+
+This library is designed and optimized for **Next.js App Router**. It may work in other React environments, but is not officially supported.
+
+---
+
+## Tech Stack
+
+| | |
+| --- | --- |
+| Styling | [vanilla-extract](https://vanilla-extract.style/) — zero-runtime CSS-in-TypeScript |
+| Carousel | [embla-carousel-react](https://www.embla-carousel.com/) |
+| Bottom Sheet | [vaul](https://vaul.emilkowal.ski/) |
+| Icons | [react-icons](https://react-icons.github.io/react-icons/) |
+
+---
+
+## License
+
+MIT © [DaenggleJeju](https://www.daengglejeju.site)
