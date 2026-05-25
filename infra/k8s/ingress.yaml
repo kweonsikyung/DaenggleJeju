@@ -10,11 +10,11 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - daengglejeju.com
-        - www.daengglejeju.com
+        - daengglejeju.cloud
+        - www.daengglejeju.cloud
       secretName: daengglejeju-tls
   rules:
-    - host: daengglejeju.com
+    - host: daengglejeju.cloud
       http:
         paths:
           - path: /
@@ -24,7 +24,7 @@ spec:
                 name: daengglejeju-web
                 port:
                   number: 80
-    - host: www.daengglejeju.com
+    - host: www.daengglejeju.cloud
       http:
         paths:
           - path: /
