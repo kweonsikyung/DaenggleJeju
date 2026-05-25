@@ -1,5 +1,6 @@
 "use client";
 
+import { useModal } from "@daengglejeju/hooks";
 // components
 import {
   Button,
@@ -30,7 +31,6 @@ import { usePlaceFootprints } from "@/hooks/api/useFootprints";
 // hooks
 import { usePlaceFullDetail } from "@/hooks/api/usePlaces";
 import { usePostScrap } from "@/hooks/api/useScraps";
-import { useModal } from "@/hooks/useModal";
 import { getRandomAvatar } from "@/utils/getRandomAvatar";
 // utils
 import { callPhoneNumber, copyToClipboard } from "@/utils/interaction";

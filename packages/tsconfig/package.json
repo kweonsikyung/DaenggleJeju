@@ -1,0 +1,12 @@
+{
+  "name": "@daengglejeju/tsconfig",
+  "version": "0.0.1",
+  "description": "Shared TypeScript configurations for DaenggleJeju",
+  "private": true,
+  "files": [
+    "base.json",
+    "nextjs.json",
+    "library.json"
+  ],
+  "license": "MIT"
+}

@@ -1,9 +1,8 @@
 {
-  "extends": "@daengglejeju/tsconfig/library.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
   "compilerOptions": {
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "incremental": false
   },
   "exclude": ["**/*.stories.tsx", "**/*.stories.ts", "node_modules", "dist", "dist/**"]
 }

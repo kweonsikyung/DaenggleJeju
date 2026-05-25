@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
+    "@daengglejeju/tsconfig": "workspace:*",
     "@storybook/addon-a11y": "^10.1.11",
     "@storybook/addon-interactions": "^8.6.14",
     "@storybook/nextjs-vite": "^10.1.11",

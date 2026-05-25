@@ -1,5 +1,7 @@
 "use client";
 
+//hooks
+import { useTypingEffect } from "@daengglejeju/hooks";
 //components
 import {
   AiProfileHeader,
@@ -16,8 +18,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { NAV_ITEMS } from "@/constants/navData";
 import { usePostCareQuestion } from "@/hooks/api/useCare";
 import { useNotice } from "@/hooks/useNotice";
-//hooks
-import { useTypingEffect } from "@/hooks/useTypingEffect";
 
 //utils
 import { Topic, travelCareData } from "./_util";
@@ -63,6 +63,7 @@ export default function Page() {
       {
         id: "init-1",
         sender: "ai",
+
         content:
           "무엇이 궁금하신가요? 제주여행 중 반려견 건강 걱정은 AI 여행케어가 함께 덜어드릴게요. 먼저 아래에서 항목을 선택해 주세요.",
         options: initialTopics.map((topic) => ({ text: topic })),
@@ -80,6 +81,7 @@ export default function Page() {
           {
             id: `ai-${Date.now()}`,
             sender: "ai",
+
             content: typedAnswer,
           },
         ]);
