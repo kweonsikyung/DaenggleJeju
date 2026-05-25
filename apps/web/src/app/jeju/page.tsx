@@ -1,5 +1,6 @@
 "use client";
 
+import { useWebShare } from "@daengglejeju/hooks";
 import { NavBar, NoticeBox, ProgressCircle, TopBar } from "daenggle-ui";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,7 +8,6 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { RiShareLine } from "react-icons/ri";
 import { NAV_ITEMS } from "@/constants/navData";
 import { useNotice } from "@/hooks/useNotice";
-import { useWebShare } from "@daengglejeju/hooks";
 import { jejuOptions } from "./_util";
 import * as s from "./style.css";
 
