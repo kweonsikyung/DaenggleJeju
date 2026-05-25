@@ -7,7 +7,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["daenggle-ui"],
   output: "standalone",
   async rewrites() {
     return [

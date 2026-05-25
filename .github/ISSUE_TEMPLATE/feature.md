@@ -11,10 +11,37 @@ labels: enhancement
 ### Related Epic
 Epic: #<epic_number>
 
+---
+
+### In Scope
+<!-- What is explicitly included in this feature -->
+-
+
+### Out of Scope
+<!-- What is explicitly excluded — helps prevent scope creep -->
+-
+
+---
+
+### Implementation Plan
+<!-- Step-by-step breakdown of how to implement this feature -->
+1.
+2.
+3.
+
+---
+
 ### Acceptance Criteria
-- [ ] Criteria 1
-- [ ] Criteria 2
-- [ ] Criteria 3
+- [ ]
+- [ ]
+- [ ]
+
+### Test Plan
+<!-- How will this be verified? Include unit, integration, manual steps -->
+- [ ]
+- [ ]
+
+---
 
 ### Additional Context
 <!-- Add screenshots, references, or additional info -->

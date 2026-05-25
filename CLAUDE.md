@@ -71,3 +71,7 @@ apps/web/src/
 @.claude/rules/async-suspense-boundaries.md
 
 @.claude/rules/client-swr-dedup.md
+
+## 기술 문서 작성
+
+@.claude/rules/tech-writing-style.md

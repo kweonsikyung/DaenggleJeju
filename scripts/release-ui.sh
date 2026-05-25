@@ -44,64 +44,17 @@ if [ "$CHANGELOG_CHECK" != "y" ]; then
   exit 1
 fi
 
-# exports를 dist로 교체 (npm 배포용)
-echo "🔄 exports를 dist로 전환 중..."
-node -e "
-  const fs = require('fs');
-  const pkg = JSON.parse(fs.readFileSync('$PKG', 'utf8'));
-  pkg.main = './dist/index.js';
-  pkg.module = './dist/index.mjs';
-  pkg.types = './dist/index.d.ts';
-  pkg.exports = {
-    '.': {
-      types: './dist/index.d.ts',
-      import: './dist/index.mjs',
-      require: './dist/index.js',
-    }
-  };
-  fs.writeFileSync('$PKG', JSON.stringify(pkg, null, 2) + '\n');
-"
-echo "✅ exports dist로 전환 완료"
-
 # 빌드
 echo "📦 빌드 시작..."
 cd packages/daenggle-ui && pnpm build
 if [ $? -ne 0 ]; then
   echo "❌ 빌드 실패"
   cd ../..
-  node -e "
-    const fs = require('fs');
-    const pkg = JSON.parse(fs.readFileSync('$PKG', 'utf8'));
-    pkg.main = './src/index.ts';
-    pkg.module = './src/index.ts';
-    pkg.types = './src/index.ts';
-    pkg.exports = { '.': { types: './src/index.ts', import: './src/index.ts', require: './src/index.ts' } };
-    pkg.version = '$CURRENT_VERSION';
-    fs.writeFileSync('$PKG', JSON.stringify(pkg, null, 2) + '\n');
-  "
+  sed -i '' "s/\"version\": \"$NEW_VERSION\"/\"version\": \"$CURRENT_VERSION\"/" $PKG
   exit 1
 fi
 cd ../..
 echo "✅ 빌드 완료"
-
-# exports를 src로 복원 (모노레포용)
-echo "🔄 exports를 src로 복원 중..."
-node -e "
-  const fs = require('fs');
-  const pkg = JSON.parse(fs.readFileSync('$PKG', 'utf8'));
-  pkg.main = './src/index.ts';
-  pkg.module = './src/index.ts';
-  pkg.types = './src/index.ts';
-  pkg.exports = {
-    '.': {
-      types: './src/index.ts',
-      import: './src/index.ts',
-      require: './src/index.ts',
-    }
-  };
-  fs.writeFileSync('$PKG', JSON.stringify(pkg, null, 2) + '\n');
-"
-echo "✅ exports src로 복원 완료"
 
 # git 커밋
 git add packages/daenggle-ui/package.json packages/daenggle-ui/CHANGELOG.md packages/daenggle-ui/README.md
