@@ -2,10 +2,10 @@ import { vanillaExtractPlugin } from "@vanilla-extract/esbuild-plugin";
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/**/*.{ts,tsx}", "!src/**/*.stories.{ts,tsx}"],
+  entry: ["src/index.ts"],
   outDir: "dist",
   format: ["cjs", "esm"],
-  dts: false,
+  dts: true,
   clean: true,
   bundle: true,
   splitting: true,
@@ -21,6 +21,9 @@ export default defineConfig({
   ],
   tsconfig: "tsconfig.json",
   esbuildPlugins: [vanillaExtractPlugin()],
+  esbuildOptions(options) {
+    options.jsx = "automatic";
+  },
   banner: {
     js: '"use client";',
   },
