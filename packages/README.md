@@ -12,7 +12,20 @@
 
 ## 모노레포 내 개발
 
-내부 패키지는 모두 `dist/`를 통해 참조한다. `pnpm install` 시 `postinstall`이 자동으로 빌드함.
+내부 패키지는 npm에 배포돼 있어도 로컬 소스를 직접 참조한다. npm 버전을 설치해서 쓰면 코드를 고칠 때마다 배포 → 버전 업 → 재설치 사이클이 필요하기 때문.
+
+`workspace:*`로 선언하면 pnpm이 `node_modules/` 안에 로컬 패키지 폴더로 향하는 심볼릭 링크를 만든다. Node.js는 `node_modules/`만 탐색하므로, 이 링크 덕분에 로컬 패키지도 npm 패키지처럼 이름으로 import할 수 있다.
+
+```json
+// apps/web/package.json
+{ "dependencies": { "@daengglejeju/hooks": "workspace:*" } }
+```
+
+```
+node_modules/@daengglejeju/hooks  →  packages/daenggle-hooks/
+```
+
+내부 패키지는 모두 `dist/`를 내보낸다. `pnpm install` 시 `postinstall`이 자동으로 빌드함.
 
 ```sh
 pnpm install        # 설치 + postinstall → 내부 패키지 자동 빌드
