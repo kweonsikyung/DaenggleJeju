@@ -12,7 +12,7 @@
 
 ## 모노레포 내 개발
 
-내부 패키지는 모두 `dist/`를 내보내요. `pnpm install` 시 `postinstall`이 자동으로 빌드해줘요.
+내부 패키지는 모두 `dist/`를 통해 참조한다. `pnpm install` 시 `postinstall`이 자동으로 빌드함.
 
 ```sh
 pnpm install        # 설치 + postinstall → 내부 패키지 자동 빌드
