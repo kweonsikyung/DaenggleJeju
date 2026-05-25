@@ -56,16 +56,7 @@ jobs:
           if git ls-remote --tags origin "$TAG" | grep -q "$TAG"; then
             echo "Tag $TAG already exists, skipping"
           else
-            node -e "
-              const fs = require('fs');
-              const pkg = JSON.parse(fs.readFileSync('packages/daenggle-ui/package.json', 'utf8'));
-              pkg.main = './dist/index.js';
-              pkg.module = './dist/index.mjs';
-              pkg.types = './dist/index.d.ts';
-              pkg.exports = { '.': { types: './dist/index.d.ts', import: './dist/index.mjs', require: './dist/index.js' } };
-              fs.writeFileSync('packages/daenggle-ui/package.json', JSON.stringify(pkg, null, 2) + '\n');
-            "
-            pnpm build:ui
+            pnpm --filter daenggle-ui build
             cd packages/daenggle-ui && npm publish && cd ../..
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
