@@ -71,3 +71,9 @@ apps/web/src/
 @.claude/rules/async-suspense-boundaries.md
 
 @.claude/rules/client-swr-dedup.md
+
+## 기술 문서 작성
+
+위키, 트러블슈팅, 기술 블로그 등 문서를 작성할 때 아래 스타일을 따른다.
+
+@.claude/rules/tech-writing-style.md
