@@ -1,14 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@daengglejeju/tsconfig/nextjs.json",
   "compilerOptions": {
-    "noEmit": true,
-    "incremental": true,
     "types": ["@vanilla-extract/css"],
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": ["./src/*"]
     }

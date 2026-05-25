@@ -17,7 +17,7 @@ import { NAV_ITEMS } from "@/constants/navData";
 import { usePostCareQuestion } from "@/hooks/api/useCare";
 import { useNotice } from "@/hooks/useNotice";
 //hooks
-import { useTypingEffect } from "@/hooks/useTypingEffect";
+import { useTypingEffect } from "@daengglejeju/hooks";
 
 //utils
 import { Topic, travelCareData } from "./_util";
@@ -63,6 +63,7 @@ export default function Page() {
       {
         id: "init-1",
         sender: "ai",
+
         content:
           "무엇이 궁금하신가요? 제주여행 중 반려견 건강 걱정은 AI 여행케어가 함께 덜어드릴게요. 먼저 아래에서 항목을 선택해 주세요.",
         options: initialTopics.map((topic) => ({ text: topic })),
@@ -80,6 +81,7 @@ export default function Page() {
           {
             id: `ai-${Date.now()}`,
             sender: "ai",
+
             content: typedAnswer,
           },
         ]);
@@ -93,7 +95,10 @@ export default function Page() {
   }, []);
 
   /** event handlers */
-  const handleOptionSelect = (optionText: string, isSubTopic: boolean = false) => {
+  const handleOptionSelect = (
+    optionText: string,
+    isSubTopic: boolean = false,
+  ) => {
     setChatHistory((prev) => [
       ...prev.map((msg) => ({ ...msg, options: undefined })),
       {
@@ -129,7 +134,10 @@ export default function Page() {
           aiResponse = {
             id: `ai-${Date.now()}`,
             sender: "ai",
-            content: conversation.answers[optionText as keyof typeof conversation.answers],
+            content:
+              conversation.answers[
+                optionText as keyof typeof conversation.answers
+              ],
             // 최종 답변 후에는 다시 초기 토픽을 보여줌
             options: initialTopics.map((topic) => ({ text: topic })),
           };
@@ -150,7 +158,10 @@ export default function Page() {
     // 대화 기록을 역순으로 탐색하여 가장 최근의 메인 토픽을 찾음
     for (let i = chatHistory.length - 1; i >= 0; i--) {
       const message = chatHistory[i];
-      if (message.sender === "user" && initialTopics.includes(message.content as Topic)) {
+      if (
+        message.sender === "user" &&
+        initialTopics.includes(message.content as Topic)
+      ) {
         return message.content as Topic;
       }
     }
@@ -172,7 +183,7 @@ export default function Page() {
       setTypingContent(response.message.markdown);
     } catch (_error) {
       setTypingContent(
-        "죄송해요, 답변을 생성하는 데 문제가 발생했어요. 잠시 후 다시 시도해 주세요."
+        "죄송해요, 답변을 생성하는 데 문제가 발생했어요. 잠시 후 다시 시도해 주세요.",
       );
     }
   };
@@ -191,9 +202,10 @@ export default function Page() {
             onClose={hideNotice}
             variant="blue"
           >
-            본 챗봇은 자동화된 정보 제공 시스템으로, 간혹 부정확하거나 불완전한 내용이 포함될 수
-            있습니다. 제공되는 정보에 대해 본 서비스를 통해 책임을 지지 않으며, 최종 판단은 사용자가
-            직접 확인 후 진행해 주시기 바랍니다.
+            본 챗봇은 자동화된 정보 제공 시스템으로, 간혹 부정확하거나 불완전한
+            내용이 포함될 수 있습니다. 제공되는 정보에 대해 본 서비스를 통해
+            책임을 지지 않으며, 최종 판단은 사용자가 직접 확인 후 진행해 주시기
+            바랍니다.
           </NoticeBox>
         </div>
 
@@ -250,7 +262,11 @@ export default function Page() {
         <ChatInput onSend={handleFreeFormSubmit} disabled={isInputDisabled} />
       </div>
 
-      <NavBar activeId="ai" items={NAV_ITEMS} onNavigate={(path) => router.push(path)} />
+      <NavBar
+        activeId="ai"
+        items={NAV_ITEMS}
+        onNavigate={(path) => router.push(path)}
+      />
     </div>
   );
 }

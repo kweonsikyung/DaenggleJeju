@@ -7,7 +7,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { RiShareLine } from "react-icons/ri";
 import { NAV_ITEMS } from "@/constants/navData";
 import { useNotice } from "@/hooks/useNotice";
-import { useWebShare } from "@/hooks/useWebShare";
+import { useWebShare } from "@daengglejeju/hooks";
 import { jejuOptions } from "./_util";
 import * as s from "./style.css";
 
@@ -32,6 +32,7 @@ function JejuPageContent() {
     if (!type) {
       return { currentOption: null, imageCount: 0 };
     }
+
     const option = jejuOptions.find((option) => option.type === type);
     return {
       currentOption: option || null,
@@ -79,6 +80,7 @@ function JejuPageContent() {
           rightIcons={[
             {
               icon: <RiShareLine size={24} />,
+
               onClick: handleShare,
             },
           ]}
@@ -103,6 +105,7 @@ function JejuPageContent() {
                     <ProgressCircle size={40} active className={s.spinner} color="#a5fbc5ff" />
                   </div>
                 )}
+
                 <Image
                   src={`/assets/jeju/${type}/${num}.png`}
                   alt={`${currentOption.title} 상세 이미지 ${num}`}

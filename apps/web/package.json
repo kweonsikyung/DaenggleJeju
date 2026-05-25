@@ -26,6 +26,8 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
+    "@daengglejeju/hooks": "workspace:*",
+    "@daengglejeju/tsconfig": "workspace:*",
     "@next/bundle-analyzer": "^16.2.6",
     "@size-limit/preset-small-lib": "^12.1.0",
     "@svgr/webpack": "^8.1.0",
