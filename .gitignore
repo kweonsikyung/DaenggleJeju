@@ -22,6 +22,7 @@ coverage
 
 # package build output
 packages/daenggle-ui/dist/
+packages/daenggle-hooks/dist/
 
 # misc
 .DS_Store
