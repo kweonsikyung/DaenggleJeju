@@ -48,13 +48,35 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Deploy to k3s via SSH
-        uses: appleboy/ssh-action@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy k8s manifests to server
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.K3S_HOST }}
           username: ${{ secrets.K3S_USER }}
           key: ${{ secrets.K3S_SSH_KEY }}
+          source: "infra/k8s/"
+          target: "/tmp/daengglejeju"
+
+      - name: Deploy to k3s via SSH
+        uses: appleboy/ssh-action@v1
+        env:
+          CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_TAG: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          GH_ACTOR: ${{ github.actor }}
+        with:
+          host: ${{ secrets.K3S_HOST }}
+          username: ${{ secrets.K3S_USER }}
+          key: ${{ secrets.K3S_SSH_KEY }}
+          envs: CR_TOKEN,IMAGE_TAG,GH_ACTOR
           script: |
-            kubectl set image deployment/daengglejeju-web \
-              web=${{ env.IMAGE_NAME }}:${{ github.sha }}
+            kubectl create secret docker-registry ghcr-secret \
+              --docker-server=ghcr.io \
+              --docker-username=$GH_ACTOR \
+              --docker-password=$CR_TOKEN \
+              --dry-run=client -o yaml | kubectl apply -f -
+            kubectl apply -f /tmp/daengglejeju/infra/k8s/
+            kubectl set image deployment/daengglejeju-web web=$IMAGE_TAG
             kubectl rollout status deployment/daengglejeju-web --timeout=120s
