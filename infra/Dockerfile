@@ -19,6 +19,13 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 
 FROM base AS builder
 
+ARG NEXT_PUBLIC_KAKAOMAP_API_KEY
+ARG NEXT_PUBLIC_SITE_URL
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_KAKAOMAP_API_KEY=$NEXT_PUBLIC_KAKAOMAP_API_KEY
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=deps /app/packages/daenggle-ui/node_modules ./packages/daenggle-ui/node_modules

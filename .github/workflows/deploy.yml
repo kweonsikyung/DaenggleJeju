@@ -46,6 +46,10 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_KAKAOMAP_API_KEY=${{ secrets.NEXT_PUBLIC_KAKAOMAP_API_KEY }}
+            NEXT_PUBLIC_SITE_URL=https://daengglejeju.site
+            NEXT_PUBLIC_API_URL=https://daengglejeju.site/api/v1
 
   deploy:
     name: 🚀 Deploy to k3s
