@@ -21,6 +21,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      actions: write
 
     steps:
       - name: Checkout
@@ -50,6 +51,8 @@ jobs:
             NEXT_PUBLIC_KAKAOMAP_API_KEY=${{ secrets.NEXT_PUBLIC_KAKAOMAP_API_KEY }}
             NEXT_PUBLIC_SITE_URL=https://daengglejeju.site
             NEXT_PUBLIC_API_URL=https://daengglejeju.site/api/v1
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     name: 🚀 Deploy to k3s
