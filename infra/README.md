@@ -149,7 +149,7 @@ GHCR에 push된 `:latest` 이미지를 로컬에서 실행해 `main` 배포 전 
   docker login ghcr.io -u <GitHub 유저명>
   # Password: GHCR_TOKEN (PAT)
   ```
-- 레포 루트에 `.env.local` 파일 존재 (`NEXT_PUBLIC_*` 환경변수 포함)
+- `apps/web/.env.local` 파일 존재 (`NEXT_PUBLIC_*` 환경변수 포함)
 
 ### 실행 방법
 
