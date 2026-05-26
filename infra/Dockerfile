@@ -1,9 +1,9 @@
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.14.0 --activate
 
 WORKDIR /app
 
@@ -12,21 +12,25 @@ FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/web/package.json ./apps/web/package.json
 COPY packages/daenggle-ui/package.json ./packages/daenggle-ui/package.json
+COPY packages/daenggle-hooks/package.json ./packages/daenggle-hooks/package.json
+COPY packages/tsconfig/package.json ./packages/tsconfig/package.json
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 FROM base AS builder
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=deps /app/packages/daenggle-ui/node_modules ./packages/daenggle-ui/node_modules
+COPY --from=deps /app/packages/daenggle-hooks/node_modules ./packages/daenggle-hooks/node_modules
 
 COPY . .
 
 RUN pnpm --filter daenggle-ui build
+RUN pnpm --filter @daengglejeju/hooks build
 RUN pnpm --filter web build
 
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 

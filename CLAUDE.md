@@ -1,5 +1,7 @@
 # DaenggleJeju Client
 
+**GitHub 레포: `kweonsikyung/DaenggleJeju`** — `gh` 명령 시 항상 이 레포 사용
+
 pnpm 모노레포 — `packages/daenggle-ui` (컴포넌트 라이브러리) + `apps/web` (Next.js 15 App Router)
 
 ## 기술 스택
@@ -15,52 +17,31 @@ pnpm 모노레포 — `packages/daenggle-ui` (컴포넌트 라이브러리) + `a
 ```
 packages/
   daenggle-ui/src/
-    atoms/        # 단일 역할 UI 단위 (Button, Chip, TextField …)
-    molecules/    # atoms 조합, 특정 기능 보유 (SearchHeader, FilterSection …)
-    views/        # 페이지 섹션급 복합 뷰 (Skeleton 그룹 등)
-    styles/       # 전역 색상·타이포 토큰 (COLORS, TYPO)
+    atoms/        # 단일 역할 UI 단위
+    molecules/    # atoms 조합, 특정 기능 보유
+    views/        # 페이지 섹션급 복합 뷰
+    styles/       # 전역 색상·타이포 토큰
     index.ts      # named export만, export default 금지
 
 apps/web/src/
-  app/            # Next.js App Router 라우트
-    {page}/
-      page.tsx        # 라우트 진입점 — UI만, 로직은 훅으로
-      layout.tsx      # (필요 시)
-      loading.tsx     # 반드시 작성 — 빈 화면 금지
-      style.css.ts    # 해당 페이지 전용 vanilla-extract 스타일
-      _util.ts        # 해당 페이지 전용 상수·유틸 (라우팅 대상 아님)
-      ui/             # 해당 페이지 전용 컴포넌트 (다른 페이지에서 안 씀)
-  ui/                 # 앱 전용 공유 UI (여러 페이지에서 재사용, daenggle-ui엔 안 어울림)
-    atoms/            # 단일 역할 UI 단위 (Button, Chip, TextField …)
-    molecules/        # atoms 조합, 특정 기능 보유 (SearchHeader, FilterSection …)
-    views/            # 페이지 섹션급 복합 뷰 (Skeleton 그룹 등)
-  components/         # Provider·Portal·Context 등 UI가 아닌 래퍼 패턴
-    providers/        # (예: SWRProvider)
-  api/                # API 호출 함수 (도메인별 파일)
-  hooks/    
-    api/              # SWR 기반 데이터 훅 (useAuth, usePlaces …)
-    *.ts              # 그 외 범용 훅 (useKakaoMap, useModal …)
-  stores/             # 전역 클라이언트 상태 (Zustand)
-  constants/          # 전역 상수 (navData, routes 등)
-  types/              # 도메인 타입 정의 (camelCase 파일명)
-  utils/              # 순수 유틸 함수 (camelCase 파일명)
-  lib/                # 외부 라이브러리 설정 (swr fetcher 등) — 배럴 export 금지
-  styles/             # 앱 레벨 vanilla-extract 토큰 (colors, typography)
+  app/{page}/
+    page.tsx      # 라우트 진입점 — UI만, 로직은 훅으로
+    loading.tsx   # 반드시 작성 — 빈 화면 금지
+    style.css.ts  # 페이지 전용 vanilla-extract 스타일
+    ui/           # 페이지 전용 컴포넌트
+  ui/             # 앱 전용 공유 UI (atoms / molecules / views)
+  components/     # Provider·Portal·Context 래퍼
+  api/            # API 호출 함수 (도메인별 파일)
+  hooks/          # SWR 데이터 훅(api/) + 범용 훅
+  stores/         # 전역 클라이언트 상태 (Zustand)
+  constants/      # 전역 상수
+  types/          # 도메인 타입 (camelCase 파일명)
+  utils/          # 순수 유틸 함수 (camelCase 파일명)
+  lib/            # 외부 라이브러리 설정 — 배럴 export 금지
+  styles/         # 앱 레벨 vanilla-extract 토큰
 ```
 
-### 컴포넌트 위치 판단 기준
-
-| 조건 | 위치 |
-|---|---|
-| 다른 프로젝트에서도 쓸 수 있는 범용 UI | `packages/daenggle-ui/src/` |
-| 이 앱 전용이지만 여러 페이지에서 재사용 | `apps/web/src/ui/` |
-| 특정 페이지에서만 사용 | `app/{page}/ui/` |
-
-의존 방향: `atoms → molecules → views` (역방향 금지)
-
-## 핵심 규칙
-
-코드 작성·수정·리뷰 시 아래 규칙을 항상 적용한다.
+## 코드 규칙
 
 @.claude/commands/refactor.md
 
@@ -72,6 +53,18 @@ apps/web/src/
 
 @.claude/rules/client-swr-dedup.md
 
-## 기술 문서 작성
+## Git
+
+Gitflow — 이슈 생성 → feature/fix 브랜치 → PR → 유저가 직접 머지 (`gh pr merge` 금지)
+
+## 이슈 · PR 작성 규칙
+
+- **존댓말** 사용 (합니다/됩니다/했습니다)
+- 이슈: `.github/ISSUE_TEMPLATE/` 형식 그대로 준수
+- PR: `.github/PULL_REQUEST_TEMPLATE.md` 형식 그대로 준수 (Summary / Related Issues / Changes / Impact 섹션)
+
+## 위키 작성
+
+위키·기술 블로그 작성 시 아래 규칙 적용. README·코드 주석에는 적용하지 않음.
 
 @.claude/rules/tech-writing-style.md

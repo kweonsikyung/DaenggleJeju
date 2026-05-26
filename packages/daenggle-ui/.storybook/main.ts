@@ -22,6 +22,16 @@ const config: StorybookConfig = {
         "@": path.resolve(__dirname, "../src"),
       },
     };
+    config.build = {
+      ...(config.build ?? {}),
+      rollupOptions: {
+        ...(config.build?.rollupOptions ?? {}),
+        onwarn(warning, warn) {
+          if (warning.code === "MODULE_LEVEL_DIRECTIVE") return;
+          warn(warning);
+        },
+      },
+    };
     return config;
   },
 };

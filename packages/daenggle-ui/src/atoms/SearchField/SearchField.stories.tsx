@@ -1,7 +1,7 @@
 "use client";
 
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { expect, fn, userEvent, within } from "@storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
 import { SearchField } from "./SearchField";
 
 const meta = {
@@ -11,12 +11,14 @@ const meta = {
     layout: "centered",
   },
   tags: ["autodocs"],
+
   args: {
     onChange: fn(),
     onBlur: fn(),
     onFocus: fn(),
     onClear: fn(),
   },
+
   decorators: [
     (Story) => (
       <div style={{ width: 375, padding: "20px" }}>
@@ -24,6 +26,7 @@ const meta = {
       </div>
     ),
   ],
+
   argTypes: {
     placeholder: { control: "text" },
     value: { control: "text" },
@@ -93,6 +96,7 @@ export const Error: Story = {
     error: "존재하지 않는 지역입니다.",
     defaultValue: "서울",
   },
+
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const errorMsg = canvas.getByText("존재하지 않는 지역입니다.");

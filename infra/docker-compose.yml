@@ -1,27 +1,10 @@
 services:
   web:
+    image: ghcr.io/kweonsikyung/daengglejeju:latest
+    platform: linux/amd64
     container_name: daengglejeju-web
-    build:
-      context: .
-      dockerfile: Dockerfile
-    expose:
-      - "3000"
-    restart: unless-stopped
-
-  caddy:
-    image: caddy:2-alpine
-    container_name: daengglejeju-caddy
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - web
+      - "3000:3000"
+    env_file:
+      - ../apps/web/.env.local
     restart: unless-stopped
-
-volumes:
-  caddy_data:
-  caddy_config:
