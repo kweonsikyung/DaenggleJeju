@@ -1,11 +1,11 @@
 services:
   web:
+    image: ghcr.io/kweonsikyung/daengglejeju:latest
     container_name: daengglejeju-web
-    build:
-      context: .
-      dockerfile: Dockerfile
     expose:
       - "3000"
+    env_file:
+      - ../.env.local
     restart: unless-stopped
 
   caddy:
