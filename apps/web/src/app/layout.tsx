@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "daenggle-ui/styles";
 import localFont from "next/font/local";
 import Script from "next/script";
 import { IconProvider } from "@/components/providers/IconProvider";
