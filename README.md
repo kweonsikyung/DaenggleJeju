@@ -164,6 +164,7 @@ Tags are created only on `main` — a tag means "this version is in production."
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
 | `ci.yml` | push / PR → develop, main | Lint, typecheck, build UI, build web |
+| `deploy.yml` | push → develop | Build Docker image → push to GHCR → update image tag in manifest |
 | `storybook.yml` | push → develop | Chromatic visual tests |
 | `release.yml` | push → main | Auto-tag + npm publish (triggered by release commit message) |
 
@@ -171,6 +172,7 @@ Tags are created only on `main` — a tag means "this version is in production."
 
 | Secret | Used by |
 | --- | --- |
+| `GHCR_TOKEN` | `deploy.yml` (GHCR push) |
 | `CHROMATIC_PROJECT_TOKEN` | `storybook.yml` |
 | `NPM_TOKEN` | `release.yml` (daenggle-ui publish) |
 
@@ -280,20 +282,23 @@ git commit -m "button fix"
 
 # Deployment
 
-This project is deployed with Docker Compose.
+Production runs on **AWS EC2 + k3s**, deployed via **ArgoCD GitOps**.
+
+```
+develop push
+  → GitHub Actions: build image + push GHCR + update infra/k8s/deployment.yaml
+  → PR develop → main
+  → ArgoCD detects manifest diff → auto-deploy to k3s
+```
+
+Local staging uses Docker Compose with the same GHCR image as production.
 
 ```bash
-docker compose up -d --build
+# infra/ directory
+docker compose pull && docker compose up
 ```
 
-Planned production deployment stack:
-
-```
-Docker Compose
-Caddy
-Next.js standalone server
-```
-
+> 👀 For full infra details → [infra/README.md](infra/README.md)  
 > 👀 For bundle size budgets & history → [.bundle/README.md](.bundle/README.md)
 
 ## Common Commands
