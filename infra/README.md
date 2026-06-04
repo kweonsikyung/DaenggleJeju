@@ -16,13 +16,40 @@
 
 ---
 
+## 레포 구성
+
+인프라는 두 레포가 역할을 나눠 관리한다.
+
+| 레포 | 관리 대상 | 적용 방법 |
+|---|---|---|
+| [`daengglejeju-infra`](https://github.com/kweonsikyung/daengglejeju-infra) | AWS 리소스 (EC2, CloudFront, VPC, Route53, ACM) + ArgoCD 설치·설정 | `terraform apply` (1회성 프로비저닝) |
+| 이 레포 (`infra/k8s/`) | 앱 배포 매니페스트 (Deployment, Service, Ingress 등) | ArgoCD가 이 경로를 감시 → 자동 클러스터 반영 |
+
+```
+daengglejeju-infra
+├── *.tf          ← EC2·CloudFront·VPC 등 AWS 리소스
+└── argocd/       ← 클러스터에 ArgoCD 붙이는 단계 (최초 1회)
+
+DaenggleJeju/infra/         ← 이 레포
+├── Dockerfile / docker-compose.yml
+└── k8s/          ← 앱 K8s 매니페스트 (ArgoCD가 감시)
+```
+
+---
+
 ## 아키텍처 개요
 
 ```
-                  AWS EC2 / k3s
+  유저
+   |
+   v
+AWS CloudFront (CDN, HTTPS 강제, 정적 자산 캐시)
+   |
+   v (HTTP, port 80)
+AWS EC2 / k3s
   +--------------------------------------------------+
   |                                                  |
-  |  Internet → Traefik Ingress (443/80)             |
+  |  Traefik Ingress (80/443)                        |
   |                    |                             |
   |             cert-manager (Let's Encrypt TLS)     |
   |                    |                             |
@@ -34,6 +61,8 @@
   |                                                  |
   +--------------------------------------------------+
 ```
+
+> **HTTPS 처리 위치**: 뷰어 HTTPS 강제는 CloudFront(`viewer_protocol_policy = redirect-to-https`)가 담당한다. CloudFront → Origin 구간은 HTTP(port 80)로 통신하므로 Traefik 레벨에서 별도 HTTP→HTTPS 리다이렉트를 하면 CloudFront가 자신의 alias로 돌아오는 셀프 루프를 감지해 504를 반환한다.
 
 ---
 
@@ -85,7 +114,7 @@ infra/
     service.yaml        # ClusterIP 서비스 (포트 80 → 컨테이너 3000)
     ingress.yaml        # Traefik Ingress (도메인 라우팅, TLS 어노테이션)
     cert-issuer.yaml    # cert-manager ClusterIssuer (Let's Encrypt ACME)
-    middleware.yaml     # Traefik HTTP→HTTPS 리다이렉트 미들웨어
+    middleware.yaml     # Traefik 미들웨어 정의 (현재 미사용 — 향후 확장용)
 ```
 
 ---
@@ -129,7 +158,7 @@ kubectl create secret docker-registry ghcr-secret \
 - **컨트롤러**: Traefik (k3s 기본 내장)
 - **도메인**: `daengglejeju.cloud`, `www.daengglejeju.cloud`
 - **TLS**: cert-manager가 Let's Encrypt 인증서를 자동 발급/갱신합니다.
-- **HTTP → HTTPS 리디렉트**: `default-redirect-https` Traefik 미들웨어 적용
+- **HTTP → HTTPS 리디렉트**: CloudFront `viewer_protocol_policy`가 담당. Traefik 레벨 리다이렉트는 적용하지 않음 (CloudFront 셀프 루프 → 504 유발)
 
 ### cert-issuer
 
