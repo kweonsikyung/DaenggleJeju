@@ -1,2 +1,3 @@
 pnpm lint-staged
 pnpm run dedupe:check
+pnpm --filter web check:i18n
