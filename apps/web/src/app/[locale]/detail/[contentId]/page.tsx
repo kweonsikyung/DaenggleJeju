@@ -12,6 +12,7 @@ import {
   NavBar,
   TopBar,
 } from "daenggle-ui";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
@@ -34,6 +35,7 @@ import { usePostScrap } from "@/hooks/api/useScraps";
 import { getRandomAvatar } from "@/utils/getRandomAvatar";
 // utils
 import { callPhoneNumber, copyToClipboard } from "@/utils/interaction";
+import { formatNumber } from "@/utils/formatLocale";
 import * as s from "./style.css";
 
 const MAX_LENGTH = 200;
@@ -45,6 +47,9 @@ const MAX_LENGTH = 200;
 function PlaceDetailClient({ contentId }: { contentId: number }) {
   /** router */
   const router = useRouter();
+  const { locale } = useParams<{ locale: string; contentId: string }>();
+
+  const t = useTranslations("place");
 
   /** state */
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -228,7 +233,7 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
                       <span className={s.statText}>0</span>
                       <span className={s.statText}>·</span>
                       <RiBookmarkFill size={12} />
-                      <span className={s.statText}>{data.scrapCount}</span>
+                      <span className={s.statText}>{formatNumber(data.scrapCount, locale)}</span>
                     </div>
                   </div>
                   <div className={s.infoTagGroup}>
@@ -339,7 +344,7 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
         <section className={s.section}>
           <div className={s.sectionHeader}>
             <h2 className={s.sectionTitle}>
-              발자국 인증 ({isFootprintsLoading ? "..." : reviewStats.total})
+              {isFootprintsLoading ? t("footprintTab", { count: 0 }) : t("footprintTab", { count: reviewStats.total })}
             </h2>
             <span
               className={s.sectionActionText}
@@ -352,7 +357,7 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
                 }
               }}
             >
-              발자국 남기기
+              {t("leaveFootprint")}
             </span>
           </div>
 
@@ -370,7 +375,7 @@ function PlaceDetailClient({ contentId }: { contentId: number }) {
                 </div>
                 <span>{isFootprintsLoading ? "..." : reviewStats.average.toFixed(1)}</span>
               </div>
-              <p className={s.reviewCount}>{reviewStats.total}개의 평가</p>
+              <p className={s.reviewCount}>{t("reviewCount", { count: reviewStats.total })}</p>
             </div>
           )}
 

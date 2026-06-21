@@ -20,7 +20,10 @@
   "place": {
     "loadingInfo": "Loading information",
     "firstReview": "Be the first to write a review for this place.",
-    "errorReviews": "Failed to load reviews."
+    "errorReviews": "Failed to load reviews.",
+    "reviewCount": "{count, plural, =0 {No ratings} one {# rating} other {# ratings}}",
+    "footprintTab": "{count, plural, =0 {Footprint Reviews} other {Footprint Reviews ({count})}}",
+    "leaveFootprint": "Leave a footprint"
   },
   "search": {
     "noResults": "Try changing the filters or search with different keywords.",
