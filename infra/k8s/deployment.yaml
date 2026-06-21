@@ -19,7 +19,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: web
-          image: ghcr.io/kweonsikyung/daengglejeju:sha-107ae04c5884b4cf17f9a0d206ba85619b48e30e
+          image: ghcr.io/kweonsikyung/daengglejeju:sha-4902e86723e4471b970ad1a763bb679fc6c50444
           ports:
             - containerPort: 3000
           env:
