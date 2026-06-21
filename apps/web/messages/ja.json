@@ -1,0 +1,52 @@
+{
+  "common": {
+    "loading": "로딩 중",
+    "loadingEllipsis": "불러오는 중…",
+    "loadingWait": "잠시만 기다려 주세요.",
+    "error": "서버와 통신 중 문제가 발생했습니다.",
+    "retry": "다시 시도해주세요.",
+    "retryLater": "잠시 후 다시 시도해주세요."
+  },
+  "metadata": {
+    "title": "댕글제주",
+    "description": "15초 영상 추천 반려견 여행 앱"
+  },
+  "map": {
+    "filterLabel": "필터",
+    "loadingRecommended": "추천 장소 로딩 중",
+    "errorRecommended": "추천 장소를 불러오지 못했습니다.",
+    "preparing": "댕댕이와 함께할 여행을 준비하고 있어요"
+  },
+  "place": {
+    "loadingInfo": "정보를 불러오고 있습니다",
+    "firstReview": "이 장소에 대한 첫 번째 리뷰를 작성해보세요.",
+    "errorReviews": "리뷰를 불러오는 중 문제가 발생했습니다."
+  },
+  "search": {
+    "noResults": "조건을 변경하거나 다른 검색어로 다시 시도해 보세요.",
+    "popularRegions": "최근 많이 찾는 인기 지역"
+  },
+  "dangle": {
+    "trending": "요즘 뜨는 댕글 TOP 10",
+    "accommodations": "짖어도 OK! 소음 안심 독채 숙소",
+    "noResults": "검색된 댕글 영상이 없습니다.",
+    "errorAccommodations": "숙소 로딩 실패",
+    "errorTrending": "트랜딩 로딩 실패"
+  },
+  "my": {
+    "title": "마이댕글",
+    "loginPrompt": "견주님",
+    "registerProfile": "프로필을 등록해주세요.",
+    "footprints": {
+      "empty": "첫 발자국을 남겨주세요",
+      "error": "발자국 목록을 불러오지 못했습니다."
+    }
+  },
+  "care": {
+    "title": "여행케어 AI",
+    "description": "빠르게 찾는 반려견 건강 정보"
+  },
+  "jeju": {
+    "tagline": "진짜 견주가 다녀온 제주 여행!"
+  }
+}

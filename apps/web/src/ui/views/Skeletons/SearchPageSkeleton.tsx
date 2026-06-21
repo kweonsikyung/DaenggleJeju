@@ -1,5 +1,5 @@
 import { Skeleton } from "daenggle-ui";
-import * as s from "@/app/search/style.css";
+import * as s from "@/app/[locale]/search/style.css";
 
 function DanglePlaySkeleton() {
   return (
