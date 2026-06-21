@@ -6,7 +6,7 @@
 
 - [아키텍처 개요](#아키텍처-개요)
 - [환경 구성 배경](#환경-구성-배경)
-- [브랜치 전략](#브랜치-전략)
+- [배포 파이프라인](#배포-파이프라인)
 - [디렉터리 구조](#디렉터리-구조)
 - [Dockerfile](#dockerfile)
 - [k8s 매니페스트](#k8s-매니페스트)
@@ -16,29 +16,53 @@
 
 ---
 
+## 레포 구성
+
+인프라는 두 레포가 역할을 나눠 관리한다.
+
+| 레포 | 관리 대상 | 적용 방법 |
+|---|---|---|
+| [`daengglejeju-infra`](https://github.com/kweonsikyung/daengglejeju-infra) | AWS 리소스 (EC2, CloudFront, VPC, Route53, ACM) + ArgoCD 설치·설정 | `terraform apply` (1회성 프로비저닝) |
+| 이 레포 (`infra/k8s/`) | 앱 배포 매니페스트 (Deployment, Service, Ingress 등) | ArgoCD가 이 경로를 감시 → 자동 클러스터 반영 |
+
+```
+daengglejeju-infra
+├── *.tf          ← EC2·CloudFront·VPC 등 AWS 리소스
+└── argocd/       ← 클러스터에 ArgoCD 붙이는 단계 (최초 1회)
+
+DaenggleJeju/infra/         ← 이 레포
+├── Dockerfile / docker-compose.yml
+└── k8s/          ← 앱 K8s 매니페스트 (ArgoCD가 감시)
+```
+
+---
+
 ## 아키텍처 개요
 
 ```
-[develop push]                        [main push]
-      |                                     |
-      v                                     v
-Docker 빌드 + GHCR push             k3s 프로덕션 배포
-(:latest, :<sha>)                   (:latest rollout)
-
-
-                  AWS EC2 / k3s
-  +------------------------------------------------+
-  |                                                |
-  |  Internet --> Traefik Ingress (443/80)         |
-  |                    |                           |
-  |             cert-manager (Let's Encrypt TLS)   |
-  |                    |                           |
-  |             ClusterIP Service (80 -> 3000)     |
-  |                    |                           |
-  |             Next.js Pod (ghcr.io image)        |
-  |                                                |
-  +------------------------------------------------+
+  유저
+   |
+   v
+AWS CloudFront (CDN, HTTPS 강제, 정적 자산 캐시)
+   |
+   v (HTTP, port 80)
+AWS EC2 / k3s
+  +--------------------------------------------------+
+  |                                                  |
+  |  Traefik Ingress (80/443)                        |
+  |                    |                             |
+  |             cert-manager (Let's Encrypt TLS)     |
+  |                    |                             |
+  |             ClusterIP Service (80 → 3000)        |
+  |                    |                             |
+  |             Next.js Pod (ghcr.io image)          |
+  |                    ↑                             |
+  |             ArgoCD (GitOps auto-sync)            |
+  |                                                  |
+  +--------------------------------------------------+
 ```
+
+> **HTTPS 처리 위치**: 뷰어 HTTPS 강제는 CloudFront(`viewer_protocol_policy = redirect-to-https`)가 담당한다. CloudFront → Origin 구간은 HTTP(port 80)로 통신하므로 Traefik 레벨에서 별도 HTTP→HTTPS 리다이렉트를 하면 CloudFront가 자신의 alias로 돌아오는 셀프 루프를 감지해 504를 반환한다.
 
 ---
 
@@ -46,20 +70,36 @@ Docker 빌드 + GHCR push             k3s 프로덕션 배포
 
 [12-Factor App의 Dev/Prod Parity](https://12factor.net/dev-prod-parity) 원칙에 따라 로컬과 프로덕션이 동일한 Docker 이미지를 사용하도록 구성했습니다. "로컬에서 됐는데 프로덕션에서 안 됨" 류의 환경 차이 버그를 근본적으로 차단하는 것이 목적입니다.
 
-- **로컬 (Docker Compose)**: 별도 스테이징 서버 없이 GHCR `:latest` 이미지를 pull해 검증. 프로덕션과 동일한 아티팩트로 앱 레벨 동작을 확인
-- **프로덕션 (k3s)**: Docker Compose 대비 롤링 업데이트·파드 셀프힐링 기본 제공. 단일 서버에서 프로덕션 수준 신뢰성 확보
-- **빌드/배포 분리**: `develop` → 빌드만, `main` → 배포만. 검증되지 않은 코드가 프로덕션에 즉시 반영되는 위험 차단
+- **로컬 (Docker Compose)**: 별도 스테이징 서버 없이 GHCR 이미지를 pull해 검증. 프로덕션과 동일한 아티팩트로 앱 레벨 동작을 확인
+- **프로덕션 (k3s)**: ArgoCD가 Git 매니페스트를 감지해 자동 배포. 롤링 업데이트·자동 롤백 제공
+- **빌드/배포 분리**: `develop` → 빌드만, `main` → ArgoCD 자동 배포. 검증되지 않은 코드가 프로덕션에 즉시 반영되는 위험 차단
 
 ---
 
-## 브랜치 전략
+## 배포 파이프라인
+
+```
+[develop push]
+      |
+      v
+GitHub Actions (deploy.yml)
+  1. Docker 이미지 빌드
+  2. GHCR push (:latest, :sha-<SHA>)
+  3. infra/k8s/deployment.yaml 이미지 태그 업데이트 → develop 커밋
+
+[PR: develop → main 머지]
+      |
+      v
+ArgoCD (daengglejeju-infra 레포에서 관리)
+  - main 브랜치 infra/k8s/ 변경 감지
+  - k3s 자동 배포 (automated sync + selfHeal + prune)
+  - 실패 시 자동 롤백
+```
 
 | 브랜치 | 트리거 | 수행 작업 |
 |---|---|---|
-| `develop` | push | Docker 이미지 빌드 → GHCR push (`:latest`, `:<sha>` 태그) |
-| `main` | push | k3s 클러스터에 `:latest` 이미지 rollout |
-
-`develop → main` PR 머지가 곧 프로덕션 배포 트리거입니다. `main`에 직접 push하지 않습니다.
+| `develop` | push | 이미지 빌드 → GHCR push → deployment.yaml 태그 업데이트 |
+| `main` | PR 머지 | ArgoCD가 매니페스트 diff 감지 → k3s 자동 배포 |
 
 ---
 
@@ -68,12 +108,13 @@ Docker 빌드 + GHCR push             k3s 프로덕션 배포
 ```
 infra/
   Dockerfile            # Next.js standalone 멀티스테이지 빌드
-  docker-compose.yml    # 로컬 스테이징 환경 (GHCR :latest 이미지)
+  docker-compose.yml    # 로컬 스테이징 환경 (GHCR 이미지)
   k8s/
-    deployment.yaml     # Deployment 스펙 (파드, 리소스 제한, imagePullSecret)
+    deployment.yaml     # Deployment 스펙 (이미지 태그는 CI가 자동 업데이트)
     service.yaml        # ClusterIP 서비스 (포트 80 → 컨테이너 3000)
     ingress.yaml        # Traefik Ingress (도메인 라우팅, TLS 어노테이션)
     cert-issuer.yaml    # cert-manager ClusterIssuer (Let's Encrypt ACME)
+    middleware.yaml     # Traefik 미들웨어 정의 (현재 미사용 — 향후 확장용)
 ```
 
 ---
@@ -86,10 +127,8 @@ Next.js `output: "standalone"` 옵션을 활용한 멀티스테이지 빌드입�
 |---|---|
 | `base` | Node.js 22 + pnpm 환경 |
 | `deps` | `pnpm install --frozen-lockfile` — 의존성만 설치 |
-| `builder` | `daenggle-ui` → `@daengglejeju/hooks` → `web` 순서로 빌드 |
+| `builder` | `daenggle-ui` → `web` 순서로 빌드 |
 | `runner` | standalone 결과물만 복사 — 최소 이미지 생성 |
-
-빌드 순서가 중요합니다. `web`이 `daenggle-ui`와 `@daengglejeju/hooks`에 의존하므로 패키지 빌드를 먼저 수행합니다.
 
 ---
 
@@ -97,10 +136,17 @@ Next.js `output: "standalone"` 옵션을 활용한 멀티스테이지 빌드입�
 
 ### Deployment
 
-- **이미지**: `ghcr.io/kweonsikyung/daengglejeju:latest`
+- **이미지**: CI가 `develop` push마다 `sha-<GITHUB_SHA>` 태그로 자동 업데이트
 - **replicas**: 1
 - **리소스 제한**: requests 256Mi/100m · limits 512Mi/500m
-- **imagePullSecret**: `ghcr-secret` (GitHub Actions에서 자동 생성/갱신)
+- **imagePullSecret**: `ghcr-secret` (최초 1회 수동 생성 필요 — 아래 참고)
+
+```bash
+kubectl create secret docker-registry ghcr-secret \
+  --docker-server=ghcr.io \
+  --docker-username=<GitHub 유저명> \
+  --docker-password=<GHCR_TOKEN>
+```
 
 ### Service
 
@@ -112,7 +158,7 @@ Next.js `output: "standalone"` 옵션을 활용한 멀티스테이지 빌드입�
 - **컨트롤러**: Traefik (k3s 기본 내장)
 - **도메인**: `daengglejeju.cloud`, `www.daengglejeju.cloud`
 - **TLS**: cert-manager가 Let's Encrypt 인증서를 자동 발급/갱신합니다.
-- **HTTP → HTTPS 리디렉트**: `default-redirect-https` Traefik 미들웨어 적용
+- **HTTP → HTTPS 리디렉트**: CloudFront `viewer_protocol_policy`가 담당. Traefik 레벨 리다이렉트는 적용하지 않음 (CloudFront 셀프 루프 → 504 유발)
 
 ### cert-issuer
 
@@ -126,20 +172,18 @@ Next.js `output: "standalone"` 옵션을 활용한 멀티스테이지 빌드입�
 
 GitHub 레포 → Settings → Secrets and variables → Actions에서 관리합니다.
 
-| Secret | 설명 | 비고 |
-|---|---|---|
-| `GHCR_TOKEN` | GHCR 이미지 push/pull용 PAT | `write:packages` scope 필요 |
-| `K3S_HOST` | k3s 서버 IP 주소 | |
-| `K3S_USER` | SSH 접속 유저명 | |
-| `K3S_SSH_KEY` | SSH 개인키 (PEM 형식) | |
+| Secret | 설명 |
+|---|---|
+| `GHCR_TOKEN` | GHCR 이미지 push용 PAT (`write:packages` scope 필요) |
+| `NEXT_PUBLIC_KAKAOMAP_API_KEY` | 카카오맵 API 키 |
 
-> **주의**: `GITHUB_TOKEN`은 워크플로 종료 후 만료됩니다. GHCR pull secret에는 반드시 만료되지 않는 PAT(`GHCR_TOKEN`)을 사용해야 합니다. 만료된 토큰으로 생성된 `ghcr-secret`은 파드 재시작 시 `ImagePullBackOff`를 유발합니다.
+> `K3S_HOST`, `K3S_USER`, `K3S_SSH_KEY`는 ArgoCD 전환 후 더 이상 사용하지 않습니다.
 
 ---
 
 ## 로컬 스테이징
 
-GHCR에 push된 `:latest` 이미지를 로컬에서 실행해 `main` 배포 전 검증합니다. 프로덕션과 동일한 Docker 이미지를 사용하므로 앱 레벨의 동작을 신뢰할 수 있습니다.
+GHCR에 push된 이미지를 로컬에서 실행해 `main` 배포 전 검증합니다.
 
 ### 사전 조건
 
@@ -155,26 +199,22 @@ GHCR에 push된 `:latest` 이미지를 로컬에서 실행해 `main` 배포 전 
 
 ```bash
 # infra/ 디렉터리에서 실행
-docker compose pull    # GHCR에서 :latest 이미지 다운로드
+docker compose pull    # GHCR에서 최신 이미지 다운로드
 docker compose up      # Next.js 앱 실행
 ```
 
 `http://localhost:3000`에서 앱을 확인합니다.
 
-> `develop` push가 완료되어 GHCR에 `:latest`가 올라간 후 `pull`이 가능합니다.
-
 ---
 
 ## 배포 확인 명령어
 
-k3s 서버에 SSH 접속 후 아래 명령어로 배포 상태를 확인합니다.
-
 ```bash
+# ArgoCD 앱 상태
+kubectl get application -n argocd
+
 # 파드 상태
 kubectl get pods -l app=daengglejeju-web
-
-# 배포 rollout 상태
-kubectl rollout status deployment/daengglejeju-web
 
 # 최근 로그
 kubectl logs -l app=daengglejeju-web --tail=100
