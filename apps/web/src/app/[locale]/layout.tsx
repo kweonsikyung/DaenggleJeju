@@ -51,12 +51,23 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     icons: { icon: "/favicon.ico" },
+    alternates: {
+      canonical: `${siteUrl}/${locale}`,
+      languages: {
+        ko: `${siteUrl}/ko`,
+        en: `${siteUrl}/en`,
+        ja: `${siteUrl}/ja`,
+        "x-default": `${siteUrl}/ko`,
+      },
+    },
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: siteUrl,
+      url: `${siteUrl}/${locale}`,
       siteName: t("title"),
       images: [{ url: ogImageUrl, width: 1200, height: 630, alt: t("title") }],
+      locale,
+      alternateLocale: routing.locales.filter((l) => l !== locale),
       type: "website",
     },
     twitter: {
