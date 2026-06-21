@@ -12,7 +12,7 @@
  */
 export const copyToClipboard = (
   text: string | null | undefined,
-  alertMessage = "클립보드에 복사되었습니다."
+  alertMessage = "클립보드에 복사되었습니다.",
 ) => {
   if (!text) {
     alert("복사할 내용이 없습니다.");

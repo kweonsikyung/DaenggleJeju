@@ -40,6 +40,17 @@
     "footprints": {
       "empty": "最初の足跡を残してみましょう",
       "error": "足跡リストの読み込みに失敗しました。"
+    },
+    "mainTabs": {
+      "saved": "保存済み",
+      "footprint": "足跡認証"
+    },
+    "subTabs": {
+      "dangle": "デングル",
+      "accom": "宿泊",
+      "restaurant": "飲食店",
+      "tourist": "観光地",
+      "activity": "アクティビティ"
     }
   },
   "care": {
@@ -48,5 +59,19 @@
   },
   "jeju": {
     "tagline": "本物の飼い主が行った済州旅行！"
+  },
+  "contentType": {
+    "stay": "宿泊",
+    "restaurant": "飲食店",
+    "tourist": "観光地",
+    "leisure": "アクティビティ",
+    "shopping": "ショッピング"
+  },
+  "filterChip": {
+    "dangle": "デングル",
+    "stay": "宿泊",
+    "restaurant": "飲食店",
+    "travel": "観光地",
+    "report": "アクティビティ"
   }
 }
