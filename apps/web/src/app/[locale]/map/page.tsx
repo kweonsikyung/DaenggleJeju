@@ -20,12 +20,14 @@ import { NAV_ITEMS } from "@/constants/navData";
 import { useDaengglePlacesMap } from "@/hooks/api/useDaenggle";
 import { usePlaceMap } from "@/hooks/api/usePlaces";
 import { usePostScrap } from "@/hooks/api/useScraps";
+import { useContentTypeLabel } from "@/hooks/useContentTypeLabel";
+import { useLocalizedFilterChips } from "@/hooks/useLocalizedFilterChips";
 import { useKakaoMap } from "@/hooks/useKakaoMap";
 import { useLocationStore } from "@/stores/locationStore";
 import { GetPlaceMapReq, PlaceItem } from "@/types/place";
+import { toPlaceDisplay } from "@/utils/placeAdapter";
 import {
   FILTER_CHIP_ID_TO_CONTENT_TYPE_ID,
-  FILTER_CHIPS,
   FILTER_OPTION_ID_TO_API_PARAM,
   JEJU_BBOX,
   MARKER_IMAGES,
@@ -43,14 +45,16 @@ export default function MapPage() {
   /** router */
   const router = useRouter();
 
+  const localizedFilterChips = useLocalizedFilterChips();
+  const getContentTypeLabel = useContentTypeLabel();
+
   /** state */
   const [activeFilter, setActiveFilter] = useState("dangle");
   const [selectedPlace, setSelectedPlace] = useState<PlaceItem | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
-  const [apiParams, setApiParams] = useState<GetPlaceMapReq>({
-    bbox: JEJU_BBOX,
-  });
+  const [apiParams, setApiParams] = useState<GetPlaceMapReq>({ bbox: JEJU_BBOX });
+
   const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(false);
   const [showDanglePickTooltip, setShowDanglePickTooltip] = useState(true);
   const [showGpsToast, setShowGpsToast] = useState(false);
@@ -107,6 +111,7 @@ export default function MapPage() {
       setShowGpsToast(false);
     }, 3000);
   };
+
   const {
     fetchLocation,
     latitude,
@@ -241,7 +246,7 @@ export default function MapPage() {
         />
         <div className={s.filterWrapper}>
           <div className={s.filterChipsContainer}>
-            {FILTER_CHIPS.map((chip) => (
+            {localizedFilterChips.map((chip) => (
               <FilterChip
                 key={chip.id}
                 text={chip.text}
@@ -262,26 +267,25 @@ export default function MapPage() {
 
       {/* map */}
       <div id="map" ref={mapContainerRef} className={s.mapWrapper}></div>
-      {selectedPlace && (
+      {selectedPlace && (() => {
+        const display = toPlaceDisplay(selectedPlace, getContentTypeLabel);
+        return (
         <div className={s.placeCardContainer}>
           <DanglePlace
-            thumbnailUrl={selectedPlace.thumbnail}
-            locationCategory={
-              selectedPlace.metaLine
-                ? `${selectedPlace.metaLine} · ${selectedPlace.contentType?.name ?? ""}`
-                : (selectedPlace.contentType?.name ?? "")
-            }
-            name={selectedPlace.title}
-            distance={selectedPlace.distanceText}
-            playCount={selectedPlace.daenggleCount}
-            bookmarkCount={selectedPlace.scrapCount}
-            tags={[...(selectedPlace.chips1 || []), ...(selectedPlace.chips2 || [])]}
-            onClick={() => router.push(`/detail/${selectedPlace.contentId}`)}
-            onBookmarkClick={() => handleScrapToggle(selectedPlace.contentId)}
-            isBookmarked={selectedPlace.isScrapped}
+            thumbnailUrl={display.thumbnail}
+            locationCategory={display.locationCategory}
+            name={display.title}
+            distance={display.distanceText}
+            playCount={display.daenggleCount}
+            bookmarkCount={display.scrapCount}
+            tags={display.chips}
+            onClick={() => router.push(`/detail/${display.contentId}`)}
+            onBookmarkClick={() => handleScrapToggle(display.contentId)}
+            isBookmarked={display.isScrapped}
           />
         </div>
-      )}
+        );
+      })()}
 
       {/* bottom */}
       <div className={s.bottomContainer}>

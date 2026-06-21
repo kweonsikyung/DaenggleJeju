@@ -40,6 +40,17 @@
     "footprints": {
       "empty": "Leave your first footprint",
       "error": "Failed to load footprint list."
+    },
+    "mainTabs": {
+      "saved": "Saved",
+      "footprint": "Footprints"
+    },
+    "subTabs": {
+      "dangle": "Daenggle",
+      "accom": "Stay",
+      "restaurant": "Restaurant",
+      "tourist": "Sightseeing",
+      "activity": "Activity"
     }
   },
   "care": {
@@ -48,5 +59,19 @@
   },
   "jeju": {
     "tagline": "Jeju trips by real dog owners!"
+  },
+  "contentType": {
+    "stay": "Accommodation",
+    "restaurant": "Restaurant",
+    "tourist": "Attraction",
+    "leisure": "Activity",
+    "shopping": "Shopping"
+  },
+  "filterChip": {
+    "dangle": "Daenggle",
+    "stay": "Stay",
+    "restaurant": "Restaurant",
+    "travel": "Sightseeing",
+    "report": "Activity"
   }
 }

@@ -20,17 +20,22 @@ import React, { useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { ButtonSize, ButtonStatus } from "@/constants/ButtonVariant";
 import { NAV_ITEMS } from "@/constants/navData";
-import { useDaengglePlacesAll, useDaenggleSearch } from "@/hooks/api/useDaenggle";
+import {
+  useDaengglePlacesAll,
+  useDaenggleSearch,
+} from "@/hooks/api/useDaenggle";
 // hooks
 import { usePlaceList, usePlaceSearch } from "@/hooks/api/usePlaces";
 import { usePostScrap } from "@/hooks/api/useScraps";
+import { useContentTypeLabel } from "@/hooks/useContentTypeLabel";
+import { useLocalizedFilterChips } from "@/hooks/useLocalizedFilterChips";
 import type { GetPlaceListReq, GetPlaceSearchReq } from "@/types/place";
+import { toPlaceDisplay } from "@/utils/placeAdapter";
 import { getRandomAvatar } from "@/utils/getRandomAvatar";
 import { extractHashtags, findLocationInfo } from "@/utils/textParsing";
 import { getThumbnailUrl } from "../dangle/_util";
 // utils and types
 import {
-  FILTER_CHIPS,
   FILTER_OPTION_ID_TO_API_PARAM,
   getContentTypeIdByChipId,
   OPTION_DATA,
@@ -47,6 +52,9 @@ function SearchPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const localizedFilterChips = useLocalizedFilterChips();
+  const getContentTypeLabel = useContentTypeLabel();
+
   const query = searchParams.get("q") || "";
   const filterFromUrl = searchParams.get("filter");
 
@@ -55,18 +63,25 @@ function SearchPageContent() {
   const [searchValue, setSearchValue] = useState(""); //검색어
   const [activeFilter, setActiveFilter] = useState(filterFromUrl || "dangle"); //액티브 필터 칩
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false); //바텀시트
-  const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({}); //바텀시트 필터
+  const [selectedFilters, setSelectedFilters] = useState<
+    Record<string, string[]>
+  >({}); //바텀시트 필터
 
   // 모드 결정- q 또는 filter가 있으면 isSearchMode로 검색된 결과 노출 ( 검색 후 UI )
   const isSearchMode = !!query || !!filterFromUrl;
-  const isFilteredListMode = useMemo(() => !!filterFromUrl && !query, [filterFromUrl, query]);
-  const isAnyFilterSelected = Object.values(selectedFilters).some((arr) => arr.length > 0);
+  const isFilteredListMode = useMemo(
+    () => !!filterFromUrl && !query,
+    [filterFromUrl, query],
+  );
+  const isAnyFilterSelected = Object.values(selectedFilters).some(
+    (arr) => arr.length > 0,
+  );
 
   /** API Parameter 생성 로직 */
   const placeSearchReq: GetPlaceSearchReq | undefined = useMemo(() => {
-    if (isFilteredListMode || !query || activeFilter === "dangle") {
+    if (isFilteredListMode || !query || activeFilter === "dangle")
       return undefined;
-    }
+
     const contentTypeId = getContentTypeIdByChipId(activeFilter);
     return {
       q: query,
@@ -77,15 +92,15 @@ function SearchPageContent() {
   }, [query, activeFilter, isFilteredListMode]);
 
   const placeListReq: GetPlaceListReq | undefined = useMemo(() => {
-    if (!isFilteredListMode || activeFilter === "dangle") {
-      return undefined;
-    }
+    if (!isFilteredListMode || activeFilter === "dangle") return undefined;
+
     const contentTypeId = getContentTypeIdByChipId(activeFilter);
     const newParams: GetPlaceListReq = {
       limit: 30,
       all: !contentTypeId,
       contentTypeId,
     };
+
     // 바텀시트 필터
     for (const group in selectedFilters) {
       if (selectedFilters[group].length > 0) {
@@ -94,9 +109,10 @@ function SearchPageContent() {
           (id) =>
             FILTER_OPTION_ID_TO_API_PARAM[paramKey][
               id as keyof (typeof FILTER_OPTION_ID_TO_API_PARAM)[typeof paramKey]
-            ]
+            ],
         );
-        (newParams as unknown as Record<string, unknown>)[paramKey as string] = paramValues;
+        (newParams as unknown as Record<string, unknown>)[paramKey as string] =
+          paramValues;
       }
     }
     return newParams;
@@ -119,14 +135,18 @@ function SearchPageContent() {
     daenggleSearchData,
     error: dangleError,
     isLoading: dangleIsLoading,
-  } = useDaenggleSearch(!query ? undefined : { q: query, sort: "rank", limit: 20, offset: 0 });
+  } = useDaenggleSearch(
+    !query ? undefined : { q: query, sort: "rank", limit: 20, offset: 0 },
+  );
 
   const {
     daenggleSearchData: recommendationData,
     isLoading: isRecommendationLoading,
     error: recommendationError,
   } = useDaenggleSearch(
-    !isSearchMode ? { q: "추천", sort: "rank", limit: 10, offset: 0 } : undefined
+    !isSearchMode
+      ? { q: "추천", sort: "rank", limit: 10, offset: 0 }
+      : undefined,
   );
   const {
     daengglePlacesAllData,
@@ -135,7 +155,10 @@ function SearchPageContent() {
   } = useDaengglePlacesAll();
 
   const { postScrap, isPosting } = usePostScrap();
-  const handleScrapToggle = async (contentId: number, currentIsScrapped: boolean) => {
+  const handleScrapToggle = async (
+    contentId: number,
+    currentIsScrapped: boolean,
+  ) => {
     if (isPosting) return;
 
     try {
@@ -153,18 +176,25 @@ function SearchPageContent() {
 
   // 최종 노출 아이템 결정
   const isLoading =
-    placeSearchIsLoading || placeListIsLoading || dangleIsLoading || isPlacesAllLoading;
-  const isError = placeSearchError || placeListError || dangleError || PlacesAllError;
+    placeSearchIsLoading ||
+    placeListIsLoading ||
+    dangleIsLoading ||
+    isPlacesAllLoading;
+  const isError =
+    placeSearchError || placeListError || dangleError || PlacesAllError;
   const placeResults = isFilteredListMode
     ? (placeListData?.items ?? [])
     : (placeSearchData?.items ?? []);
-  const dangleResults = (query ? daenggleSearchData?.items : daengglePlacesAllData?.items) ?? [];
+  const dangleResults =
+    (query ? daenggleSearchData?.items : daengglePlacesAllData?.items) ?? [];
 
   /** 필터 핸들러 */
   const handleFilterSelect = (group: string, id: string) => {
     setSelectedFilters((prev) => {
       const existing = prev[group] || [];
-      const multiSelect = OPTION_DATA.find((d) => d.group === group)?.multiSelect;
+      const multiSelect = OPTION_DATA.find(
+        (d) => d.group === group,
+      )?.multiSelect;
 
       if (multiSelect) {
         return {
@@ -192,7 +222,9 @@ function SearchPageContent() {
     const k = keyword.trim();
     if (!k) return;
     router.push(`/search?q=${encodeURIComponent(k)}&filter=dangle`);
-    setRecentKeywords((prev) => [k, ...prev.filter((x) => x !== k)].slice(0, 5));
+    setRecentKeywords((prev) =>
+      [k, ...prev.filter((x) => x !== k)].slice(0, 5),
+    );
   };
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") runSearch(searchValue);
@@ -238,7 +270,7 @@ function SearchPageContent() {
       <div className={s.container}>
         {isSearchMode && (
           <div className={s.filterChipsContainer}>
-            {FILTER_CHIPS.map((chip) => (
+            {localizedFilterChips.map((chip) => (
               <FilterChip
                 key={chip.id}
                 {...chip}
@@ -287,9 +319,14 @@ function SearchPageContent() {
             </div> */}
             <div className={s.section}>
               <h2 className={s.sectionTitle}>이번 주 제주 여기가 뜨겁댕!</h2>
-              {isRecommendationLoading && <EmptyState title="추천 장소 로딩 중" />}
+              {isRecommendationLoading && (
+                <EmptyState title="추천 장소 로딩 중" />
+              )}
               {recommendationError && (
-                <EmptyState title="오류 발생" description="추천 장소를 불러오지 못했습니다." />
+                <EmptyState
+                  title="오류 발생"
+                  description="추천 장소를 불러오지 못했습니다."
+                />
               )}
               {recommendationData && (
                 <div className={s.videoList}>
@@ -303,7 +340,9 @@ function SearchPageContent() {
                         views={item.loveCount}
                         timeAgo={item.published_at}
                         tags={tags}
-                        onClick={() => router.push(`/shorts?contentId=${item.video_id}`)}
+                        onClick={() =>
+                          router.push(`/shorts?contentId=${item.video_id}`)
+                        }
                       />
                     );
                   })}
@@ -314,9 +353,17 @@ function SearchPageContent() {
         ) : (
           <>
             {/* 검색 후 UI */}
-            {isLoading && <EmptyState title="불러오는 중…" description="잠시만 기다려 주세요." />}
+            {isLoading && (
+              <EmptyState
+                title="불러오는 중…"
+                description="잠시만 기다려 주세요."
+              />
+            )}
             {isError && (
-              <EmptyState title="검색 실패" description="서버와 통신 중 문제가 발생했습니다." />
+              <EmptyState
+                title="검색 실패"
+                description="서버와 통신 중 문제가 발생했습니다."
+              />
             )}
             {!isLoading && !isError && (
               // 댕글 칩
@@ -333,16 +380,23 @@ function SearchPageContent() {
                         {dangleResults.map((item, index) => {
                           if ("authorName" in item) {
                             // 쿼리가 있을 때 (검색 결과)
-                            const { cleanTitle, tags: extractedTags } = extractHashtags(item.title);
-                            const { place: extractedPlace, region: extractedRegion } =
-                              findLocationInfo(item.title);
+                            const { cleanTitle, tags: extractedTags } =
+                              extractHashtags(item.title);
+                            const {
+                              place: extractedPlace,
+                              region: extractedRegion,
+                            } = findLocationInfo(item.title);
 
                             // --- 로케이션/주소 추출 시도 ---
                             const finalPlace = extractedPlace || "";
-                            const finalRegion = extractedRegion || item.placePill || "제주 전체";
+                            const finalRegion =
+                              extractedRegion || item.placePill || "제주 전체";
                             // --- 태그 병합 (중복 제거) ---
                             const finalTags = [
-                              ...new Set([...extractedTags, ...(item.tags || [])]),
+                              ...new Set([
+                                ...extractedTags,
+                                ...(item.tags || []),
+                              ]),
                             ];
 
                             return (
@@ -360,7 +414,11 @@ function SearchPageContent() {
                                 views={item.loveCount || 0}
                                 comments={item.scrapCount || 0}
                                 timeAgo={item.published_at}
-                                onClick={() => router.push(`/shorts?contentId=${item.video_id}`)}
+                                onClick={() =>
+                                  router.push(
+                                    `/shorts?contentId=${item.video_id}`,
+                                  )
+                                }
                               />
                             );
                           } else {
@@ -374,7 +432,9 @@ function SearchPageContent() {
                                 location={item.placeTitle}
                                 address="제주 전체"
                                 onClick={() => {
-                                  router.push(`/shorts?contentId=${item.video_id}`);
+                                  router.push(
+                                    `/shorts?contentId=${item.video_id}`,
+                                  );
                                 }}
                               />
                             );
@@ -394,29 +454,34 @@ function SearchPageContent() {
                     ) : (
                       <div className={s.grid}>
                         {placeResults.map((item) => {
+                          const display = toPlaceDisplay(
+                            item,
+                            getContentTypeLabel,
+                          );
                           const count = item.scrapCount
                             ? Object.values(item.scrapCount)[0] || 0
                             : 0;
 
                           return (
                             <DanglePlace
-                              key={item.contentId}
-                              thumbnailUrl={item.thumbnail}
-                              locationCategory={
-                                item.metaLine
-                                  ? `${item.metaLine} · ${item.contentType?.name ?? ""}`
-                                  : (item.contentType?.name ?? "")
-                              }
-                              name={item.title}
-                              distance={item.distanceText}
-                              playCount={item.daenggleCount}
+                              key={display.contentId}
+                              thumbnailUrl={display.thumbnail}
+                              locationCategory={display.locationCategory}
+                              name={display.title}
+                              distance={display.distanceText}
+                              playCount={display.daenggleCount}
                               bookmarkCount={Number(count)}
                               onBookmarkClick={() =>
-                                handleScrapToggle(item.contentId, item.isScrapped)
+                                handleScrapToggle(
+                                  display.contentId,
+                                  item.isScrapped,
+                                )
                               }
-                              isBookmarked={item.isScrapped}
-                              tags={[...(item.chips1 || []), ...(item.chips2 || [])]}
-                              onClick={() => router.push(`/detail/${item.contentId}`)}
+                              isBookmarked={display.isScrapped}
+                              tags={display.chips}
+                              onClick={() =>
+                                router.push(`/detail/${item.contentId}`)
+                              }
                             />
                           );
                         })}
@@ -429,9 +494,17 @@ function SearchPageContent() {
           </>
         )}
       </div>
-      <NavBar activeId="near" items={NAV_ITEMS} onNavigate={(path) => router.push(path)} />
+      <NavBar
+        activeId="near"
+        items={NAV_ITEMS}
+        onNavigate={(path) => router.push(path)}
+      />
       {/* 바텀시트 */}
-      <BottomSheet open={isBottomSheetOpen} onOpenChange={setIsBottomSheetOpen} title="필터">
+      <BottomSheet
+        open={isBottomSheetOpen}
+        onOpenChange={setIsBottomSheetOpen}
+        title="필터"
+      >
         <div className={s.bottomSheetContent}>
           {OPTION_DATA.map(
             (data: {
@@ -449,9 +522,11 @@ function SearchPageContent() {
                 chips={data.chips}
                 multiSelect={data.multiSelect}
                 selectedChips={selectedFilters[data.group] || []}
-                onChipClick={(chipId: string) => handleFilterSelect(data.group, chipId)}
+                onChipClick={(chipId: string) =>
+                  handleFilterSelect(data.group, chipId)
+                }
               />
-            )
+            ),
           )}
         </div>
         <div className={s.bottomSheetFooter}>
@@ -463,7 +538,9 @@ function SearchPageContent() {
           />
           <Button
             size={ButtonSize.MEDIUM}
-            status={isAnyFilterSelected ? ButtonStatus.ACTIVE : ButtonStatus.DISABLED}
+            status={
+              isAnyFilterSelected ? ButtonStatus.ACTIVE : ButtonStatus.DISABLED
+            }
             text="적용"
             onClick={handleApplyFilters}
             disabled={!isAnyFilterSelected}

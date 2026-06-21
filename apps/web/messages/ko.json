@@ -40,6 +40,17 @@
     "footprints": {
       "empty": "첫 발자국을 남겨주세요",
       "error": "발자국 목록을 불러오지 못했습니다."
+    },
+    "mainTabs": {
+      "saved": "저장",
+      "footprint": "발자국 인증"
+    },
+    "subTabs": {
+      "dangle": "댕글",
+      "accom": "숙소",
+      "restaurant": "음식점",
+      "tourist": "여행지",
+      "activity": "레포츠"
     }
   },
   "care": {
@@ -48,5 +59,19 @@
   },
   "jeju": {
     "tagline": "진짜 견주가 다녀온 제주 여행!"
+  },
+  "contentType": {
+    "stay": "숙박",
+    "restaurant": "음식점",
+    "tourist": "관광지",
+    "leisure": "레포츠",
+    "shopping": "쇼핑"
+  },
+  "filterChip": {
+    "dangle": "댕글",
+    "stay": "숙소",
+    "restaurant": "음식점",
+    "travel": "여행지",
+    "report": "레포츠"
   }
 }
