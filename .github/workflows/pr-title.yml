@@ -12,7 +12,7 @@ jobs:
       - name: Check PR title format
         run: |
           TITLE="${{ github.event.pull_request.title }}"
-          PATTERN="^#[0-9]+: [A-Za-z가-힣]"
+          PATTERN="^#[0-9]+: [A-Za-z]"
           if ! echo "$TITLE" | grep -qE "$PATTERN"; then
             echo "PR title must match: #이슈번호: 동사 ~"
             echo "  예시: #62: Parallelize CI jobs for faster build"
