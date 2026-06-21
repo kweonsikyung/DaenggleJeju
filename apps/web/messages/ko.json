@@ -20,7 +20,10 @@
   "place": {
     "loadingInfo": "정보를 불러오고 있습니다",
     "firstReview": "이 장소에 대한 첫 번째 리뷰를 작성해보세요.",
-    "errorReviews": "리뷰를 불러오는 중 문제가 발생했습니다."
+    "errorReviews": "리뷰를 불러오는 중 문제가 발생했습니다.",
+    "reviewCount": "{count, plural, =0 {평가 없음} other {#개의 평가}}",
+    "footprintTab": "{count, plural, =0 {발자국 인증} other {발자국 인증 ({count})}}",
+    "leaveFootprint": "발자국 남기기"
   },
   "search": {
     "noResults": "조건을 변경하거나 다른 검색어로 다시 시도해 보세요.",
