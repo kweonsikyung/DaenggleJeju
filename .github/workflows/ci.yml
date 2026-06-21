@@ -36,6 +36,9 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Check i18n keys
+        run: pnpm --filter web check:i18n
+
   build:
     name: Build
     runs-on: ubuntu-latest
