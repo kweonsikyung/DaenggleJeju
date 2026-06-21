@@ -21,8 +21,8 @@
     "loadingInfo": "Loading information",
     "firstReview": "Be the first to write a review for this place.",
     "errorReviews": "Failed to load reviews.",
-    "reviewCount": "{count, plural, =0 {No ratings} one {# rating} other {# ratings}}",
-    "footprintTab": "{count, plural, =0 {Footprint Reviews} other {Footprint Reviews ({count})}}",
+    "reviewCount": "{count, plural, =0 {No ratings} other {# ratings}}",
+    "footprintTab": "{count, plural, =0 {Footprints} other {Footprints ({count})}}",
     "leaveFootprint": "Leave a footprint"
   },
   "search": {
@@ -76,5 +76,38 @@
     "restaurant": "Restaurant",
     "travel": "Sightseeing",
     "report": "Activity"
-  }
+  },
+  "pages": {
+    "map": {
+      "title": "Pet-Friendly Jeju Map",
+      "description": "Find pet-friendly cafes, restaurants, and stays on an interactive map. Start your Jeju trip with your dog on Daenggle Jeju.",
+      "keywords": "Jeju pet map, dog-friendly Jeju, pet cafe Jeju, dog accommodation Jeju"
+    },
+    "dangle": {
+      "title": "Daenggle - Pet Travel Short Videos",
+      "description": "15-second short videos by real dog owners sharing Jeju travel tips. Check trending Daenggle and private dog-friendly stays.",
+      "keywords": "pet Jeju video, dog travel shorts, pet travel Korea, Jeju private stay"
+    },
+    "list": {
+      "title": "Pet-Friendly Jeju Places",
+      "description": "Browse all pet-friendly cafes, restaurants, accommodations, and attractions in Jeju Island at a glance.",
+      "keywords": "Jeju pet places, dog allowed Jeju, pet friendly list Jeju"
+    },
+    "search": {
+      "title": "Search Pet-Friendly Jeju Spots",
+      "description": "Search pet-friendly Jeju spots by category and region. Your pet-friendly Jeju adventure starts here.",
+      "keywords": "Jeju pet search, dog friendly spots, pet travel Jeju"
+    },
+    "jeju": {
+      "title": "Jeju Travel Routes",
+      "description": "Explore curated Jeju travel routes and transportation tips shared by real dog owners.",
+      "keywords": "Jeju travel route, dog Jeju trip, pet Jeju itinerary"
+    },
+    "detail": {
+      "title": "Pet-Friendly Spot Details",
+      "description": "Check if dogs are allowed, entry conditions, and real visitor reviews.",
+      "keywords": "Jeju pet spot, dog entry policy, pet friendly review Jeju"
+    }
+  },
+  "keywords": "dog travel, Jeju trip, pet friendly, dog cafe Jeju, dog accommodation, pet Korea travel"
 }

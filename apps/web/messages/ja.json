@@ -22,7 +22,7 @@
     "firstReview": "このスポットへの最初のレビューを書いてみましょう。",
     "errorReviews": "レビューの読み込み中に問題が発生しました。",
     "reviewCount": "{count, plural, =0 {評価なし} other {#件の評価}}",
-    "footprintTab": "{count, plural, =0 {足跡レビュー} other {足跡レビュー ({count})}}",
+    "footprintTab": "{count, plural, =0 {足跡認証} other {足跡認証 ({count})}}",
     "leaveFootprint": "足跡を残す"
   },
   "search": {
@@ -49,9 +49,9 @@
       "footprint": "足跡認証"
     },
     "subTabs": {
-      "dangle": "デングル",
+      "dangle": "DAENGGLE",
       "accom": "宿泊",
-      "restaurant": "飲食店",
+      "restaurant": "レストラン",
       "tourist": "観光地",
       "activity": "アクティビティ"
     }
@@ -65,16 +65,49 @@
   },
   "contentType": {
     "stay": "宿泊",
-    "restaurant": "飲食店",
+    "restaurant": "レストラン",
     "tourist": "観光地",
     "leisure": "アクティビティ",
     "shopping": "ショッピング"
   },
   "filterChip": {
-    "dangle": "デングル",
+    "dangle": "DAENGGLE",
     "stay": "宿泊",
-    "restaurant": "飲食店",
+    "restaurant": "レストラン",
     "travel": "観光地",
     "report": "アクティビティ"
-  }
+  },
+  "pages": {
+    "map": {
+      "title": "ペット同伴済州地図",
+      "description": "愛犬と一緒に行けるカフェ・レストラン・宿泊施設をマップで探せます。デングルチェジュで済州旅行をスタート。",
+      "keywords": "済州 ペット マップ, 犬連れ済州, ペットフレンドリーカフェ, 犬 宿泊 済州"
+    },
+    "dangle": {
+      "title": "DAENGGLE - ペット旅行ショート動画",
+      "description": "実際の飼い主が共有する15秒ショート動画で済州ペット旅行を発見。トレンドDAENGGLEと貸切宿をチェック。",
+      "keywords": "済州 ペット動画, 犬旅行ショート, ペット旅行韓国, 済州貸切宿"
+    },
+    "list": {
+      "title": "ペット同伴済州スポット一覧",
+      "description": "愛犬と行ける済州のカフェ・レストラン・宿・観光スポットを一覧でチェック。",
+      "keywords": "済州 ペットスポット, 犬同伴可 済州, ペットフレンドリーリスト"
+    },
+    "search": {
+      "title": "ペット同伴済州スポット検索",
+      "description": "カテゴリーとエリアでペット同伴可能な済州スポットを検索。ペット旅行の出発点はここから。",
+      "keywords": "済州 ペット検索, 犬連れ観光地, ペット旅行済州"
+    },
+    "jeju": {
+      "title": "済州旅行コースキュレーション",
+      "description": "実際の飼い主が体験した済州旅行ルートと移動方法を一覧で確認しましょう。",
+      "keywords": "済州旅行コース, 犬連れ済州ルート, ペット済州旅行"
+    },
+    "detail": {
+      "title": "ペット同伴スポット詳細",
+      "description": "犬の入場可否・入場条件・実際の訪問レビューを確認できます。",
+      "keywords": "済州ペットスポット, 犬入場ポリシー, ペットフレンドリーレビュー"
+    }
+  },
+  "keywords": "犬旅行, 済州旅行, ペットフレンドリー, 犬カフェ済州, 犬宿泊, ペット韓国旅行"
 }
