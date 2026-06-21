@@ -1,0 +1,52 @@
+{
+  "common": {
+    "loading": "Loading",
+    "loadingEllipsis": "Loading…",
+    "loadingWait": "Please wait a moment.",
+    "error": "Something went wrong while connecting to the server.",
+    "retry": "Please try again.",
+    "retryLater": "Please try again in a moment."
+  },
+  "metadata": {
+    "title": "Daenggle Jeju",
+    "description": "Pet-friendly travel app with 15-second video recommendations"
+  },
+  "map": {
+    "filterLabel": "Filter",
+    "loadingRecommended": "Loading recommended places",
+    "errorRecommended": "Failed to load recommended places.",
+    "preparing": "We're getting your trip with your pup ready"
+  },
+  "place": {
+    "loadingInfo": "Loading information",
+    "firstReview": "Be the first to write a review for this place.",
+    "errorReviews": "Failed to load reviews."
+  },
+  "search": {
+    "noResults": "Try changing the filters or search with different keywords.",
+    "popularRegions": "Popular regions right now"
+  },
+  "dangle": {
+    "trending": "Trending Daenggle TOP 10",
+    "accommodations": "Bark-friendly! Noise-free private stays",
+    "noResults": "No Daenggle videos found.",
+    "errorAccommodations": "Failed to load accommodations",
+    "errorTrending": "Failed to load trending"
+  },
+  "my": {
+    "title": "My Daenggle",
+    "loginPrompt": "Hey, dog owner",
+    "registerProfile": "Please register your profile.",
+    "footprints": {
+      "empty": "Leave your first footprint",
+      "error": "Failed to load footprint list."
+    }
+  },
+  "care": {
+    "title": "Travel Care AI",
+    "description": "Quick access to pet health information"
+  },
+  "jeju": {
+    "tagline": "Jeju trips by real dog owners!"
+  }
+}

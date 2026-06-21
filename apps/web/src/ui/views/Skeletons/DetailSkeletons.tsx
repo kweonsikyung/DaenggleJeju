@@ -1,5 +1,5 @@
 import { Skeleton } from "daenggle-ui";
-import * as s from "@/app/detail/[contentId]/style.css";
+import * as s from "@/app/[locale]/detail/[contentId]/style.css";
 
 const VideoCarouselSkeletonContent = () => (
   <div
