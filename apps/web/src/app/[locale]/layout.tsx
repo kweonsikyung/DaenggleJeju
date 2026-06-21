@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import "../globals.css";
 import "daenggle-ui/styles";
 import localFont from "next/font/local";
-import Script from "next/script";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { hasLocale } from "next-intl";
-import { routing } from "@/i18n/routing";
+import Script from "next/script";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getMessages, getTranslations } from "next-intl/server";
 import { IconProvider } from "@/components/providers/IconProvider";
 import { SWRProvider } from "@/components/providers/SWRProvider";
+import { routing } from "@/i18n/routing";
 
 const pretendard = localFont({
   src: [
