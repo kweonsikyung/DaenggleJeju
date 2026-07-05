@@ -11,6 +11,7 @@
     "lint:fix": "biome check --write --unsafe",
     "storybook": "pnpm --filter daenggle-ui storybook",
     "build-storybook": "pnpm --filter daenggle-ui build-storybook",
+    "build:admin-ui": "pnpm --filter daenggle-admin-ui build",
     "build:ui": "pnpm --filter daenggle-ui build",
     "release:ui": "bash scripts/release-ui.sh",
     "release:web": "bash scripts/release-web.sh",
@@ -21,7 +22,7 @@
     "typecheck": "pnpm --filter web typecheck",
     "prepare": "husky",
     "build:hooks": "pnpm --filter @daengglejeju/hooks build",
-    "postinstall": "pnpm build:hooks && pnpm build:ui",
+    "postinstall": "pnpm build:hooks && pnpm build:ui && pnpm build:admin-ui",
     "dedupe:check": "pnpm dedupe --check",
     "size": "pnpm --filter web exec size-limit --config ../../.bundle/.size-limit.json; node scripts/track-bundle.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
@@ -36,5 +37,8 @@
     "lint-staged": "^17.0.2",
     "madge": "^8.0.0",
     "sharp": "^0.34.5"
+  },
+  "dependencies": {
+    "critters": "^0.0.25"
   }
 }

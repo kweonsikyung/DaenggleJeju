@@ -2,14 +2,12 @@ module.exports = {
   // daenggle-ui 검사
   "packages/daenggle-ui/src/**/*.{ts,tsx}": [
     "biome check --write --unsafe --no-errors-on-unmatched",
-    "node scripts/check-density.mjs",
     "node scripts/check-atomic-deps.mjs",
     "node scripts/check-circular.mjs",
   ],
   // web 앱 검사
   "apps/web/src/**/*.{ts,tsx}": [
     "biome check --write --unsafe --no-errors-on-unmatched",
-    "node scripts/check-density.mjs",
     "node scripts/check-atomic-deps.mjs",
     "node scripts/check-circular.mjs",
   ],

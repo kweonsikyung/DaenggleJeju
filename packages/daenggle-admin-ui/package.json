@@ -1,0 +1,64 @@
+{
+  "name": "daenggle-admin-ui",
+  "version": "0.1.0",
+  "description": "Admin dashboard UI components for Next.js applications",
+  "homepage": "https://github.com/kweonsikyung/DaenggleJeju",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kweonsikyung/DaenggleJeju-Client.git"
+  },
+  "type": "commonjs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./styles": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "@daengglejeju/tsconfig": "workspace:*",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vanilla-extract/css": "^1.17.4",
+    "@vanilla-extract/esbuild-plugin": "^2.3.22",
+    "@vanilla-extract/recipes": "^0.5.7",
+    "tsup": "^8.5.1",
+    "typescript": "^5"
+  },
+  "keywords": [
+    "react",
+    "admin",
+    "dashboard",
+    "ui",
+    "components",
+    "next.js",
+    "vanilla-extract"
+  ],
+  "author": "kweonsikyung",
+  "license": "MIT",
+  "peerDependencies": {
+    "@vanilla-extract/css": ">=1.0.0",
+    "@vanilla-extract/recipes": ">=0.5.0",
+    "next": ">=14.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-icons": ">=5.0.0"
+  }
+}
