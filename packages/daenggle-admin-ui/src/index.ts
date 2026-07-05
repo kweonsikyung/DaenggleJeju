@@ -13,4 +13,4 @@ export type { AdminSidebarProps, NavItem, NavSection } from "./layout/AdminSideb
 export { AdminTopbar } from "./layout/AdminTopbar/AdminTopbar";
 export type { AdminTopbarProps } from "./layout/AdminTopbar/AdminTopbar";
 
-export { ADMIN_TOKENS } from "./styles/tokens.css";
+export { ADMIN_TOKENS } from "./styles/tokens";

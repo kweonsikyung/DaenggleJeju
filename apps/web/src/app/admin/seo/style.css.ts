@@ -1,7 +1,7 @@
 import { style } from "@vanilla-extract/css";
-import { ADMIN_TOKENS } from "daenggle-admin-ui";
 import { COLORS } from "@/styles/colors.css";
 import { TYPO } from "@/styles/typography.css";
+import { ADMIN_TOKENS } from "../tokens";
 
 export const content = style({
   flex: 1,

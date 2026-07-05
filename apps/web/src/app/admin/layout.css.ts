@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { ADMIN_TOKENS } from "daenggle-admin-ui";
+import { ADMIN_TOKENS } from "./tokens";
 
 export const shell = style({
   display: "flex",

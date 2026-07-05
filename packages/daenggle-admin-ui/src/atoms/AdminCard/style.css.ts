@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { ADMIN_TOKENS } from "../../styles/tokens.css";
+import { ADMIN_TOKENS } from "../../styles/tokens";
 
 export const card = style({
   background: ADMIN_TOKENS.CARD_BG,

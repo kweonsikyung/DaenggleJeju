@@ -37,5 +37,8 @@
     "lint-staged": "^17.0.2",
     "madge": "^8.0.0",
     "sharp": "^0.34.5"
+  },
+  "dependencies": {
+    "critters": "^0.0.25"
   }
 }

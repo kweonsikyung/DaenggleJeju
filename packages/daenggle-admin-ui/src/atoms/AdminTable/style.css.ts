@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { ADMIN_TOKENS } from "../../styles/tokens.css";
+import { ADMIN_TOKENS } from "../../styles/tokens";
 
 export const wrap = style({
   overflowX: "auto",
