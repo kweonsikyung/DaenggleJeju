@@ -8,7 +8,9 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { IconProvider } from "@/components/providers/IconProvider";
 import { SWRProvider } from "@/components/providers/SWRProvider";
+import { HREFLANG_MAP, LOCALES, SITE_URL } from "@/constants/seo";
 import { routing } from "@/i18n/routing";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 const pretendard = localFont({
   src: [
@@ -35,8 +37,7 @@ const laundryGothic = localFont({
   variable: "--font-laundry",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-const ogImageUrl = `${siteUrl}/og-image.png`;
+const ogImageUrl = `${SITE_URL}/og-image.png`;
 
 export async function generateMetadata({
   params,
@@ -47,17 +48,32 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata" });
 
   return {
-    title: t("title"),
+    title: {
+      default: t("title"),
+      template: `%s | ${t("title")}`,
+    },
     description: t("description"),
     icons: { icon: "/favicon.ico" },
+
+    alternates: {
+      canonical: `${SITE_URL}/${locale}`,
+      languages: {
+        ...Object.fromEntries(LOCALES.map((l) => [HREFLANG_MAP[l], `${SITE_URL}/${l}`])),
+        "x-default": `${SITE_URL}/ko`,
+      },
+    },
+
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: siteUrl,
+      url: `${SITE_URL}/${locale}`,
       siteName: t("title"),
       images: [{ url: ogImageUrl, width: 1200, height: 630, alt: t("title") }],
+      locale,
+      alternateLocale: routing.locales.filter((l) => l !== locale),
       type: "website",
     },
+
     twitter: {
       card: "summary_large_image",
       title: t("title"),
@@ -91,6 +107,21 @@ export default async function LocaleLayout({
             strategy="beforeInteractive"
           />
         ) : null}
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "댕글제주",
+            url: SITE_URL,
+            description: "15초 영상 추천 반려견 여행 앱",
+            inLanguage: locale,
+            potentialAction: {
+              "@type": "SearchAction",
+              target: `${SITE_URL}/${locale}/search?q={search_term_string}`,
+              "query-input": "required name=search_term_string",
+            },
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
           <IconProvider>
             <SWRProvider>
